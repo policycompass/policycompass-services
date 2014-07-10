@@ -11,7 +11,7 @@ setup(name='Policy Compass Metrics Manager',
       author_email='fabian.kirstein@fokus.fraunhofer.de',
       url='https://github.com/policycompass/policycompass-metricsmanager/',
       packages=[
-          'django',
+          'Django',
           'djangorestframework'
       ],
 )
