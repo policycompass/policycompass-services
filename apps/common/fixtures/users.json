@@ -1,0 +1,12 @@
+[
+    {
+       "model": "user_mgmt_mock.user",
+       "pk": 1,
+       "fields": {
+            "name": "John",
+            "email": "john@doe.com",
+            "password": "1234",
+            "token": "1"
+       }
+    }
+]
