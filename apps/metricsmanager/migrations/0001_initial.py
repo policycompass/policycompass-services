@@ -9,175 +9,183 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'UnitCategory'
-        db.create_table(u'metrics_manager_unitcategory', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+        db.create_table('metricsmanager_unitcategory', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=100, unique=True)),
         ))
-        db.send_create_signal(u'metrics_manager', ['UnitCategory'])
+        db.send_create_signal('metricsmanager', ['UnitCategory'])
 
         # Adding model 'Unit'
-        db.create_table(u'metrics_manager_unit', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50)),
+        db.create_table('metricsmanager_unit', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=50, unique=True)),
             ('description', self.gf('django.db.models.fields.TextField')()),
-            ('unit_category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metrics_manager.UnitCategory'])),
+            ('unit_category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.UnitCategory'])),
         ))
-        db.send_create_signal(u'metrics_manager', ['Unit'])
-
-        # Adding model 'MetricInDomain'
-        db.create_table(u'metrics_manager_metricindomain', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('domain_id', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal(u'metrics_manager', ['MetricInDomain'])
+        db.send_create_signal('metricsmanager', ['Unit'])
 
         # Adding model 'Metric'
-        db.create_table(u'metrics_manager_metric', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
-            ('acronym', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
+        db.create_table('metricsmanager_metric', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=100, unique=True)),
+            ('acronym', self.gf('django.db.models.fields.CharField')(max_length=20, unique=True)),
             ('description', self.gf('django.db.models.fields.TextField')()),
             ('keywords', self.gf('django.db.models.fields.CharField')(max_length=400)),
-            ('geo_location', self.gf('django.db.models.fields.CharField')(max_length=1000, blank=True)),
-            ('publisher', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('details_url', self.gf('django.db.models.fields.URLField')(max_length=500, blank=True)),
-            ('license', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('geo_location', self.gf('django.db.models.fields.CharField')(blank=True, max_length=1000)),
+            ('publisher', self.gf('django.db.models.fields.CharField')(blank=True, max_length=200)),
+            ('details_url', self.gf('django.db.models.fields.URLField')(blank=True, max_length=500)),
+            ('license', self.gf('django.db.models.fields.CharField')(blank=True, max_length=100)),
             ('user_id', self.gf('django.db.models.fields.IntegerField')()),
             ('language_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('ext_resource_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('ext_resource_id', self.gf('django.db.models.fields.IntegerField')(blank=True)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(blank=True, auto_now_add=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('version', self.gf('django.db.models.fields.IntegerField')()),
-            ('formula', self.gf('django.db.models.fields.CharField')(default='1', max_length=10000)),
-            ('issued', self.gf('django.db.models.fields.DateTimeField')()),
-            ('unit', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metrics_manager.Unit'])),
+            ('formula', self.gf('django.db.models.fields.CharField')(max_length=10000, default='1')),
+            ('issued', self.gf('django.db.models.fields.DateField')()),
+            ('unit', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.Unit'])),
         ))
-        db.send_create_signal(u'metrics_manager', ['Metric'])
+        db.send_create_signal('metricsmanager', ['Metric'])
 
-        # Adding M2M table for field policy_domains on 'Metric'
-        m2m_table_name = db.shorten_name(u'metrics_manager_metric_policy_domains')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('metric', models.ForeignKey(orm[u'metrics_manager.metric'], null=False)),
-            ('metricindomain', models.ForeignKey(orm[u'metrics_manager.metricindomain'], null=False))
+        # Adding model 'MetricInDomain'
+        db.create_table('metricsmanager_metricindomain', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('domain_id', self.gf('django.db.models.fields.IntegerField')()),
+            ('metric', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.Metric'])),
         ))
-        db.create_unique(m2m_table_name, ['metric_id', 'metricindomain_id'])
+        db.send_create_signal('metricsmanager', ['MetricInDomain'])
 
         # Adding model 'RawData'
-        db.create_table(u'metrics_manager_rawdata', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('metric', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metrics_manager.Metric'])),
+        db.create_table('metricsmanager_rawdata', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('metric', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.Metric'])),
+            ('row', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('value', self.gf('django.db.models.fields.FloatField')()),
             ('from_date', self.gf('django.db.models.fields.DateField')()),
             ('to_date', self.gf('django.db.models.fields.DateField')()),
         ))
-        db.send_create_signal(u'metrics_manager', ['RawData'])
+        db.send_create_signal('metricsmanager', ['RawData'])
 
         # Adding model 'RawDataCategory'
-        db.create_table(u'metrics_manager_rawdatacategory', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+        db.create_table('metricsmanager_rawdatacategory', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=100, unique=True)),
             ('description', self.gf('django.db.models.fields.TextField')()),
         ))
-        db.send_create_signal(u'metrics_manager', ['RawDataCategory'])
+        db.send_create_signal('metricsmanager', ['RawDataCategory'])
 
         # Adding model 'RawDataExtra'
-        db.create_table(u'metrics_manager_rawdataextra', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('raw_data', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metrics_manager.RawData'])),
-            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metrics_manager.RawDataCategory'])),
+        db.create_table('metricsmanager_rawdataextra', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('metric', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.Metric'])),
+            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.RawDataCategory'])),
+        ))
+        db.send_create_signal('metricsmanager', ['RawDataExtra'])
+
+        # Adding model 'RawDataExtraData'
+        db.create_table('metricsmanager_rawdataextradata', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('raw_data_extra', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['metricsmanager.RawDataExtra'])),
+            ('row', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('value', self.gf('django.db.models.fields.CharField')(max_length=200)),
         ))
-        db.send_create_signal(u'metrics_manager', ['RawDataExtra'])
+        db.send_create_signal('metricsmanager', ['RawDataExtraData'])
 
 
     def backwards(self, orm):
         # Deleting model 'UnitCategory'
-        db.delete_table(u'metrics_manager_unitcategory')
+        db.delete_table('metricsmanager_unitcategory')
 
         # Deleting model 'Unit'
-        db.delete_table(u'metrics_manager_unit')
-
-        # Deleting model 'MetricInDomain'
-        db.delete_table(u'metrics_manager_metricindomain')
+        db.delete_table('metricsmanager_unit')
 
         # Deleting model 'Metric'
-        db.delete_table(u'metrics_manager_metric')
+        db.delete_table('metricsmanager_metric')
 
-        # Removing M2M table for field policy_domains on 'Metric'
-        db.delete_table(db.shorten_name(u'metrics_manager_metric_policy_domains'))
+        # Deleting model 'MetricInDomain'
+        db.delete_table('metricsmanager_metricindomain')
 
         # Deleting model 'RawData'
-        db.delete_table(u'metrics_manager_rawdata')
+        db.delete_table('metricsmanager_rawdata')
 
         # Deleting model 'RawDataCategory'
-        db.delete_table(u'metrics_manager_rawdatacategory')
+        db.delete_table('metricsmanager_rawdatacategory')
 
         # Deleting model 'RawDataExtra'
-        db.delete_table(u'metrics_manager_rawdataextra')
+        db.delete_table('metricsmanager_rawdataextra')
+
+        # Deleting model 'RawDataExtraData'
+        db.delete_table('metricsmanager_rawdataextradata')
 
 
     models = {
-        u'metrics_manager.metric': {
+        'metricsmanager.metric': {
             'Meta': {'object_name': 'Metric'},
-            'acronym': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'acronym': ('django.db.models.fields.CharField', [], {'max_length': '20', 'unique': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'blank': 'True', 'auto_now_add': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
-            'details_url': ('django.db.models.fields.URLField', [], {'max_length': '500', 'blank': 'True'}),
-            'ext_resource_id': ('django.db.models.fields.IntegerField', [], {}),
-            'formula': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '10000'}),
-            'geo_location': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'issued': ('django.db.models.fields.DateTimeField', [], {}),
+            'details_url': ('django.db.models.fields.URLField', [], {'blank': 'True', 'max_length': '500'}),
+            'ext_resource_id': ('django.db.models.fields.IntegerField', [], {'blank': 'True'}),
+            'formula': ('django.db.models.fields.CharField', [], {'max_length': '10000', 'default': "'1'"}),
+            'geo_location': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '1000'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'issued': ('django.db.models.fields.DateField', [], {}),
             'keywords': ('django.db.models.fields.CharField', [], {'max_length': '400'}),
             'language_id': ('django.db.models.fields.IntegerField', [], {}),
-            'license': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'policy_domains': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['metrics_manager.MetricInDomain']", 'symmetrical': 'False'}),
-            'publisher': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
-            'unit': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['metrics_manager.Unit']"}),
+            'license': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '100'}),
+            'publisher': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '200'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '100', 'unique': 'True'}),
+            'unit': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.Unit']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user_id': ('django.db.models.fields.IntegerField', [], {}),
             'version': ('django.db.models.fields.IntegerField', [], {})
         },
-        u'metrics_manager.metricindomain': {
+        'metricsmanager.metricindomain': {
             'Meta': {'object_name': 'MetricInDomain'},
             'domain_id': ('django.db.models.fields.IntegerField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'metric': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.Metric']"})
         },
-        u'metrics_manager.rawdata': {
-            'Meta': {'object_name': 'RawData'},
+        'metricsmanager.rawdata': {
+            'Meta': {'object_name': 'RawData', 'ordering': "['row']"},
             'from_date': ('django.db.models.fields.DateField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'metric': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['metrics_manager.Metric']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'metric': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.Metric']"}),
+            'row': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'to_date': ('django.db.models.fields.DateField', [], {}),
             'value': ('django.db.models.fields.FloatField', [], {})
         },
-        u'metrics_manager.rawdatacategory': {
+        'metricsmanager.rawdatacategory': {
             'Meta': {'object_name': 'RawDataCategory'},
             'description': ('django.db.models.fields.TextField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '100', 'unique': 'True'})
         },
-        u'metrics_manager.rawdataextra': {
+        'metricsmanager.rawdataextra': {
             'Meta': {'object_name': 'RawDataExtra'},
-            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['metrics_manager.RawDataCategory']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'raw_data': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['metrics_manager.RawData']"}),
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.RawDataCategory']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'metric': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.Metric']"})
+        },
+        'metricsmanager.rawdataextradata': {
+            'Meta': {'object_name': 'RawDataExtraData', 'ordering': "['row']"},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'raw_data_extra': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.RawDataExtra']"}),
+            'row': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'value': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
-        u'metrics_manager.unit': {
+        'metricsmanager.unit': {
             'Meta': {'object_name': 'Unit'},
             'description': ('django.db.models.fields.TextField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'}),
-            'unit_category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['metrics_manager.UnitCategory']"})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '50', 'unique': 'True'}),
+            'unit_category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['metricsmanager.UnitCategory']"})
         },
-        u'metrics_manager.unitcategory': {
+        'metricsmanager.unitcategory': {
             'Meta': {'object_name': 'UnitCategory'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '100', 'unique': 'True'})
         }
     }
 
-    complete_apps = ['metrics_manager']
+    complete_apps = ['metricsmanager']
