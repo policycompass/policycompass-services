@@ -40,6 +40,7 @@ This manual is tested under Ubuntu 14.04!
   cd policycompass-services
   git submodule init
   git submodule update
+  git submodule foreach git checkout master
 ```
 * Install the Requirements
 ```shell
