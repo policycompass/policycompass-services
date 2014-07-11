@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pc_datamanager.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^api/v1/', include('apps.eventsmanager.urls')),
 	url(r'^api/v1/', include('apps.metricsmanager.urls')),
     url(r'^api/v1/auth/', include('apps.common.urls')),
     url(r'^admin/', include(admin.site.urls)),
