@@ -23,7 +23,7 @@ class Unit(models.Model):
     description = models.TextField()
     unit_category = models.ForeignKey(UnitCategory)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -86,7 +86,7 @@ class Metric(models.Model):
         save_rawdata_for_metric(self, self._rawdata)
 
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -98,7 +98,7 @@ class MetricInDomain(models.Model):
         verbose_name = "Metric in Domain"
         verbose_name_plural = "Metrics in Domains"
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.domain_id)
 
 
@@ -119,7 +119,7 @@ class RawData(models.Model):
         ordering = ['row']
 
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.row) + " Raw Data for " + self.metric.title
 
 
@@ -131,7 +131,7 @@ class RawDataCategory(models.Model):
         verbose_name = "Raw Data Category"
         verbose_name_plural = "Raw Data Categories"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -143,7 +143,7 @@ class RawDataExtra(models.Model):
         verbose_name = "Raw Data Extra"
         verbose_name_plural = "Raw Data Extras"
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.metric) + " - " + str(self.category)
 
 
@@ -158,7 +158,7 @@ class RawDataExtraData(models.Model):
         verbose_name_plural = "Raw Data Extra Data"
         ordering = ['row']
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.row) + " " + str(self.raw_data_extra)
 
 
