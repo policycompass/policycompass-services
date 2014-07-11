@@ -16,11 +16,10 @@ This manual is tested under Ubuntu 14.04!
 ```shell
   apt-get install python-virtualenv python3-dev libpq-dev
 ```
-* If you want to use PostgreSQL for development install it:
+* Install PostgreSQL:
 ```shell
   apt-get install postgresql
 ```
-* Note: You can also develop with a SQLite Database
 
 ### Installation
 * Create a new directory for the project
