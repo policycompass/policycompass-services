@@ -6,7 +6,7 @@ Web Services for the Policy Compass
 
 This manual is tested under Ubuntu 14.04!
 
-# Requirements
+### Requirements
 
 * Python 3 should be already installed, but make sure with the following command:
 ```shell
@@ -22,7 +22,7 @@ This manual is tested under Ubuntu 14.04!
 ```
 * Note: You can also develop with a SQLite Database
 
-# Installation
+### Installation
 * Create a new directory for the project
 ```shell
   mkdir services
