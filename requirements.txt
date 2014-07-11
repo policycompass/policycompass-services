@@ -5,6 +5,4 @@ django-apptemplates
 south
 psycopg2
 
--e git+https://github.com/policycompass/policycompass-metricsmanager#egg=metricsmanager
-
 #-r src/metrics_manager/requirements.txt

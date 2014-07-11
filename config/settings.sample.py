@@ -1,6 +1,6 @@
 __author__ = 'fki'
 
-from .settings import *
+from .settings_basic import *
 
 DATABASES = {
     'default': {

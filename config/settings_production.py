@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 import os
-from .settings import *
+from .settings_basic import *
 
 DEBUG = False
 TEMPLATE_DEBUG = False
