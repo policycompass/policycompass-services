@@ -1,0 +1,23 @@
+[
+    {
+        "model": "eventsmanager.historicalevent",
+        "pk": 2,
+        "fields": {
+            "title": "Test Title 2",
+            "description": "This is the first description",
+            "keywords": "Berlin, Summer",
+            "startEventDate": "2014-07-06T17:03:36Z",
+            "endEventDate": "2014-07-09T00:00:00Z",
+            "detailsURL": "http://www.berlin.de",
+            "geoLocation": "Berlin",
+            "relatedVisualisation": "none",
+            "languageID": "IDIDID",
+            "userID": "IDIDID",
+            "externalResourceID": "IDIDID",
+            "dateAddedToPC": "2014-07-02T17:04:21Z",
+            "dateIssuedByExternalResource": "2014-06-19T17:04:29Z",
+            "dateModified": "2014-07-18T06:00:00Z",
+            "viewsCount": 23
+        }
+    }
+]
