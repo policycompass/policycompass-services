@@ -4,3 +4,9 @@
 [submodule "apps/common"]
 	path = apps/common
 	url = git@github.com:policycompass/policycompass-common.git
+[submodule "apps/eventsmanager"]
+	path = apps/eventsmanager
+	url = git@github.com:policycompass/policycompass-eventsmanager.git
+[submodule "apps/referencepool"]
+	path = apps/referencepool
+	url = git@github.com:policycompass/policycompass-referencepool.git
