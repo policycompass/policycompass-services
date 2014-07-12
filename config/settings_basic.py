@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.metricsmanager',
     'apps.eventsmanager',
+    'apps.referencepool',
     'rest_framework',
     'rest_framework_swagger',
     'south'
