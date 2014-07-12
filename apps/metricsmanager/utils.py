@@ -17,7 +17,7 @@ def get_rawdata_for_metric(metric, extras=True):
     result = []
 
     raw_data = metric.rawdata_set.all()
-    raw_data_extra = metric.rawdataextra_set.all()
+    raw_data_extra = metric.rawdataextra_set.select_related('category').all()
 
     for r in raw_data:
 
@@ -41,7 +41,7 @@ def get_rawdata_for_metric(metric, extras=True):
 
         result.append(item)
 
-    print(connection.queries)
+    #print(connection.queries)
 
 
     # result = {}
