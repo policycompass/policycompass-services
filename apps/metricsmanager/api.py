@@ -9,10 +9,21 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 from .utils import get_rawdata_for_metric
 from django.db import IntegrityError, transaction
+from django.core.urlresolvers import reverse
 
 
 import logging
 log = logging.getLogger(__name__)
+
+
+class Base(APIView):
+
+    def get(self, request, format=None):
+        result = {
+            "Metrics": request.build_absolute_uri(reverse('metric-list')),
+        }
+
+        return Response(result)
 
 
 class MetricList(APIView):
@@ -24,7 +35,7 @@ class MetricList(APIView):
 
     def get(self, request):
         metrics = Metric.objects.all()
-        serializer = ReadMetricSerializer(metrics, many=True)
+        serializer = ListMetricSerializer(metrics, many=True)
         return Response(serializer.data)
 
     @transaction.atomic

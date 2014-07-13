@@ -40,12 +40,13 @@ class UnitSerializer(ModelSerializer):
 
 
 class BaseMetricSerializer(ModelSerializer):
+    hallo = serializers.CharField(source='keywords')
+
 
     class Meta:
         model = Metric
 
         fields = (
-
         )
 
 

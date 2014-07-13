@@ -14,59 +14,36 @@ def get_rawdata_for_metric(metric, extras=True):
     if not type(metric) is Metric:
         raise ValueError('First argument is not a metric model instance')
 
-    result = []
+    result = {}
 
     raw_data = metric.rawdata_set.all()
     raw_data_extra = metric.rawdataextra_set.select_related('category').all()
 
+    result['extra_data'] = []
+
+    for e in raw_data_extra:
+        result['extra_data'].append(e.category.title)
+
+    result['data'] = []
+
     for r in raw_data:
-
-        extras = {}
-        for e in raw_data_extra:
-            ident = e.category.title
-            try:
-                extra = e.rawdataextradata_set.get(raw_data_extra=e, row=r.row)
-                extras[ident] = extra.value
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                log.error("Integrity Error with Raw Data Extra Data")
-
 
         item = {
             'row': r.row,
             'value': r.value,
             'from': r.from_date,
-            'to': r.to_date,
-            'extras' : extras
+            'to': r.to_date
         }
 
-        result.append(item)
+        for e in raw_data_extra:
+            ident = e.category.title
+            try:
+                extra = e.rawdataextradata_set.get(raw_data_extra=e, row=r.row)
+                item[ident] = extra.value
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
+                log.error("Integrity Error with Raw Data Extra Data")
 
-    #print(connection.queries)
-
-
-    # result = {}
-    # raw_data = metric.rawdata_set.all()
-    #
-    # result['value'] = []
-    # result['from'] = []
-    # result['to'] = []
-    #
-    # for r in raw_data:
-    #     result['value'].append(r.value)
-    #     result['from'].append(r.from_date)
-    #     result['to'].append(r.to_date)
-    #
-    # raw_data_extra = metric.rawdataextra_set.all()
-    #
-    # if extras:
-    #     result['extras'] = {}
-    #     for r in raw_data_extra:
-    #         ident = r.category.title
-    #         result['extras'][ident] = []
-    #         extra_data = r.rawdataextradata_set.all()
-    #
-    #         for d in extra_data:
-    #             result['extras'][ident].append(d.value)
+        result['data'].append(item)
 
     return result
 
