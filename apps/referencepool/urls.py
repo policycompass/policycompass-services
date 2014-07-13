@@ -39,5 +39,5 @@ urlpatterns = patterns(
     url(r'^languages', include(language_urls)),
     url(r'^policydomains', include(policy_domain_urls)),
     url(r'^externalresources', include(external_resource_urls)),
-    url(r'^', Base.as_view(), name="base")
+    url(r'^', Base.as_view(), name="reference-base")
 )
