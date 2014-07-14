@@ -1,115 +1,6 @@
 [
    {
       "pk":1,
-      "model":"metricsmanager.unitcategory",
-      "fields":{
-         "title":"Length"
-      }
-   },
-   {
-      "pk":2,
-      "model":"metricsmanager.unitcategory",
-      "fields":{
-         "title":"Mass"
-      }
-   },
-   {
-      "pk":3,
-      "model":"metricsmanager.unitcategory",
-      "fields":{
-         "title":"Time"
-      }
-   },
-   {
-      "pk":4,
-      "model":"metricsmanager.unitcategory",
-      "fields":{
-         "title":"Currency"
-      }
-   },
-   {
-      "pk":2,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":3,
-         "description":"Day",
-         "title":"day"
-      }
-   },
-   {
-      "pk":3,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":3,
-         "description":"Month",
-         "title":"month"
-      }
-   },
-   {
-      "pk":4,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":3,
-         "description":"Year",
-         "title":"year"
-      }
-   },
-   {
-      "pk":5,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":3,
-         "description":"Decade",
-         "title":"decade"
-      }
-   },
-   {
-      "pk":6,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":2,
-         "description":"Kilogram",
-         "title":"kg"
-      }
-   },
-   {
-      "pk":7,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":1,
-         "description":"Metre",
-         "title":"m"
-      }
-   },
-   {
-      "pk":8,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":4,
-         "description":"Dollar",
-         "title":"Dollar"
-      }
-   },
-   {
-      "pk":9,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":4,
-         "description":"Euro",
-         "title":"Euro"
-      }
-   },
-   {
-      "pk":10,
-      "model":"metricsmanager.unit",
-      "fields":{
-         "unit_category":4,
-         "description":"Million Euro",
-         "title":"Million Euro"
-      }
-   },
-   {
-      "pk":1,
       "model":"metricsmanager.metric",
       "fields":{
          "publisher":"Eurostat",
@@ -118,7 +9,7 @@
          "license":"",
          "title":"Gross Domestic Product at Market Prices for Germany and Spain",
          "acronym":"GDP (GER, SPA)",
-         "issued":"2014-05-28",
+         "publisher_issued":"2014-05-28",
          "created_at":"2014-07-05T16:27:07.168Z",
          "language_id":1,
          "details_url":"http://epp.eurostat.ec.europa.eu/tgm/refreshTableAction.do?tab=table&plugin=1&pcode=tec00001&language=en",
@@ -128,7 +19,7 @@
          "keywords":"GDP, Market Price",
          "formula":"1",
          "ext_resource_id":1,
-         "unit":10
+         "unit_id":1
       }
    },
    {

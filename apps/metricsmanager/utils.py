@@ -14,73 +14,72 @@ def get_rawdata_for_metric(metric, extras=True):
     if not type(metric) is Metric:
         raise ValueError('First argument is not a metric model instance')
 
-    result = []
+    result = {}
 
     raw_data = metric.rawdata_set.all()
-    raw_data_extra = metric.rawdataextra_set.all()
+    raw_data_extra = metric.rawdataextra_set.select_related('category').all()
+
+    result['extra_columns'] = []
+
+    for e in raw_data_extra:
+        result['extra_columns'].append(e.category.title)
+
+    result['table'] = []
 
     for r in raw_data:
-
-        extras = {}
-        for e in raw_data_extra:
-            ident = e.category.title
-            try:
-                extra = e.rawdataextradata_set.get(raw_data_extra=e, row=r.row)
-                extras[ident] = extra.value
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                log.error("Integrity Error with Raw Data Extra Data")
-
 
         item = {
             'row': r.row,
             'value': r.value,
             'from': r.from_date,
-            'to': r.to_date,
-            'extras' : extras
+            'to': r.to_date
         }
 
-        result.append(item)
+        for e in raw_data_extra:
+            ident = e.category.title
+            try:
+                extra = e.rawdataextradata_set.get(raw_data_extra=e, row=r.row)
+                item[ident] = extra.value
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
+                log.error("Integrity Error with Raw Data Extra Data")
 
-    print(connection.queries)
-
-
-    # result = {}
-    # raw_data = metric.rawdata_set.all()
-    #
-    # result['value'] = []
-    # result['from'] = []
-    # result['to'] = []
-    #
-    # for r in raw_data:
-    #     result['value'].append(r.value)
-    #     result['from'].append(r.from_date)
-    #     result['to'].append(r.to_date)
-    #
-    # raw_data_extra = metric.rawdataextra_set.all()
-    #
-    # if extras:
-    #     result['extras'] = {}
-    #     for r in raw_data_extra:
-    #         ident = r.category.title
-    #         result['extras'][ident] = []
-    #         extra_data = r.rawdataextradata_set.all()
-    #
-    #         for d in extra_data:
-    #             result['extras'][ident].append(d.value)
+        result['table'].append(item)
 
     return result
 
 def save_rawdata_for_metric(metric, value):
-    from .models import RawData
-
+    from .models import RawData, RawDataExtra, RawDataExtraData, RawDataCategory
     log.info(value)
+    row_number = 1
 
-    l = len(value['value'])
-    for i in range(0, l):
+    extra_mapping = {}
+
+    for e in value['extra_columns']:
+        raw_data_category = RawDataCategory.objects.get(title=e)
+        raw_data_extra = RawDataExtra()
+        raw_data_extra.metric = metric
+        raw_data_extra.category = raw_data_category
+        raw_data_extra.save()
+        extra_mapping[e] = raw_data_extra
+
+    for r in value['table']:
         raw = RawData()
+
         raw.metric = metric
-        raw.from_date = value['from'][i]
-        raw.to_date = value['to'][i]
-        raw.row = i + 1
-        raw.value = value['value'][i]
+        raw.from_date = r['from']
+        raw.to_date = r['to']
+        raw.row = row_number
+        raw.value = r['value']
         raw.save()
+
+        for e in value['extra_columns']:
+            raw_extra = RawDataExtraData()
+            raw_extra.row = row_number
+            raw_extra.value = r[e]
+            raw_extra.raw_data_extra = extra_mapping[e]
+            raw_extra.save()
+
+        row_number += 1
+
+
+

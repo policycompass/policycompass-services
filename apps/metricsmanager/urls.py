@@ -1,12 +1,6 @@
 from django.conf.urls import patterns, url, include
 
-from .api import MetricList, MetricDetail, UnitList, UnitDetail
-
-unit_urls = patterns(
-    '',
-    url(r'^/(?P<pk>\d+)$', UnitDetail.as_view(), name='unit-detail'),
-    url(r'^$', UnitList.as_view(), name='unit-list')
-)
+from .api import MetricList, MetricDetail, Base
 
 metric_urls = patterns(
     '',
@@ -17,5 +11,5 @@ metric_urls = patterns(
 urlpatterns = patterns(
     '',
     url(r'^metrics', include(metric_urls)),
-    url(r'^units', include(unit_urls))
+    url(r'^', Base.as_view(), name="metrics-manager-base")
 )

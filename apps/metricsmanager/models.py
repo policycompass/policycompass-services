@@ -7,25 +7,6 @@ from .utils import get_rawdata_for_metric, save_rawdata_for_metric
 
 log = logging.getLogger(__name__)
 
-class UnitCategory(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-
-    class Meta:
-        verbose_name = "Unit Category"
-        verbose_name_plural = "Unit Categories"
-
-    def __unicode__(self):
-        return self.title
-
-
-class Unit(models.Model):
-    title = models.CharField(max_length=50, unique=True)
-    description = models.TextField()
-    unit_category = models.ForeignKey(UnitCategory)
-
-    def __str__(self):
-        return self.title
-
 
 class Metric(models.Model):
 
@@ -38,10 +19,14 @@ class Metric(models.Model):
     keywords = models.CharField(max_length=400)
 
     geo_location = models.CharField(max_length=1000, blank=True)
+
     publisher = models.CharField(max_length=200, blank=True)
     details_url = models.URLField(max_length=500, blank=True)
+    publisher_issued = models.DateField(blank=True)
+
     license = models.CharField(max_length=100, blank=True)
 
+    unit_id = models.IntegerField()
     user_id = models.IntegerField()
     language_id = models.IntegerField()
     ext_resource_id = models.IntegerField(blank=True)
@@ -53,9 +38,6 @@ class Metric(models.Model):
 
     # Data
     formula = models.CharField(max_length=10000, default='1')
-    issued = models.DateField()
-
-    unit = models.ForeignKey(Unit)
 
     _rawdata = None
 
@@ -142,6 +124,7 @@ class RawDataExtra(models.Model):
     class Meta:
         verbose_name = "Raw Data Extra"
         verbose_name_plural = "Raw Data Extras"
+        ordering = ['id']
 
     def __str__(self):
         return str(self.metric) + " - " + str(self.category)

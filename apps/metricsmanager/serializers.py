@@ -1,9 +1,11 @@
 __author__ = 'fki'
 
-from .models import Metric, Unit
+from .models import Metric, RawDataCategory
 from rest_framework.serializers import ModelSerializer, WritableField, ValidationError
 from rest_framework import serializers
 from .utils import get_rawdata_for_metric
+from rest_framework.reverse import reverse
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 import logging
 log = logging.getLogger(__name__)
@@ -17,11 +19,31 @@ class RawDataField(serializers.WritableField):
         if not type(value) is dict:
             raise ValidationError("Wrong datatype")
 
-        l = len(value['value'])
+        if not 'table' in value:
+            raise ValidationError("No key table in data")
 
-        for key, v in value.iteritems():
-            if len(v) != l:
-                raise ValidationError("Columns are not aligned")
+        if not 'extra_columns' in value:
+            raise ValidationError("No key extra_columns in data")
+
+        if not type(value['table']) is list:
+            raise ValidationError("Table property is not a list")
+
+        if not type(value['extra_columns']) is list:
+            raise ValidationError("Extra Columns property is not a list")
+
+        for e in value['extra_columns']:
+            try:
+                RawDataCategory.objects.get(title=e)
+            except ObjectDoesNotExist:
+                raise ValidationError("Invalid Extra Column")
+
+        required_fields = ["to", "from", "value"] + value['extra_columns']
+        for r in value['table']:
+            if not type(r) is dict:
+                raise ValidationError("Table Dict is malformed")
+
+            if not all(k in r for k in required_fields):
+                raise ValidationError("Table Dict is malformed, some keys are missing")
 
         return value
 
@@ -29,40 +51,51 @@ class RawDataField(serializers.WritableField):
         pass
 
 
-class UnitSerializer(ModelSerializer):
-    class Meta:
-        model = Unit
-        fields = (
-            'id',
-            'title',
-            'description'
-        )
-
-
 class BaseMetricSerializer(ModelSerializer):
+    spatial = serializers.CharField(source='geo_location')
+    resource_url = serializers.URLField(source='details_url')
+    unit = serializers.IntegerField(source='unit_id')
+    language = serializers.IntegerField(source='language_id')
+    external_resource = serializers.IntegerField(source='ext_resource_id')
+    resource_issued = serializers.DateField(source='publisher_issued')
+    issued = serializers.DateField(source='created_at', read_only=True)
+    modified = serializers.DateField(source='updated_at', read_only=True)
+
+    def to_native(self, obj):
+        result = super(BaseMetricSerializer, self).to_native(obj)
+        result['self'] = reverse('metric-detail', args=[obj.pk], request=self.context['request'])
+        return result
 
     class Meta:
         model = Metric
 
-        fields = (
+        exclude = (
+            'geo_location',
+            'details_url',
+            'unit_id',
+            'language_id',
+            'ext_resource_id',
+            'publisher_issued',
+            'created_at',
+            'updated_at'
+        )
 
+        fields = (
         )
 
 
 class ListMetricSerializer(BaseMetricSerializer):
-    unit = UnitSerializer()
+    pass
 
 
 class ReadMetricSerializer(BaseMetricSerializer):
 
     data = RawDataField()
-    unit = UnitSerializer()
 
 
 class WriteMetricSerializer(BaseMetricSerializer):
 
     data = RawDataField(required=True, write_only=True)
-    unit = serializers.SlugRelatedField(slug_field='id')
 
     def restore_object(self, attrs, instance=None):
 

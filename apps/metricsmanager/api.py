@@ -3,16 +3,26 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .models import Metric, Unit
-from .serializers import WriteMetricSerializer, ReadMetricSerializer, ListMetricSerializer, UnitSerializer
+from .models import Metric
+from .serializers import WriteMetricSerializer, ReadMetricSerializer, ListMetricSerializer
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 from .utils import get_rawdata_for_metric
 from django.db import IntegrityError, transaction
-
+from rest_framework.reverse import reverse
 
 import logging
 log = logging.getLogger(__name__)
+
+
+class Base(APIView):
+
+    def get(self, request, format=None):
+        result = {
+            "Metrics": reverse('metric-list', request=request),
+        }
+
+        return Response(result)
 
 
 class MetricList(APIView):
@@ -24,7 +34,7 @@ class MetricList(APIView):
 
     def get(self, request):
         metrics = Metric.objects.all()
-        serializer = ReadMetricSerializer(metrics, many=True)
+        serializer = ListMetricSerializer(metrics, many=True, context={'request': request})
         return Response(serializer.data)
 
     @transaction.atomic
@@ -33,7 +43,7 @@ class MetricList(APIView):
         if serializer.is_valid():
             serializer.save()
             log.info(serializer.object)
-            s = ReadMetricSerializer(serializer.object)
+            s = ReadMetricSerializer(serializer.object, context={'request': request})
             return Response(s.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -41,13 +51,3 @@ class MetricList(APIView):
 class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Metric
     serializer_class = ReadMetricSerializer
-
-
-class UnitList(generics.ListAPIView):
-    model = Unit
-    serializer_class = UnitSerializer
-
-
-class UnitDetail(generics.RetrieveAPIView):
-    model = Unit
-    serializer_class = UnitSerializer
