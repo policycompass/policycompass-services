@@ -6,6 +6,7 @@ from rest_framework import serializers
 from .utils import get_rawdata_for_metric
 from rest_framework.reverse import reverse
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+import datetime
 
 import logging
 log = logging.getLogger(__name__)
@@ -45,6 +46,22 @@ class RawDataField(serializers.WritableField):
             if not all(k in r for k in required_fields):
                 raise ValidationError("Table Dict is malformed, some keys are missing")
 
+            try:
+                datetime.datetime.strptime(r['from'], '%Y-%m-%d')
+            except ValueError:
+                raise ValidationError("Wrong Date Format")
+
+            try:
+                datetime.datetime.strptime(r['to'], '%Y-%m-%d')
+            except ValueError:
+                raise ValidationError("Wrong Date Format")
+
+            try:
+                float(r['value'])
+            except ValueError:
+                raise ValidationError("At least one value is not a float")
+
+
         return value
 
     def validate(self, value):
@@ -52,12 +69,12 @@ class RawDataField(serializers.WritableField):
 
 
 class BaseMetricSerializer(ModelSerializer):
-    spatial = serializers.CharField(source='geo_location')
-    resource_url = serializers.URLField(source='details_url')
+    spatial = serializers.CharField(source='geo_location', blank=True)
+    resource_url = serializers.URLField(source='details_url', blank=True)
     unit = serializers.IntegerField(source='unit_id')
     language = serializers.IntegerField(source='language_id')
-    external_resource = serializers.IntegerField(source='ext_resource_id')
-    resource_issued = serializers.DateField(source='publisher_issued')
+    external_resource = serializers.IntegerField(source='ext_resource_id', blank=True)
+    resource_issued = serializers.DateField(source='publisher_issued', blank=True)
     issued = serializers.DateField(source='created_at', read_only=True)
     modified = serializers.DateField(source='updated_at', read_only=True)
 

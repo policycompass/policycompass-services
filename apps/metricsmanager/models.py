@@ -22,14 +22,14 @@ class Metric(models.Model):
 
     publisher = models.CharField(max_length=200, blank=True)
     details_url = models.URLField(max_length=500, blank=True)
-    publisher_issued = models.DateField(blank=True)
+    publisher_issued = models.DateField(blank=True, null=True)
 
     license = models.CharField(max_length=100, blank=True)
 
     unit_id = models.IntegerField()
     user_id = models.IntegerField()
     language_id = models.IntegerField()
-    ext_resource_id = models.IntegerField(blank=True)
+    ext_resource_id = models.IntegerField(blank=True,default=0)
 
     # Auto-Generated Meta Data
     created_at = models.DateTimeField(auto_now_add=True)
