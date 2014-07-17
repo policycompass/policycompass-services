@@ -6,6 +6,8 @@ from rest_framework import serializers
 from .utils import get_rawdata_for_metric
 from rest_framework.reverse import reverse
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from apps.common.fields import *
+
 import datetime
 
 import logging
@@ -71,9 +73,9 @@ class RawDataField(serializers.WritableField):
 class BaseMetricSerializer(ModelSerializer):
     spatial = serializers.CharField(source='geo_location', blank=True)
     resource_url = serializers.URLField(source='details_url', blank=True)
-    unit = serializers.IntegerField(source='unit_id')
-    language = serializers.IntegerField(source='language_id')
-    external_resource = serializers.IntegerField(source='ext_resource_id', blank=True)
+    unit = UnitField(source='unit_id')
+    language = LanguageField(source='language_id')
+    external_resource = ExternalResourceField(source='ext_resource_id', blank=True)
     resource_issued = serializers.DateField(source='publisher_issued', blank=True)
     issued = serializers.DateField(source='created_at', read_only=True)
     modified = serializers.DateField(source='updated_at', read_only=True)

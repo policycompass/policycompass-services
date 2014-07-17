@@ -65,7 +65,8 @@ class Metric(models.Model):
             self.version += 1
 
         super(Metric, self).save(*args, **kwargs)
-        save_rawdata_for_metric(self, self._rawdata)
+        if self._rawdata:
+            save_rawdata_for_metric(self, self._rawdata)
 
 
     def __str__(self):
