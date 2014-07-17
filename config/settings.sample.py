@@ -11,3 +11,12 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
+
+PC_SERVICES = {
+    'references': {
+        'base_url': 'http://localhost:8000',
+        'units': '/api/v1/references/units',
+        'external_resources': '/api/v1/references/externalresources',
+        'languages': '/api/v1/references/languages'
+    }
+}

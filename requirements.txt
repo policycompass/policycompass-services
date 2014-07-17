@@ -4,5 +4,6 @@ django-rest-swagger
 django-apptemplates
 south
 psycopg2
+requests
 
 #-r src/metrics_manager/requirements.txt
