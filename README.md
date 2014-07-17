@@ -54,7 +54,7 @@ This manual is tested under Ubuntu 14.04!
 ```shell
 	python manage.py syncdb
 	python manage.py migrate
-	python manage.py loaddata metrics users
+	python manage.py loaddata metrics users references
 ```
 
 * Start the application
