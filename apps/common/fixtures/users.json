@@ -1,6 +1,6 @@
 [
     {
-       "model": "common.user",
+       "model": "user_mgmt_mock.user",
        "pk": 1,
        "fields": {
             "name": "John",
