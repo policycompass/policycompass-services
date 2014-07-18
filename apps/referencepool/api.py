@@ -5,18 +5,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
-from django.core.urlresolvers import reverse
+from rest_framework.reverse import reverse
 
 
 class Base(APIView):
 
      def get(self, request, format=None):
         result = {
-            "Units": request.build_absolute_uri(reverse('unit-list')),
-            "Unit Categories": request.build_absolute_uri(reverse('unit-category-list')),
-            "Languages": request.build_absolute_uri(reverse('language-list')),
-            "Policy Domains": request.build_absolute_uri(reverse('domain-list')),
-            "External Resources": request.build_absolute_uri(reverse('resource-list')),
+            "Units": reverse('unit-list', request=request),
+            "Unit Categories": reverse('unit-category-list', request=request),
+            "Languages": reverse('language-list', request=request),
+            "Policy Domains": reverse('domain-list', request=request),
+            "External Resources": reverse('resource-list', request=request),
         }
 
         return Response(result)

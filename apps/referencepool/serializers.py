@@ -5,16 +5,16 @@ from rest_framework import serializers
 from .models import *
 
 
-class UnitSerializer(ModelSerializer):
-    unit_category = serializers.HyperlinkedRelatedField(view_name='unit-category-detail')
-
-    class Meta:
-        model = Unit
-
-
 class UnitCategorySerializer(ModelSerializer):
     class Meta:
         model = UnitCategory
+
+
+class UnitSerializer(ModelSerializer):
+    unit_category = UnitCategorySerializer()
+
+    class Meta:
+        model = Unit
 
 
 class PolicyDomainSerializer(ModelSerializer):
