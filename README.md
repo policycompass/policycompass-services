@@ -16,9 +16,23 @@ This manual is tested under Ubuntu 14.04!
 ```shell
   apt-get install python-virtualenv python3-dev libpq-dev
 ```
-* Install PostgreSQL:
+* Install SQLite (easier for development) or PostgreSQL:
+
+Either do
+```shell
+  apt-get install sqlite3
+```
+
+or
 ```shell
   apt-get install postgresql
+```
+
+If you chose PostgreSQL, you want to create a postgres user and a database:
+
+```shell
+  sudo -u postgres createuser pcompass -W
+  sudo -u postgres createdb pcompass --owner pcompass
 ```
 
 ### Installation

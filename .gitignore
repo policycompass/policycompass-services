@@ -55,4 +55,8 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Local SQLite database
+/pcompass.db
+
+# Local settings
 config/settings.py
