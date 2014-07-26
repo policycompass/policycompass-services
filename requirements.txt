@@ -3,7 +3,6 @@ djangorestframework
 django-rest-swagger
 django-apptemplates
 psycopg2
-pysqlite
 requests
 
 #-r src/metrics_manager/requirements.txt
