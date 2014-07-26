@@ -1,6 +1,11 @@
 /.idea
 *.sqlite3
 
+# Vim backup files
+*~
+# Vim swap files
+*.sw[op]
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
