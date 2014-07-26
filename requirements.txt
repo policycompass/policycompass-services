@@ -1,8 +1,7 @@
-Django==1.6.5
+git+https://github.com/django/django@1.7c1#egg=Django>=1.7c1
 djangorestframework
 django-rest-swagger
 django-apptemplates
-south
 psycopg2
 requests
 

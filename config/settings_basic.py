@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'apps.referencepool',
     'rest_framework',
     'rest_framework_swagger',
-    'south'
 )
 
 MIDDLEWARE_CLASSES = (
