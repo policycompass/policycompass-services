@@ -1,38 +1,26 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'User'
-        db.create_table('common_user', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50)),
-            ('email', self.gf('django.db.models.fields.EmailField')(unique=True, max_length=254)),
-            ('password', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('token', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        ))
-        db.send_create_signal('common', ['User'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'User'
-        db.delete_table('common_user')
-
-
-    models = {
-        'common.user': {
-            'Meta': {'object_name': 'User'},
-            'email': ('django.db.models.fields.EmailField', [], {'unique': 'True', 'max_length': '254'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'token': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        }
-    }
-
-    complete_apps = ['common']
+    operations = [
+        migrations.CreateModel(
+            name='User',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('name', models.CharField(unique=True, max_length=50)),
+                ('email', models.EmailField(unique=True, max_length=254)),
+                ('password', models.CharField(max_length=50)),
+                ('token', models.CharField(max_length=100)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+    ]
