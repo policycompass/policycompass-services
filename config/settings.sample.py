@@ -4,13 +4,22 @@ from .settings_basic import *
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'database',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'pcompass.db',
     }
 }
+
+# Database config example for PostgreSQL
+#
+# DATABASES = {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'pcompass',
+#         'USER': 'pcompass',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#     }
+# }
+
 
 PC_SERVICES = {
     'references': {
