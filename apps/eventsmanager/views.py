@@ -1,11 +1,13 @@
-from .models import HistoricalEvent
-from rest_framework import viewsets
-from .serializers import HistoricalEventSerializer
+from .models import Event
+from .serializers import EventSerializer
+from rest_framework import generics
 
 
-class HistoricalEventViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = HistoricalEvent.objects.all()
-    serializer_class = HistoricalEventSerializer
+class EventView(generics.ListCreateAPIView):
+    model = Event
+    serializer_class = EventSerializer
+
+
+class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
+    model = Event
+    serializer_class = EventSerializer

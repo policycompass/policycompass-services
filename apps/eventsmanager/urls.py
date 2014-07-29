@@ -1,12 +1,8 @@
-from django.conf.urls import patterns, url, include
-from rest_framework import routers
-from .views import HistoricalEventViewSet
+from django.conf.urls import patterns, url
+from apps.eventsmanager import views
 
-router = routers.DefaultRouter()
-router.register(r'events', HistoricalEventViewSet)
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browseable API.
 urlpatterns = patterns('',
-     url(r'^', include(router.urls)),
+     #url(r'^', include(router.urls)),
+     url(r'^events$', views.EventView.as_view(), name='author-list'),
+     url(r'^events/(?P<pk>[\d]+)$', views.EventInstanceView.as_view(), name='event-instance'),
 )

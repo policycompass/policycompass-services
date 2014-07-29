@@ -1,6 +1,6 @@
 [
     {
-        "model": "eventsmanager.historicalevent",
+        "model": "eventsmanager.event",
         "pk": 1,
         "fields": {
             "title": "test 123",
@@ -11,9 +11,33 @@
             "detailsURL": "http://www.google.com",
             "geoLocation": "123",
             "relatedVisualisation": "123",
-            "languageID": "0",
-            "userID": "0",
-            "externalResourceID": "0",
+            "languageID": 0,
+            "userID": 0,
+            "externalResourceID": 0,
+            "dateAddedToPC": "2014-07-29T17:44:47.145Z",
+            "dateIssuedByExternalResource": "2014-07-29T17:44:47.145Z",
+            "dateModified": "2014-07-29T17:44:47.145Z",
+            "viewsCount": 0
+        }
+    },
+    {
+        "model": "eventsmanager.event",
+        "pk": 2,
+        "fields": {
+            "title": "test 456",
+            "description": "this is a description",
+            "keywords": "keyword1, keyword2",
+            "startEventDate": "2014-07-06T17:03:36Z",
+            "endEventDate": "2014-07-06T17:03:36Z",
+            "detailsURL": "http://www.google.com",
+            "geoLocation": "123",
+            "relatedVisualisation": "123",
+            "languageID": 0,
+            "userID": 0,
+            "externalResourceID": 0,
+            "dateAddedToPC": "2014-07-29T17:44:47.145Z",
+            "dateIssuedByExternalResource": "2014-07-29T17:44:47.145Z",
+            "dateModified": "2014-07-29T17:44:47.145Z",
             "viewsCount": 0
         }
     }

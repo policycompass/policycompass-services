@@ -1,13 +1,13 @@
 from django.db import models
 
 
-class HistoricalEvent(models.Model):
+class Event(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     keywords = models.CharField(max_length=200, blank=True)
     startEventDate = models.DateTimeField(blank=True)
     endEventDate = models.DateTimeField(blank=True)
-    detailsURL = models.CharField(max_length=200, blank=True)
+    detailsURL = models.URLField(max_length=500, blank=True)
     geoLocation = models.CharField(max_length=1000, blank=True)
     relatedVisualisation = models.CharField(max_length=200, blank=True)
     languageID = models.IntegerField()
