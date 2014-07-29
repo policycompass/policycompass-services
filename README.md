@@ -8,7 +8,7 @@ This manual is tested under Ubuntu 14.04!
 
 ### Requirements
 
-* Python 3 should be already installed, but make sure with the following command:
+* Python 3.4 should be already installed, but make sure with the following command:
 ```shell
   python3
 ```
