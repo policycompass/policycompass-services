@@ -55,7 +55,6 @@ class Metric(models.Model):
     def rawdata(self):
         pass
 
-
     def save(self, *args, **kwargs):
 
         # Increasing the version on every update

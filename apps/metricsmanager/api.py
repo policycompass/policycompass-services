@@ -51,3 +51,8 @@ class MetricList(APIView):
 class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Metric
     serializer_class = ReadMetricSerializer
+
+    @transaction.atomic
+    def put(self, request, *args, **kwargs):
+        self.serializer_class = WriteMetricSerializer
+        return super(MetricDetail, self).put(request, *args, **kwargs)

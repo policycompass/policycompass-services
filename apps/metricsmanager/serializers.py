@@ -114,10 +114,10 @@ class ReadMetricSerializer(BaseMetricSerializer):
 
 class WriteMetricSerializer(BaseMetricSerializer):
 
-    data = RawDataField(required=True, write_only=True)
+    data = RawDataField(required=True)
 
     def restore_object(self, attrs, instance=None):
-
+        log.info('Write Metric')
         raw_data = attrs['data']
         del attrs['data']
         metric = super(WriteMetricSerializer, self).restore_object(attrs, instance)

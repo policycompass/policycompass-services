@@ -10,24 +10,38 @@ log = logging.getLogger(__name__)
 
 
 def get_rawdata_for_metric(metric, extras=True):
-    from .models import Metric
+    from .models import Metric, RawDataExtraData
     if not type(metric) is Metric:
         raise ValueError('First argument is not a metric model instance')
 
     result = {}
 
     raw_data = metric.rawdata_set.all()
-    raw_data_extra = metric.rawdataextra_set.select_related('category').all()
+    raw_data_extra = metric.rawdataextra_set.select_related('category', 'raw_data_extra')
+
+    raw_data_extra_data = RawDataExtraData.objects.filter(raw_data_extra=raw_data_extra)
 
     result['extra_columns'] = []
+    column_mapping = {}
 
     for e in raw_data_extra:
         result['extra_columns'].append(e.category.title)
-
+        column_mapping[e.id] = e.category.title
     result['table'] = []
 
-    for r in raw_data:
+    extra_data = {}
+    for ed in raw_data_extra_data:
+        r = ed.row
+        if r in extra_data:
+            extra_data[r][column_mapping[ed.raw_data_extra_id]] = ed.value
+        else:
+            extra_data[r] = {
+                column_mapping[ed.raw_data_extra_id]: ed.value
+            }
 
+    #log.info(extra_data)
+    for r in raw_data:
+        #log.info("HALLLO")
         item = {
             'row': r.row,
             'value': r.value,
@@ -35,16 +49,19 @@ def get_rawdata_for_metric(metric, extras=True):
             'to': r.to_date
         }
 
-        for e in raw_data_extra:
-            ident = e.category.title
-            try:
-                extra = e.rawdataextradata_set.get(raw_data_extra=e, row=r.row)
-                item[ident] = extra.value
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                log.error("Integrity Error with Raw Data Extra Data")
+        item.update(extra_data[r.row])
+        #
+        # for e in raw_data_extra:
+        #     ident = e.category.title
+        #     try:
+        #         extra = raw_data_extra_data.filter(row=r.row,raw_data_extra=e)
+        #         item[ident] = extra[0].value
+        #     except (ObjectDoesNotExist, MultipleObjectsReturned):
+        #         log.error("Integrity Error with Raw Data Extra Data")
 
         result['table'].append(item)
 
+    log.info(connection.queries)
     return result
 
 def save_rawdata_for_metric(metric, value):
