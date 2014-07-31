@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-__author__ = 'fki'
+__author__ = 'miquel'
 
 from distutils.core import setup
 

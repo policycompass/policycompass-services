@@ -76,9 +76,15 @@ class BaseVisualizationSerializer(ModelSerializer):
     #unit = UnitField(source='unit_id')
     language = LanguageField(source='language_id')
     #external_resource = ExternalResourceField(source='ext_resource_id', blank=True)
-    resource_issued = serializers.DateField(source='publisher_issued', blank=True)
-    issued = serializers.DateField(source='created_at', read_only=True)
-    modified = serializers.DateField(source='updated_at', read_only=True)
+    ##resource_issued = serializers.DateField(source='publisher_issued', blank=True)
+    created_at = serializers.DateField(source='created_at', read_only=True)
+    updated_at = serializers.DateField(source='updated_at', read_only=True)
+    
+    views_count = serializers.IntegerField(source='views_count')
+    visualization_type_id = serializers.IntegerField(source='visualization_type_id')
+    status_flag_id = serializers.IntegerField(source='status_flag_id')
+    
+    
 
     def to_native(self, obj):
         result = super(BaseVisualizationSerializer, self).to_native(obj)
@@ -90,8 +96,8 @@ class BaseVisualizationSerializer(ModelSerializer):
 
         exclude = (
             'language_id',
-            'publisher_issued',
-            'created_at',
+            #'publisher_issued',
+            #'created_at',
             'updated_at'
         )
 

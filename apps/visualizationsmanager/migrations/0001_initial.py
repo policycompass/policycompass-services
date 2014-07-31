@@ -1,53 +1,83 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Visualization'
-        db.create_table(u'visualizations_manager_visualization', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('keywords', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),            
-            ('description', self.gf('django.db.models.fields.TextField')()),  
-            ('user_id', self.gf('django.db.models.fields.IntegerField')()),                      
-            ('created_at', self.gf('django.db.models.fields.DateTimeField')(blank=True, auto_now_add=True)),
-            ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('publisher', self.gf('django.db.models.fields.CharField')(blank=True, max_length=200)),   
-            ('views_count', self.gf('django.db.models.fields.IntegerField')(default=0)),            
-            ('visualization_type_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('language_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('status_flag_id', self.gf('django.db.models.fields.IntegerField')()), 
-        ))
-        db.send_create_signal(u'visualizations_manager', ['Visualization'])
+    dependencies = [
+    ('metricsmanager','0001_initial'),
+    ('eventsmanager','0001_initial'),
+    ]
 
-
-    def backwards(self, orm):
-
-        # Deleting model 'Visualization'
-        db.delete_table(u'visualizations_manager_visualization')
-
-
-    models = {
-        u'visualizations_manager.visualization': {
-            'Meta': {'object_name': 'Visualization'},            
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'keywords': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'description': ('django.db.models.fields.TextField', [], {}),
-            'user_id': ('django.db.models.fields.IntegerField', [], {}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'blank': 'True', 'auto_now_add': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'blank': 'True'}),
-            'publisher': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '200'}),
-            'views_count': ('django.db.models.fields.IntegerField', [], {}),            
-            'visualization_type_id': ('django.db.models.fields.IntegerField', [], {}),
-            'language_id': ('django.db.models.fields.IntegerField', [], {}),
-            'status_flag_id': ('django.db.models.fields.IntegerField', [], {})
-        }
-    }
-
-    complete_apps = ['visualizations_manager']
+    operations = [ 
+        migrations.CreateModel(
+            name='VisualizationType',
+            fields=[
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('type', models.CharField(max_length=100)),
+            ],
+            options={
+                'verbose_name': 'Visualization Type',
+                'verbose_name_plural': 'Visualizations Types',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Visualization',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('keywords', models.CharField(blank=True, max_length=200)),
+                ('title', models.CharField(max_length=100)),
+                ('description', models.TextField(blank=True)),
+                ('user_id', models.IntegerField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),                
+                ('updated_at', models.DateTimeField(blank=True)),
+                ('publisher', models.CharField(blank=True, max_length=100)),
+                ('views_count', models.IntegerField(blank=True, default=0)),
+                #('visualization_type_id', models.IntegerField(blank=True, default=0)),
+                ('visualization_type', models.ForeignKey(to='visualizationsmanager.VisualizationType')),
+                ('language_id', models.IntegerField()),
+                ('status_flag_id', models.IntegerField(blank=True, default=0)),
+            ],
+            options={
+                'verbose_name': 'Visualization',
+                'verbose_name_plural': 'Visualizations',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='MetricsInVisualizations',
+            fields=[
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
+                ('metric', models.ForeignKey(to='metricsmanager.Metric')),
+                #('metric_id', models.IntegerField()),
+                ('visualization_query', models.CharField(blank=True, max_length=100)),
+                #('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
+                #('metric', models.ForeignKey(to='metricsmanager.Metric')),
+            ],
+            options={
+                'verbose_name': 'Metric in Visualization',
+                'verbose_name_plural': 'Metrics in Visualization',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='HistoricalEventsInVisualizations',
+            fields=[
+                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
+                ('historical_event', models.ForeignKey(to='eventsmanager.HistoricalEvent')),
+                #('historical_event_id', models.IntegerField()),                
+                #('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
+                #('historical_events', models.ForeignKey(to='eventsmanager.HistoricalEvent')),
+            ],
+            options={
+                'verbose_name': 'Historical event in Visualization',
+                'verbose_name_plural': 'Historical events in Visualization',
+            },
+            bases=(models.Model,),
+        ),
+    ]

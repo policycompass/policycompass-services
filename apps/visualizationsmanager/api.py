@@ -33,7 +33,7 @@ class VisualizationList(APIView):
         return Response("Options")
 
     def get(self, request):
-        visualization = Visualization.objects.all()
+        visualizations = Visualization.objects.all()
         serializer = ListVisualizationSerializer(visualizations, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -50,4 +50,5 @@ class VisualizationList(APIView):
 
 class VisualizationDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Visualization
-    serializer_class = ReadVisualizationSerializer
+    #serializer_class = ReadVisualizationSerializer
+    

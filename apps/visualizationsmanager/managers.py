@@ -3,7 +3,7 @@ __author__ = 'miquel'
 from django.db import models
 
 
-class MetricManager(models.Manager):
+class VisualizationManager(models.Manager):
     pass
 
 
