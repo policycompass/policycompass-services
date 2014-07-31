@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),
     url(r'^api/v1/auth/', include('apps.common.urls')),
     url(r'^api/v1/references/', include('apps.referencepool.urls')),
-    url(r'^api/v1/', Base.as_view()),
+    url(r'^api/v1/$', Base.as_view()),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^docs/', include('rest_framework_swagger.urls'), name='swagger'),
 
