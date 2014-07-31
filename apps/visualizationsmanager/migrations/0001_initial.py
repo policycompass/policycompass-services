@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
                 ('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
-                ('historical_event', models.ForeignKey(to='eventsmanager.HistoricalEvent')),
+                ('historical_event', models.ForeignKey(to='eventsmanager.Event')),
                 #('historical_event_id', models.IntegerField()),                
                 #('visualization', models.ForeignKey(to='visualizationsmanager.Visualization')),
                 #('historical_events', models.ForeignKey(to='eventsmanager.HistoricalEvent')),
