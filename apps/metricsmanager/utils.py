@@ -48,8 +48,8 @@ def get_rawdata_for_metric(metric, extras=True):
             'from': r.from_date,
             'to': r.to_date
         }
-
-        item.update(extra_data[r.row])
+        if r.row in extra_data:
+            item.update(extra_data[r.row])
         #
         # for e in raw_data_extra:
         #     ident = e.category.title
@@ -97,6 +97,18 @@ def save_rawdata_for_metric(metric, value):
             raw_extra.save()
 
         row_number += 1
+
+def update_rawdata_for_metric(metric, value):
+    from .models import Metric, RawDataExtraData
+    if not type(metric) is Metric:
+        raise ValueError('First argument is not a metric model instance')
+
+    raw_data = metric.rawdata_set.all()
+    raw_data.delete()
+    raw_data_extra = metric.rawdataextra_set.all()
+    raw_data_extra.delete()
+
+    save_rawdata_for_metric(metric, value)
 
 
 

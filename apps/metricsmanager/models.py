@@ -3,7 +3,7 @@ from django.db import models
 import datetime
 import logging
 from .managers import MetricManager, RawDataManager
-from .utils import get_rawdata_for_metric, save_rawdata_for_metric
+from .utils import get_rawdata_for_metric, save_rawdata_for_metric, update_rawdata_for_metric
 
 log = logging.getLogger(__name__)
 
@@ -60,12 +60,15 @@ class Metric(models.Model):
         # Increasing the version on every update
         if self.pk is None:
             self.version = 1
+            if self._rawdata:
+                save_rawdata_for_metric(self, self._rawdata)
         else:
             self.version += 1
+            if self._rawdata:
+                update_rawdata_for_metric(self, self._rawdata)
 
         super(Metric, self).save(*args, **kwargs)
-        if self._rawdata:
-            save_rawdata_for_metric(self, self._rawdata)
+
 
 
     def __str__(self):
