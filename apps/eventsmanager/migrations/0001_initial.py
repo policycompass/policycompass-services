@@ -24,6 +24,7 @@ class Migration(migrations.Migration):
                 ('relatedVisualisation', models.CharField(blank=True, max_length=200)),
                 ('languageID', models.IntegerField()),
                 ('userID', models.IntegerField()),
+                ('scale' , models.CharField(max_length=200, blank=True)),
                 ('externalResourceID', models.IntegerField(blank=True, default=0)),
                 ('dateAddedToPC', models.DateTimeField(auto_now_add=True)),
                 ('dateIssuedByExternalResource', models.DateTimeField(auto_now_add=True)),
