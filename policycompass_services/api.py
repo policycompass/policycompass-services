@@ -12,7 +12,7 @@ class Base(APIView):
         result = {
             "Metrics Manager": reverse('metrics-manager-base', request=request),
             "Reference Pool": reverse('reference-base', request=request),
-            "Visualizations Manager": reverse('visualizations-manager-base', request=request),
+            #"Visualizations Manager": reverse('visualizations-manager-base', request=request),
         }
 
         return Response(result)
