@@ -2,10 +2,11 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.parsers import JSONParser
 
 from .models import Metric
-from .serializers import WriteMetricSerializer, ReadMetricSerializer, ListMetricSerializer
+from .serializers import WriteMetricSerializer, ReadMetricSerializer, ListMetricSerializer, PaginatedListMetricSerializer
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 from .utils import get_rawdata_for_metric
@@ -36,8 +37,21 @@ class MetricList(APIView):
         return Response("Options")
 
     def get(self, request):
-        metrics = Metric.objects.all()
-        serializer = ListMetricSerializer(metrics, many=True, context={'request': request})
+        queryset = Metric.objects.all()
+        paginator = Paginator(queryset, 2)
+        page = request.QUERY_PARAMS.get('page')
+
+        try:
+            metrics = paginator.page(page)
+        except PageNotAnInteger:
+            metrics = paginator.page(1)
+        except EmptyPage:
+            metrics = paginator.page(paginator.num_pages)
+
+        serializer = PaginatedListMetricSerializer(metrics, context={'request': request})
+
+        log.info(paginator.page_range)
+
         return Response(serializer.data)
 
     @transaction.atomic
