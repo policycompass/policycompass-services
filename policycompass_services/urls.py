@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^api/v1/eventsmanager/', include('apps.eventsmanager.urls')),
 	url(r'^api/v1/metricsmanager/', include('apps.metricsmanager.urls')),
-    #url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),
+    url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),
     url(r'^api/v1/auth/', include('apps.common.urls')),
     url(r'^api/v1/references/', include('apps.referencepool.urls')),
     url(r'^api/v1/$', Base.as_view()),

@@ -21,10 +21,12 @@ SECRET_KEY = '6v!+maxc&d^ofd_0teo2-0264vd&0)5qplr+y3&vfc0^l#z6jp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = False
 
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -39,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.metricsmanager',
     'apps.eventsmanager',
+    'apps.visualizationsmanager',
     'apps.referencepool',
     'rest_framework',
     'rest_framework_swagger',
@@ -61,16 +64,26 @@ WSGI_APPLICATION = 'policycompass_services.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'metricsmanager222',
+#        'USER': 'poco',
+#        'PASSWORD': '123456',
+#        'HOST': 'localhost',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'metricsmanager222',
-        'USER': 'poco',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'NAME': 'policycompass',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

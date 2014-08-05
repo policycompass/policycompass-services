@@ -10,3 +10,6 @@
 [submodule "apps/referencepool"]
 	path = apps/referencepool
 	url = git@github.com:policycompass/policycompass-referencepool.git
+[submodule "apps/visualization"]
+	path = apps/visualization
+	url = git@github.com:policycompass/policycompass-visualizationmanager.git
