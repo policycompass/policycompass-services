@@ -8,6 +8,16 @@ from .utils import get_rawdata_for_visualization, save_rawdata_for_visualization
 log = logging.getLogger(__name__)
 
 
+class MetricsInVisualizations(models.Model):
+    metric = models.IntegerField()
+    visualization = models.IntegerField()
+    visualization_query= models.CharField(max_length=100)
+    
+class HistoricalEventsInVisualizations(models.Model):
+    visualization = models.IntegerField()
+    historical_event = models.IntegerField()
+
+    
 class VisualizationType(models.Model):
     type = models.CharField(max_length=100)
     
