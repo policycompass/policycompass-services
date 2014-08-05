@@ -13,3 +13,6 @@
 [submodule "apps/visualization"]
 	path = apps/visualization
 	url = git@github.com:policycompass/policycompass-visualizationmanager.git
+[submodule "apps/visualizationmanager"]
+	path = apps/visualizationmanager
+	url = git@github.com:policycompass/policycompass-visualizationmanager.git
