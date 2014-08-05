@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='HistoricalEvent',
+            name='Event',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=100)),
@@ -19,12 +19,13 @@ class Migration(migrations.Migration):
                 ('keywords', models.CharField(blank=True, max_length=200)),
                 ('startEventDate', models.DateTimeField(blank=True)),
                 ('endEventDate', models.DateTimeField(blank=True)),
-                ('detailsURL', models.CharField(blank=True, max_length=200)),
+                ('detailsURL', models.URLField(blank=True, max_length=500)),
                 ('geoLocation', models.CharField(blank=True, max_length=1000)),
                 ('relatedVisualisation', models.CharField(blank=True, max_length=200)),
                 ('languageID', models.IntegerField()),
                 ('userID', models.IntegerField()),
-                ('externalResourceID', models.IntegerField(blank=True, default=0)),
+                ('scale', models.CharField(blank=True, max_length=200)),
+                ('externalResourceID', models.IntegerField(default=0, blank=True)),
                 ('dateAddedToPC', models.DateTimeField(auto_now_add=True)),
                 ('dateIssuedByExternalResource', models.DateTimeField(auto_now_add=True)),
                 ('dateModified', models.DateTimeField(auto_now_add=True)),
