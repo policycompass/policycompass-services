@@ -66,8 +66,8 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 * Edit the settings.py according to your needs. See: https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 * Initialize the Database
 ```shell
-	python manage.py syncdb
 	python manage.py migrate
+    python manage.py syncdb
 	python manage.py loaddata metrics events common references visualizations
 ```
 
