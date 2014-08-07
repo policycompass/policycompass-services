@@ -10,8 +10,9 @@ DATABASES = {
 }
 
 # Database config example for PostgreSQL
-#
+
 # DATABASES = {
+#     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'pcompass',
 #         'USER': 'pcompass',
