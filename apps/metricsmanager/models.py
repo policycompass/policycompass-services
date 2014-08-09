@@ -70,10 +70,10 @@ class Metric(models.Model):
 
         if update:
             if self._rawdata:
-                save_rawdata_for_metric(self, self._rawdata)
+                update_rawdata_for_metric(self, self._rawdata)
         else:
             if self._rawdata:
-                update_rawdata_for_metric(self, self._rawdata)
+                save_rawdata_for_metric(self, self._rawdata)
 
     def __str__(self):
         return self.title
