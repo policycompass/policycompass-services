@@ -1,6 +1,6 @@
 __author__ = 'fki'
 
-from .models import Metric, RawDataCategory, MetricInDomain
+from .models import Metric, RawDataCategory, MetricInDomain, RawDataCategory
 from rest_framework.serializers import ModelSerializer, WritableField, ValidationError
 from rest_framework import serializers
 from .utils import get_rawdata_for_metric
@@ -113,14 +113,14 @@ class BaseMetricSerializer(ModelSerializer):
 
     def to_native(self, obj):
         result = super(BaseMetricSerializer, self).to_native(obj)
-        result['self'] = reverse('metric-detail', args=[obj.pk], request=self.context['request'])
+        #result['self'] = reverse('metric-detail', args=[obj.pk])
         return result
 
     class Meta:
         model = Metric
 
         exclude = (
-            'geo_location'
+            'geo_location',
             'details_url',
             'unit_id',
             'language_id',
@@ -163,4 +163,10 @@ class WriteMetricSerializer(BaseMetricSerializer):
         metric.rawdata = raw_data
 
         return metric
+
+
+class ExtraCategorySerializer(ModelSerializer):
+    class Meta:
+        model = RawDataCategory
+
 
