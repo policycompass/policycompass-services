@@ -27,6 +27,7 @@ PC_SERVICES = {
         'base_url': 'http://localhost:8000',
         'units': '/api/v1/references/units',
         'external_resources': '/api/v1/references/externalresources',
-        'languages': '/api/v1/references/languages'
+        'languages': '/api/v1/references/languages',
+        'domains': '/api/v1/references/policydomains'
     }
 }
