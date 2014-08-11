@@ -1,6 +1,7 @@
 git+https://github.com/django/django@1.7c1#egg=Django>=1.7c1
 djangorestframework
 django-rest-swagger
+django-filter
 django-apptemplates
 psycopg2
 requests
