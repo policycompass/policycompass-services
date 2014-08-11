@@ -55,6 +55,17 @@ class Metric(models.Model):
     def rawdata(self):
         pass
 
+
+    _policy_domains = None
+
+    @property
+    def policy_domains(self):
+        return self.domains.all()
+
+    @policy_domains.setter
+    def policy_domains(self, value):
+        self._policy_domains = value
+
     def save(self, *args, **kwargs):
         
         update = False
@@ -71,9 +82,21 @@ class Metric(models.Model):
         if update:
             if self._rawdata:
                 update_rawdata_for_metric(self, self._rawdata)
+            if self._policy_domains:
+                 self.domains.all().delete()
+                 for d in self._policy_domains:
+                    self.domains.create(
+                        domain_id = d
+                    )
+
         else:
             if self._rawdata:
                 save_rawdata_for_metric(self, self._rawdata)
+            if self._policy_domains:
+                for d in self._policy_domains:
+                    self.domains.create(
+                        domain_id = d
+                    )
 
     def __str__(self):
         return self.title
@@ -81,7 +104,7 @@ class Metric(models.Model):
 
 class MetricInDomain(models.Model):
     domain_id = models.IntegerField()
-    metric = models.ForeignKey(Metric)
+    metric = models.ForeignKey(Metric, related_name='domains')
 
     class Meta:
         verbose_name = "Metric in Domain"

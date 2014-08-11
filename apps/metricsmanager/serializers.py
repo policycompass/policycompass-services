@@ -1,17 +1,36 @@
 __author__ = 'fki'
 
-from .models import Metric, RawDataCategory
+from .models import Metric, RawDataCategory, MetricInDomain
 from rest_framework.serializers import ModelSerializer, WritableField, ValidationError
 from rest_framework import serializers
 from .utils import get_rawdata_for_metric
 from rest_framework.reverse import reverse
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from apps.common.fields import *
+from apps.common.serviceadapters import references
 
 import datetime
 
 import logging
 log = logging.getLogger(__name__)
+
+
+
+class PolicyDomainsField(serializers.WritableField):
+
+    def field_to_native(self, obj, field_name):
+        ids = getattr(obj, self.source).all()
+        result = []
+        domains = references.PolicyDomain()
+        for i in ids:
+            result.append(domains.get(i.domain_id))
+        return result
+
+    def from_native(self, value):
+        if not type(value) is list:
+            raise ValidationError("Policy_domains property is not a list")
+        return value
+
 
 
 class RawDataField(serializers.WritableField):
@@ -70,6 +89,16 @@ class RawDataField(serializers.WritableField):
         pass
 
 
+class MetricInDomainSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+
+    def restore_object(self, attrs, instance=None):
+
+        log.info("hallo")
+        return instance
+
+
+
 class BaseMetricSerializer(ModelSerializer):
     spatial = serializers.CharField(source='geo_location', blank=True)
     resource_url = serializers.URLField(source='details_url', blank=True)
@@ -79,6 +108,7 @@ class BaseMetricSerializer(ModelSerializer):
     resource_issued = serializers.DateField(source='publisher_issued', blank=True)
     issued = serializers.DateField(source='created_at', read_only=True)
     modified = serializers.DateField(source='updated_at', read_only=True)
+    policy_domains = PolicyDomainsField(source='policy_domains')
 
     def to_native(self, obj):
         result = super(BaseMetricSerializer, self).to_native(obj)
@@ -89,7 +119,7 @@ class BaseMetricSerializer(ModelSerializer):
         model = Metric
 
         exclude = (
-            'geo_location',
+            'geo_location'
             'details_url',
             'unit_id',
             'language_id',
@@ -100,6 +130,7 @@ class BaseMetricSerializer(ModelSerializer):
         )
 
         fields = (
+
         )
 
 
@@ -114,6 +145,7 @@ class ReadMetricSerializer(BaseMetricSerializer):
 
 class WriteMetricSerializer(BaseMetricSerializer):
 
+    policy_domains = PolicyDomainsField(source='policy_domains', required=True)
     data = RawDataField(required=True)
 
     def restore_object(self, attrs, instance=None):
