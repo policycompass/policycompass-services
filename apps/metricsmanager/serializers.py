@@ -5,6 +5,7 @@ from rest_framework.serializers import ModelSerializer, WritableField, Validatio
 from rest_framework import serializers
 from .utils import get_rawdata_for_metric
 from rest_framework.reverse import reverse
+from rest_framework import pagination
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from apps.common.fields import *
 from apps.common.serviceadapters import references
@@ -136,6 +137,12 @@ class BaseMetricSerializer(ModelSerializer):
 
 class ListMetricSerializer(BaseMetricSerializer):
     pass
+
+
+class PaginatedListMetricSerializer(pagination.PaginationSerializer):
+
+    class Meta:
+        object_serializer_class = ListMetricSerializer
 
 
 class ReadMetricSerializer(BaseMetricSerializer):
