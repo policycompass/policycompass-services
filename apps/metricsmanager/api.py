@@ -67,7 +67,7 @@ class MetricList(APIView):
 
         serializer = PaginatedListMetricSerializer(metrics)
 
-        log.info(paginator.page_range)
+        #log.info(paginator.page_range)
 
         return Response(serializer.data)
 
