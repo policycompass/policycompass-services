@@ -28,6 +28,7 @@ class Base(APIView):
         result = {
             "Metrics": reverse('metric-list', request=request),
             "Extra Categories": reverse('extra-list', request=request),
+            "Converter": reverse('converter', request=request),
         }
 
         return Response(result)
