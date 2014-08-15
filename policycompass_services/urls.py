@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from .api import Base
-
+from config import settings
 
 admin.autodiscover()
 
