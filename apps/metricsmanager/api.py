@@ -5,13 +5,16 @@ from rest_framework import status
 from rest_framework import filters
 from rest_framework import mixins
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser,YAMLParser
+from rest_framework.renderers import YAMLRenderer
+from rest_framework.decorators import renderer_classes, api_view
 
 from .models import Metric
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 from .utils import get_rawdata_for_metric
+from .contexts import *
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
 from .file_encoder import FileEncoder
@@ -87,13 +90,27 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Metric
     serializer_class = ReadMetricSerializer
 
+    def options(self, request, *args, **kwargs):
+        return super(MetricDetail, self).options(request, *args, **kwargs)
+
+
+    def get(self, request, *args, **kwargs):
+        response = super(MetricDetail, self).get(request, *args, **kwargs)
+        return set_jsonld_link_header(response, 'metric-detail-context', request)
+
     @transaction.atomic
     def put(self, request, *args, **kwargs):
         self.serializer_class = WriteMetricSerializer
         return super(MetricDetail, self).put(request, *args, **kwargs)
 
 
-class ExtraCategoryList(generics.ListAPIView):
+class MetricDetailContext(APIView):
+
+     def get(self, request, *args, **kwargs):
+         return Response(metric_context(request))
+
+
+class ExtraCategoryList(generics.ListCreateAPIView):
     model = RawDataCategory
     serializer_class = ExtraCategorySerializer
 
@@ -129,3 +146,9 @@ class Converter(APIView):
             return Response(result)
 
         return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def set_jsonld_link_header(response, view, request):
+    context_url = reverse(view, request=request)
+    response['Link'] = '<' + context_url + '>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"'
+    return response

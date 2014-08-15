@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, url, include
 
-from .api import MetricList, MetricDetail, Base, Converter, ExtraCategoryList, ExtraCategoryDetail
+from .api import *
 
 metric_urls = patterns(
     '',
+    url(r'^/contexts/metric$', MetricDetailContext.as_view(), name='metric-detail-context'),
     url(r'^/(?P<pk>\d+)$', MetricDetail.as_view(), name='metric-detail'),
     url(r'^$', MetricList.as_view(), name='metric-list')
 )

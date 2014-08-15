@@ -9,7 +9,7 @@ from rest_framework import pagination
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from apps.common.fields import *
 from apps.common.serviceadapters import references
-
+from rest_framework.serializers import SortedDictWithMetadata
 import datetime
 
 import logging
@@ -90,16 +90,6 @@ class RawDataField(serializers.WritableField):
         pass
 
 
-class MetricInDomainSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-
-    def restore_object(self, attrs, instance=None):
-
-        log.info("hallo")
-        return instance
-
-
-
 class BaseMetricSerializer(ModelSerializer):
     spatial = serializers.CharField(source='geo_location', blank=True)
     resource_url = serializers.URLField(source='details_url', blank=True)
@@ -112,8 +102,9 @@ class BaseMetricSerializer(ModelSerializer):
     policy_domains = PolicyDomainsField(source='policy_domains')
 
     def to_native(self, obj):
-        result = super(BaseMetricSerializer, self).to_native(obj)
-        #result['self'] = reverse('metric-detail', args=[obj.pk])
+        result = SortedDictWithMetadata()
+        result['@id'] = reverse('metric-detail', args=[obj.pk])
+        result.update(super(BaseMetricSerializer, self).to_native(obj))
         return result
 
     class Meta:
