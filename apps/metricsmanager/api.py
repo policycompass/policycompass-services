@@ -14,7 +14,7 @@ from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 from .utils import get_rawdata_for_metric
-from .contexts import *
+from .schemas import *
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
 from .file_encoder import FileEncoder
@@ -96,18 +96,12 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         response = super(MetricDetail, self).get(request, *args, **kwargs)
-        return set_jsonld_link_header(response, 'metric-detail-context', request)
+        return set_jsonld_link_header(response, 'metric', request)
 
     @transaction.atomic
     def put(self, request, *args, **kwargs):
         self.serializer_class = WriteMetricSerializer
         return super(MetricDetail, self).put(request, *args, **kwargs)
-
-
-class MetricDetailContext(APIView):
-
-     def get(self, request, *args, **kwargs):
-         return Response(metric_context(request))
 
 
 class ExtraCategoryList(generics.ListCreateAPIView):
@@ -148,7 +142,19 @@ class Converter(APIView):
         return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SchemasView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        id = kwargs['name']
+        schemas = Schemas()
+        try:
+            result = schemas.get_schema(id, request)
+            return Response(result)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 def set_jsonld_link_header(response, view, request):
-    context_url = reverse(view, request=request)
-    response['Link'] = '<' + context_url + '>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"'
+    context_url = reverse('schema-detail', request=request, args=(view,))
+    response['Link'] = '<' + context_url + '>; rel="describedBy"'
     return response
