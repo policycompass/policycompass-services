@@ -86,7 +86,16 @@ class Schemas(object):
                 ('encType', 'application/json'),
                 ('schema', OrderedDict([
                     ('type', 'object'),
-                    ('$ref', reverse('schema-detail', request=request, args=('metric_create',)))
+                    ('$ref', reverse('schema-detail', request=request, args=('metric_create',))),
+                    ('required', [
+                        'title',
+                        'acronym',
+                        'description',
+                        'keywords',
+                        'unit',
+                        'language',
+                        'policy_domains'
+                    ])
                 ]))
             ]),
             OrderedDict([
