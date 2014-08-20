@@ -5,5 +5,6 @@ django-filter
 django-apptemplates
 psycopg2
 requests
+pandas
 
 #-r src/metrics_manager/requirements.txt
