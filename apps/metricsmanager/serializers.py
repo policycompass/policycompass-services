@@ -36,7 +36,42 @@ class PolicyDomainsField(serializers.WritableField):
 
 class RawDataField(serializers.WritableField):
     def field_to_native(self, obj, field_name):
-        return get_rawdata_for_metric(obj)
+
+        # Process Query Paramters
+        params = self.context['request'].QUERY_PARAMS
+        order = None
+        new_sort = []
+        if params.get('sort'):
+            sort = params.get('sort')
+            if sort[:1] == '-':
+                order = 'desc'
+                sort = sort[1:]
+            sort = sort.split(',')
+
+            for s in sort:
+                if s == 'from':
+                    new_sort.append('from_date')
+                elif s == 'to':
+                    new_sort.append('to_date')
+                else:
+                    new_sort.append(s)
+
+        filter = {}
+        for p in params:
+            if p not in ['sort','format']:
+                value_list = params.get(p).split(',')
+                if p == 'from':
+                    filter['from_date'] = value_list
+                elif p == 'to':
+                    filter['to_date'] = value_list
+                else:
+                    filter[p] = value_list
+
+        if params.get('order'):
+            order = params.get('order')
+
+
+        return get_rawdata_for_metric(obj, sort=new_sort, order=order, filter=filter)
 
     def from_native(self, value):
         if not type(value) is dict:

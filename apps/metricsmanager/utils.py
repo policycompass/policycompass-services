@@ -3,65 +3,69 @@ __author__ = 'fki'
 import datetime
 import logging
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from .metricdata import MetricData
+from collections import OrderedDict
+
 
 from django.db import connection
 
 log = logging.getLogger(__name__)
 
 
-def get_rawdata_for_metric(metric, extras=True):
+def get_rawdata_for_metric(metric, sort=None, order=None, filter=None):
     from .models import Metric, RawDataExtraData
     if not type(metric) is Metric:
         raise ValueError('First argument is not a metric model instance')
 
     result = {}
 
+    # Getting the basic raw data
     raw_data = metric.rawdata_set.all()
-    raw_data_extra = metric.rawdataextra_set.select_related('category', 'raw_data_extra')
 
+    # Creating the data structure
+    data = MetricData(list(raw_data.values()))
+
+    # Getting the extra columns
+    raw_data_extra = metric.rawdataextra_set.select_related('category', 'raw_data_extra')
+    # Getting the data for the extra columns
     raw_data_extra_data = RawDataExtraData.objects.filter(raw_data_extra=raw_data_extra)
 
     result['extra_columns'] = []
-    column_mapping = {}
 
     for e in raw_data_extra:
         result['extra_columns'].append(e.category.title)
-        column_mapping[e.id] = e.category.title
+        # Adding the extra column data to the data structure
+        raw_ed = RawDataExtraData.objects.filter(raw_data_extra=e)
+        data.add_column(e.category.title, raw_ed.values_list('value', flat=True))
+        #log.info(raw_ed.values_list('value', flat=True))
+
     result['table'] = []
 
-    extra_data = {}
-    for ed in raw_data_extra_data:
-        r = ed.row
-        if r in extra_data:
-            extra_data[r][column_mapping[ed.raw_data_extra_id]] = ed.value
-        else:
-            extra_data[r] = {
-                column_mapping[ed.raw_data_extra_id]: ed.value
-            }
+    if filter:
+        data.where(filter)
 
-    #log.info(extra_data)
-    for r in raw_data:
-        #log.info("HALLLO")
-        item = {
-            'row': r.row,
-            'value': r.value,
-            'from': r.from_date,
-            'to': r.to_date
-        }
-        if r.row in extra_data:
-            item.update(extra_data[r.row])
-        #
-        # for e in raw_data_extra:
-        #     ident = e.category.title
-        #     try:
-        #         extra = raw_data_extra_data.filter(row=r.row,raw_data_extra=e)
-        #         item[ident] = extra[0].value
-        #     except (ObjectDoesNotExist, MultipleObjectsReturned):
-        #         log.error("Integrity Error with Raw Data Extra Data")
+    if sort:
+        data.sort_by(sort,order)
+
+    result['ranges'] = {}
+    for e in result['extra_columns']:
+        result['ranges'][e] = data.get_column_values(e)
+
+    items = data.get_df()
+    row = 1
+    for index, i in items.iterrows():
+        item = OrderedDict()
+        item['row'] = row
+        item['from'] = i['from_date']
+        item['to'] = i['to_date']
+        item['value'] = i['value']
+
+        for e in result['extra_columns']:
+            item[e] = i[e]
 
         result['table'].append(item)
+        row += 1
 
-    log.info(connection.queries)
     return result
 
 def save_rawdata_for_metric(metric, value):
