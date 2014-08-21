@@ -6,5 +6,6 @@ django-apptemplates
 psycopg2
 requests
 pandas
+xlrd
 
 #-r src/metrics_manager/requirements.txt

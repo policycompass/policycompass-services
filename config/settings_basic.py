@@ -89,7 +89,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'policycompass_services.auth.PolicyCompassAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
-    )
+    ),
+    'ORDERING_PARAM': 'sort'
 }
 
 TEMPLATE_LOADERS = (
