@@ -80,7 +80,7 @@ class MetricList(APIView):
         if serializer.is_valid():
             serializer.save()
             log.info(serializer.object)
-            s = ReadMetricSerializer(serializer.object)
+            s = ReadMetricSerializer(serializer.object, context={'request': request})
             return Response(s.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
