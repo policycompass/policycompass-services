@@ -2,6 +2,8 @@ __author__ = 'fki'
 import os
 import csv
 import codecs
+from xlrd import open_workbook, XL_CELL_DATE, xldate_as_tuple
+import datetime
 
 import logging
 log = logging.getLogger(__name__)
@@ -10,7 +12,9 @@ log = logging.getLogger(__name__)
 class FileEncoder(object):
 
     supported_extensions = {
-        '.csv': '_csv_encode'
+        '.csv': '_csv_encode',
+        '.xlsx': '_xlsx_encode',
+        '.xls': '_xlsx_encode'
     }
 
     # file: InMemoryUploadedFile
@@ -35,3 +39,23 @@ class FileEncoder(object):
             log.info(str(row))
             r.append(row)
         return r
+
+    def _xlsx_encode(self):
+        r = []
+        wb = open_workbook(file_contents=self.file.read())
+        sheet =  wb.sheet_by_index(0)
+        for row in range(sheet.nrows):
+            values = []
+            for col in range(sheet.ncols):
+                cell = sheet.cell(row,col)
+                if cell.ctype == XL_CELL_DATE:
+                    v = xldate_as_tuple(cell.value,wb.datemode)
+                    v = datetime.datetime(*v)
+                    v = datetime.date(v.year,v.month,v.day)
+                else:
+                    v = cell.value
+                values.append(v)
+            r.append(values)
+
+        return r
+

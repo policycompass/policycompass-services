@@ -9,12 +9,191 @@ class Schemas(object):
         result = getattr(self, '_' + ident + '_schema')(request)
         return result
 
+    def _converter_schema(self, request):
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('converter',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for the converter'
+        s['type'] = 'object'
+        s['links'] = [
+             OrderedDict([
+                ('title', 'Convert a file'),
+                ('rel', 'convert'),
+                ('href', reverse('converter')),
+                ('method', 'POST'),
+                ('mediaType', 'application/json'),
+                ('encType', 'multipart/form-data'),
+            ])
+        ]
+        return s
+
+    def _metrics_manager_schema(self, request):
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('metrics_manager',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for the metrics manager'
+        s['type'] = 'object'
+        s['links'] = [
+             OrderedDict([
+                ('title', 'Get the metric resource'),
+                ('rel', 'collection'),
+                ('href', reverse('metric-list')),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ]),
+            OrderedDict([
+                ('title', 'Get the extra categories resource'),
+                ('rel', 'collection'),
+                ('href', reverse('extra-list')),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ]),
+            OrderedDict([
+                ('title', 'Get the converter resource'),
+                ('rel', 'item'),
+                ('href', reverse('converter')),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ]),
+        ]
+        s['properties'] = OrderedDict([
+            ('Metrics', OrderedDict([
+                ('description', 'Link to the metrics resource'),
+                ('type', 'string')
+            ])),
+            ('Extra Categories', OrderedDict([
+                ('description', 'Link to the extra categories resource'),
+                ('type', 'string')
+            ])),
+            ('Converter', OrderedDict([
+                ('description', 'Link to the converter resource'),
+                ('type', 'string')
+            ]))
+        ])
+
+        return s
+
+    def _metric_collection_schema(self, request):
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('metric_collection',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for a metric collection'
+        s['type'] = 'object'
+        s['links'] = self._metric_collection_links(request)
+        s['properties'] = self._metric_collection_properties(request)
+
+        return s
+
+    def _metric_collection_properties(self, request):
+        p = OrderedDict()
+
+        p['count'] = OrderedDict([
+            ('description', 'Total number of metrics in the collection'),
+            ('type', 'integer')
+        ])
+        p['next'] = OrderedDict([
+            ('description', 'Link to the next page of the collection'),
+            ('type', 'string')
+        ])
+        p['previous'] = OrderedDict([
+            ('description', 'Link to the previous page of the collection'),
+            ('type', 'string')
+        ])
+
+        metric_properties = self._metric_properties(request)
+        metric_properties.pop('data')
+        p['results'] = OrderedDict([
+            ('description', 'The collection of metrics'),
+            ('type', 'array'),
+            ('items', OrderedDict([
+                ('description', 'A metric object'),
+                ('type', 'object'),
+                ('properties', metric_properties)
+            ]))
+        ])
+        return p
+
+    def _metric_collection_links(self, request):
+        l = [
+            OrderedDict([
+                ('title', 'Get one metric, including metric data'),
+                ('rel', 'item'),
+                ('href', reverse('metric-list') + '/{id}'),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ]),
+            OrderedDict([
+                ('title', 'Filter the metric collection'),
+                ('rel', 'filter'),
+                ('href', reverse('metric-list')),
+                ('method', 'GET'),
+                ('mediaType', 'application/json'),
+                ('encType', 'application/x-www-form-urlencode'),
+                ('schema', OrderedDict([
+                    ('type', 'object'),
+                    ('properties', OrderedDict([
+                        ('search', OrderedDict([
+                            ('description', 'Search in title, keywords, acronym and spatial'),
+                            ('type', 'string')
+                        ])),
+                        ('sort', OrderedDict([
+                            ('description', 'Sort the collection: Values: created_at, updated_at or title. A leading - reverses the order'),
+                            ('type', 'string')
+                        ])),
+                        ('language', OrderedDict([
+                            ('description', 'Filter the collection by a language ID'),
+                            ('type', 'integer')
+                        ])),
+                        ('unit', OrderedDict([
+                            ('description', 'Filter the collection by a unit ID'),
+                            ('type', 'integer')
+                        ])),
+                        ('external_resource', OrderedDict([
+                            ('description', 'Filter the collection by a external resource ID'),
+                            ('type', 'integer')
+                        ])),
+                        ('policy_domain', OrderedDict([
+                            ('description', 'Filter the collection by a policy domain ID'),
+                            ('type', 'integer')
+                        ]))
+                    ]))
+                ]))
+            ]),
+            OrderedDict([
+                ('title', 'Create a new metric'),
+                ('rel', 'create'),
+                ('href', reverse('metric-list')),
+                ('method', 'POST'),
+                ('mediaType', 'application/json'),
+                ('encType', 'application/json'),
+                ('schema', OrderedDict([
+                    ('type', 'object'),
+                    ('$ref', reverse('schema-detail', request=request, args=('metric_create',))),
+                    ('required', [
+                        'title',
+                        'acronym',
+                        'description',
+                        'keywords',
+                        'unit',
+                        'language',
+                        'policy_domains'
+                    ])
+                ]))
+            ]),
+        ]
+        return l
+
+
+
     def _metric_schema(self, request):
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('metric',))
         s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
-        s['description'] = 'Schema for an unit'
+        s['description'] = 'Schema for a metric'
         s['type'] = 'object'
         s['links'] = self._metric_links(request)
         s['properties'] = self._metric_properties(request)
@@ -23,6 +202,7 @@ class Schemas(object):
 
     def _metric_create_schema(self, request):
         s = self._metric_properties(request)
+        s.pop('self')
         s.pop('issued')
         s.pop('modified')
         s.pop('id')
@@ -112,6 +292,10 @@ class Schemas(object):
     def _metric_properties(self, request):
         p = OrderedDict()
 
+        p['self'] = OrderedDict([
+            ('description', 'URI of the metric'),
+            ('type', 'string')
+        ])
         p['spatial'] = OrderedDict([
             ('description', 'http://purl.org/dc/terms/spatial'),
             ('type', 'string')

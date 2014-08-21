@@ -33,8 +33,7 @@ class Base(APIView):
             "Extra Categories": reverse('extra-list', request=request),
             "Converter": reverse('converter', request=request),
         }
-
-        return Response(result)
+        return set_jsonschema_link_header(Response(result), 'metrics_manager', request)
 
 
 class MetricFilter(django_filters.FilterSet):
@@ -73,7 +72,7 @@ class MetricList(APIView):
 
         #log.info(paginator.page_range)
 
-        return Response(serializer.data)
+        return set_jsonschema_link_header(Response(serializer.data), 'metric_collection', request)
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -96,7 +95,7 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         response = super(MetricDetail, self).get(request, *args, **kwargs)
-        return set_jsonld_link_header(response, 'metric', request)
+        return set_jsonschema_link_header(response, 'metric', request)
 
     @transaction.atomic
     def put(self, request, *args, **kwargs):
@@ -117,7 +116,7 @@ class ExtraCategoryDetail(generics.RetrieveAPIView):
 class Converter(APIView):
 
     def get(self, request, format=None):
-        return Response("Converter")
+        return set_jsonschema_link_header(Response(), 'converter', request)
 
     def post(self, request, *args, **kwargs):
         log.info('Data: ' + str(request.DATA))
@@ -154,7 +153,7 @@ class SchemasView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-def set_jsonld_link_header(response, view, request):
+def set_jsonschema_link_header(response, view, request):
     context_url = reverse('schema-detail', request=request, args=(view,))
     response['Link'] = '<' + context_url + '>; rel="describedBy"'
     return response

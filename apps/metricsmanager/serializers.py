@@ -138,7 +138,7 @@ class BaseMetricSerializer(ModelSerializer):
 
     def to_native(self, obj):
         result = SortedDictWithMetadata()
-        result['@id'] = reverse('metric-detail', args=[obj.pk])
+        result['self'] = reverse('metric-detail', args=[obj.pk])
         result.update(super(BaseMetricSerializer, self).to_native(obj))
         return result
 
