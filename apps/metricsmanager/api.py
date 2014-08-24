@@ -92,7 +92,6 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
     def options(self, request, *args, **kwargs):
         return super(MetricDetail, self).options(request, *args, **kwargs)
 
-
     def get(self, request, *args, **kwargs):
         response = super(MetricDetail, self).get(request, *args, **kwargs)
         return set_jsonschema_link_header(response, 'metric', request)

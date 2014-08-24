@@ -53,7 +53,7 @@ class FileEncoder(object):
                     v = datetime.datetime(*v)
                     v = datetime.date(v.year,v.month,v.day)
                 else:
-                    v = cell.value
+                    v = str(cell.value)
                 values.append(v)
             r.append(values)
 
