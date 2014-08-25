@@ -56,6 +56,5 @@ class FileEncoder(object):
                     v = str(cell.value)
                 values.append(v)
             r.append(values)
-
         return r
 

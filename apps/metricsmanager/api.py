@@ -79,7 +79,6 @@ class MetricList(APIView):
         serializer = WriteMetricSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
-            log.info(serializer.object)
             s = ReadMetricSerializer(serializer.object, context={'request': request})
             return Response(s.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -130,10 +129,15 @@ class Converter(APIView):
             if not encoder.is_supported():
                 return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
 
+            try:
+                encoding = encoder.encode()
+            except:
+                return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
+
             result = {
                 'filename': file.name,
                 'filesize': file.size,
-                'result': encoder.encode()
+                'result': encoding
             }
             return Response(result)
 
