@@ -1,11 +1,11 @@
 git+https://github.com/django/django@1.7c1#egg=Django>=1.7c1
-djangorestframework
-django-rest-swagger
-django-filter
-django-apptemplates
-psycopg2
-requests
-pandas
-xlrd
+djangorestframework==2.4.1
+django-rest-swagger==0.1.14
+django-filter==0.7
+django-apptemplates==0.0.1
+psycopg2==2.5.4
+requests==2.4.0
+pandas==0.14.1
+xlrd==0.9.3
 
 #-r src/metrics_manager/requirements.txt
