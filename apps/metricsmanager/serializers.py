@@ -126,12 +126,12 @@ class RawDataField(serializers.WritableField):
 
 
 class BaseMetricSerializer(ModelSerializer):
-    spatial = serializers.CharField(source='geo_location', blank=True)
-    resource_url = serializers.URLField(source='details_url', blank=True)
+    spatial = serializers.CharField(source='geo_location', required=False)
+    resource_url = serializers.URLField(source='details_url', required=False)
     unit = UnitField(source='unit_id')
     language = LanguageField(source='language_id')
-    external_resource = ExternalResourceField(source='ext_resource_id', blank=True)
-    resource_issued = serializers.DateField(source='publisher_issued', blank=True)
+    external_resource = ExternalResourceField(source='ext_resource_id', required=False)
+    resource_issued = serializers.DateField(source='publisher_issued', required=False)
     issued = serializers.DateField(source='created_at', read_only=True)
     modified = serializers.DateField(source='updated_at', read_only=True)
     policy_domains = PolicyDomainsField(source='policy_domains')
