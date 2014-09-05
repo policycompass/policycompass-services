@@ -1,13 +1,72 @@
 from collections import OrderedDict
 from rest_framework.reverse import reverse
-from django.templatetags.static import static
-
 
 class Schemas(object):
 
     def get_schema(self, ident, request):
         result = getattr(self, '_' + ident + '_schema')(request)
         return result
+
+    def _category_schema(self, request):
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('category',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for a category'
+        s['type'] = 'object'
+        s['links'] = [
+            OrderedDict([
+                ('title', 'Get a collection of categories'),
+                ('rel', 'collection'),
+                ('href', reverse('extra-list')),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ])]
+        s['properties'] = self._category_properties(request)
+
+        return s
+
+
+    def _category_collection_schema(self, request):
+
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('category_collection',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for a category collection'
+        s['type'] = 'array'
+        s['links'] = [
+            OrderedDict([
+                ('title', 'Get one category'),
+                ('rel', 'item'),
+                ('href', reverse('extra-list') + '/{id}'),
+                ('method', 'GET'),
+                ('mediaType', 'application/json')
+            ])]
+        s['items'] = OrderedDict([
+                    ('description', 'One category'),
+                    ('type', 'object'),
+                    ('properties', self._category_properties(request))
+        ])
+        return s
+
+    def _category_properties(self, request):
+        p = OrderedDict([
+            ('id', OrderedDict([
+                ('description', 'Unique Identifier of the category'),
+                ('type', 'number'),
+            ])),
+            ('title', OrderedDict([
+                ('title', 'The title of the category'),
+                ('type', 'string'),
+            ])),
+            ('description', OrderedDict([
+                ('title', 'The description of the category'),
+                ('type', 'string'),
+            ]))
+        ])
+        return p
+
 
     def _converter_schema(self, request):
         s = OrderedDict()
@@ -16,6 +75,50 @@ class Schemas(object):
         s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
         s['description'] = 'Schema for the converter'
         s['type'] = 'object'
+        s['links'] = [
+             OrderedDict([
+                ('title', 'Convert a file'),
+                ('rel', 'convert'),
+                ('href', reverse('converter')),
+                ('method', 'POST'),
+                ('mediaType', 'application/json'),
+                ('encType', 'multipart/form-data'),
+            ])
+        ]
+        return s
+
+    def _converter_result_schema(self, request):
+        s = OrderedDict()
+
+        s['id'] = reverse('schema-detail', request=request, args=('converter_result',))
+        s['$schema'] = 'http://json-schema.org/draft-04/hyper-schema#'
+        s['description'] = 'Schema for a converter result'
+        s['type'] = 'object'
+        s['properties'] = [
+            OrderedDict([
+                ('filesize', OrderedDict([
+                    ('description', 'The size of the posted file in kB'),
+                    ('type', 'integer')
+                ])),
+                ('filename', OrderedDict([
+                    ('description', 'The name of the posted file'),
+                    ('type', 'string')
+                ])),
+                ('result', OrderedDict([
+                    ('description', 'The result of the conversion'),
+                    ('type', 'array'),
+                    ('items', OrderedDict([
+                        ('description', 'The rows of the result'),
+                        ('type', 'array'),
+                        ('items', OrderedDict([
+                            ('description', 'The columns of the result'),
+                            ('type', 'string'),
+                        ]))
+                    ]))
+                ]))
+
+            ])
+        ]
         s['links'] = [
              OrderedDict([
                 ('title', 'Convert a file'),
@@ -135,6 +238,10 @@ class Schemas(object):
                 ('schema', OrderedDict([
                     ('type', 'object'),
                     ('properties', OrderedDict([
+                        ('page', OrderedDict([
+                            ('description', 'Select the page of the list'),
+                            ('type', 'integer')
+                        ])),
                         ('search', OrderedDict([
                             ('description', 'Search in title, keywords, acronym and spatial'),
                             ('type', 'string')
@@ -179,7 +286,9 @@ class Schemas(object):
                         'keywords',
                         'unit',
                         'language',
-                        'policy_domains'
+                        'policy_domains',
+                        'data',
+                        'user_id'
                     ])
                 ]))
             ]),
@@ -213,6 +322,7 @@ class Schemas(object):
             ('type', 'integer')
         ])
 
+        s['data']['properties'].pop('ranges')
         s['data']['properties']['table']['items']['properties'].pop('row')
         s.pop('language')
         s['language'] = OrderedDict([
@@ -250,10 +360,7 @@ class Schemas(object):
                             ('description', 'Sorting order of the metric data'),
                             ('type', 'string')
                         ])),
-                        ('extras', OrderedDict([
-                            ('description', 'Filtering by named extra columns'),
-                            ('type', 'string')
-                        ]))
+                    ('additionalProperties', True)
                     ]))
                 ]))
             ]),
@@ -374,6 +481,10 @@ class Schemas(object):
             ('description', 'https://schema.org/version'),
             ('type', 'integer')
         ])
+        p['user_id'] = OrderedDict([
+            ('description', 'The ID of the Policy Compass User'),
+            ('type', 'integer')
+        ])
         p['formula'] = OrderedDict([
             ('description', 'The calculation formula for a derived metric'),
             ('type', 'string')
@@ -383,6 +494,11 @@ class Schemas(object):
 
     def _metric_data_schema(self, request):
         p = OrderedDict()
+
+        p['ranges'] = OrderedDict([
+            ('description', 'The actual ranges of extra columns'),
+            ('type', 'object')
+        ])
 
         p['extra_columns'] = OrderedDict([
             ('description', 'Extra columns used in the table'),
@@ -411,11 +527,10 @@ class Schemas(object):
                         ('description', 'The to-date of the row'),
                         ('type', 'string')
                     ])),
-                    ('anyOf', OrderedDict([
-                    ('description', 'Actual Value of any extra column'),
-                    ('$ref', '#/properties/extra_columns'),
-                    ('type', 'string')
-                ])),
+                    ('value', OrderedDict([
+                        ('description', 'The value of the row'),
+                        ('type', 'number')
+                    ]))
                 ])),
 
                 ('additionalProperties', True)

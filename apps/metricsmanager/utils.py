@@ -1,13 +1,8 @@
 __author__ = 'fki'
 
-import datetime
 import logging
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from .metricdata import MetricData
 from collections import OrderedDict
-
-
-from django.db import connection
 
 log = logging.getLogger(__name__)
 
@@ -103,7 +98,7 @@ def save_rawdata_for_metric(metric, value):
         row_number += 1
 
 def update_rawdata_for_metric(metric, value):
-    from .models import Metric, RawDataExtraData
+    from .models import Metric
     if not type(metric) is Metric:
         raise ValueError('First argument is not a metric model instance')
 

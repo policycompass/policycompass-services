@@ -1,16 +1,12 @@
 from django.db import models
 
-import datetime
 import logging
-from .managers import MetricManager, RawDataManager
 from .utils import get_rawdata_for_metric, save_rawdata_for_metric, update_rawdata_for_metric
 
 log = logging.getLogger(__name__)
 
 
 class Metric(models.Model):
-
-    objects = MetricManager()
 
     # Meta Data by User Input
     title = models.CharField(max_length=100, unique=True)
@@ -45,7 +41,6 @@ class Metric(models.Model):
     def rawdata(self):
         return get_rawdata_for_metric(self)
 
-
     @rawdata.setter
     def rawdata(self, value):
         self._rawdata = value
@@ -54,7 +49,6 @@ class Metric(models.Model):
     @rawdata.deleter
     def rawdata(self):
         pass
-
 
     _policy_domains = None
 
@@ -98,6 +92,9 @@ class Metric(models.Model):
                         domain_id = d
                     )
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.title
 
@@ -115,8 +112,6 @@ class MetricInDomain(models.Model):
 
 
 class RawData(models.Model):
-
-    objects = RawDataManager()
 
     metric = models.ForeignKey(Metric)
     # Saving the row number, not necessary but convenient

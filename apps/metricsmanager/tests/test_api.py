@@ -1,6 +1,7 @@
 import logging as log
 
 from django.core.urlresolvers import reverse
+from django.test.client import Client
 from rest_framework import status
 from rest_framework.test import APITestCase
 import json
@@ -93,34 +94,21 @@ class ApiTests(APITestCase):
         response = self.client.post(self.build_url('/extra_categories'), "{}", format="json")
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
+    def test_get_category(self):
+        response = self.client.get(self.build_url('/extra_categories/1'))
+        test_json = self._open_json('testdata/single_category.json')
+        response_json = self._response_to_json(response)
 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(test_json, response_json)
 
+    def test_post_converter(self):
+        test_file = open(os.path.join(os.path.dirname(__file__), 'testdata/table.csv'), 'rb')
+        response = self.client.post(self.build_url('/converter'), {'file': test_file}, format='multipart')
+        response_json = self._response_to_json(response)
 
-    # def test_get_metric(self):
-    #     response = self.client.get(self.build_url('/metrics/1'))
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     log.info(response.data)
-    #
-    #
-    #     # self.assertEqual(response.data, '{"id": 1, '
-    #     #                                    '"title": "Gross Domestic Product at Market Prices for Germany and Spain", '
-    #     #                                    '"description": "This is a first test metric.", '
-    #     #                                    '"issued": "2014-05-03T00:00:00Z"}')
-    #
-    # def test_post_metric(self):
-    #     data = {"title": "Third Test Metric",
-    #             "description": "This is a third metric.",
-    #             "issued": "2014-05-15T00:00:00Z"}
-    #
-    #     response = self.client.post(self.build_url('/metrics'), data)
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    #
-    #     response2 = self.client.get(self.build_url('/metrics/3'))
-    #     self.assertEqual(response2.status_code, status.HTTP_200_OK)
-    #
-
-
-
-
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertListEqual(response_json['result'], [['1','2'],['3','4']])
+        self.assertEqual(response_json['filename'], 'table.csv')
 
 

@@ -3,19 +3,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import filters
-from rest_framework import mixins
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from rest_framework.parsers import JSONParser,YAMLParser
-from rest_framework.renderers import YAMLRenderer
-from rest_framework.decorators import renderer_classes, api_view
+from rest_framework.parsers import JSONParser
 
-from .models import Metric
 from .serializers import *
-from rest_framework.permissions import IsAuthenticated
+from .models import Metric
 from .permissions import IsAuthenticatedCanCreate
-from .utils import get_rawdata_for_metric
 from .schemas import *
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from rest_framework.reverse import reverse
 from .file_encoder import FileEncoder
 
@@ -80,7 +75,9 @@ class MetricList(APIView):
         if serializer.is_valid():
             serializer.save()
             s = ReadMetricSerializer(serializer.object, context={'request': request})
-            return Response(s.data, status=status.HTTP_201_CREATED)
+            response = Response(s.data, status=status.HTTP_201_CREATED)
+            response['Location'] = s.data['self']
+            return set_jsonschema_link_header(response, 'metric', request)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -105,10 +102,18 @@ class ExtraCategoryList(generics.ListAPIView):
     model = RawDataCategory
     serializer_class = ExtraCategorySerializer
 
+    def get(self, request, *args, **kwargs):
+        response = super(ExtraCategoryList, self).get(request, *args, **kwargs)
+        return set_jsonschema_link_header(response, 'category_collection', request)
+
 
 class ExtraCategoryDetail(generics.RetrieveAPIView):
     model = RawDataCategory
     serializer_class = ExtraCategorySerializer
+
+    def get(self, request, *args, **kwargs):
+        response = super(ExtraCategoryDetail, self).get(request, *args, **kwargs)
+        return set_jsonschema_link_header(response, 'category', request)
 
 
 class Converter(APIView):
@@ -139,7 +144,7 @@ class Converter(APIView):
                 'filesize': file.size,
                 'result': encoding
             }
-            return Response(result)
+            return set_jsonschema_link_header(Response(result), 'converter_result', request)
 
         return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
 
