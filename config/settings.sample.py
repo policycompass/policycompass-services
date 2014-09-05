@@ -28,6 +28,8 @@ PC_SERVICES = {
         'units': '/api/v1/references/units',
         'external_resources': '/api/v1/references/externalresources',
         'languages': '/api/v1/references/languages',
-        'domains': '/api/v1/references/policydomains'
+        'domains': '/api/v1/references/policydomains',
+        'events': '/api/v1/references/events',
+        'metrics': '/api/v1/references/metrics'        
     }
 }
