@@ -50,5 +50,6 @@ class VisualizationList(APIView):
 
 class VisualizationDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Visualization
+    serializer_class = ReadVisualizationSerializer
     #serializer_class = ReadVisualizationSerializer
     

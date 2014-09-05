@@ -14,8 +14,9 @@ class Migration(migrations.Migration):
             name='HistoricalEventsInVisualizations',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
-                ('visualization', models.IntegerField()),
-                ('historical_event', models.IntegerField()),
+                ('visualization_id', models.IntegerField()),
+                ('historical_event_id', models.IntegerField()),
+                ('description', models.TextField(blank=True)),
             ],
             options={
             },
@@ -25,8 +26,8 @@ class Migration(migrations.Migration):
             name='MetricsInVisualizations',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
-                ('metric', models.IntegerField()),
-                ('visualization', models.IntegerField()),
+                ('visualization_id', models.IntegerField()),
+                ('metric_id', models.IntegerField()),                
                 ('visualization_query', models.CharField(max_length=100)),
             ],
             options={
