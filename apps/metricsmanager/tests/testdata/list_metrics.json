@@ -4,6 +4,7 @@
     "previous": null,
     "results": [
         {
+        	"self": "/api/v1/metricsmanager/metrics/1",
             "spatial": "Germany, Spain",
             "resource_url": "http://epp.eurostat.ec.europa.eu/tgm/refreshTableAction.do?tab=table&plugin=1&pcode=tec00001&language=en",
             "unit": {

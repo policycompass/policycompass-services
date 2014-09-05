@@ -101,7 +101,7 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
         return super(MetricDetail, self).put(request, *args, **kwargs)
 
 
-class ExtraCategoryList(generics.ListCreateAPIView):
+class ExtraCategoryList(generics.ListAPIView):
     model = RawDataCategory
     serializer_class = ExtraCategorySerializer
 
