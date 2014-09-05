@@ -36,3 +36,22 @@ class ExternalResource(BaseAdapter):
         self.url = external_resource_url
         self.url_entity = external_resource_url + '/%s'
         super(ExternalResource, self).__init__()
+        
+
+class HistoricalEvents(BaseAdapter):
+
+    def __init__(self):
+        historical_events_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['events']
+        self.url = historical_events_url
+        self.url_entity = historical_events_url + '/%s'
+        super(HistoricalEvents, self).__init__()
+
+
+class Metrics():
+
+    def __init__(self):
+        metric_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['metrics']        
+        #logging.warning(metric_url)
+        self.url = metric_url
+        self.url_entity = metric_url + '/%s'
+        super(Metrics, self).__init__()
