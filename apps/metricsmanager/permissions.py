@@ -1,3 +1,7 @@
+"""
+Permission class for the Metrics Manager.
+Work in Progress!
+"""
 from rest_framework import permissions
 
 

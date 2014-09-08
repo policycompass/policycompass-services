@@ -1,3 +1,7 @@
+"""
+Defines all routes if the Metrics Manager
+"""
+
 from django.conf.urls import patterns, url, include
 
 from .api import *

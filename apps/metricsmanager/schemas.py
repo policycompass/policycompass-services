@@ -1,13 +1,26 @@
+"""
+Defines the JSON Hyper-Schemas with the help of Python data structures.
+"""
+
 from collections import OrderedDict
 from rest_framework.reverse import reverse
 
 class Schemas(object):
-
+    """
+    Defines the JSON Hyper-Schemas with the help of Python data structures.
+    """
     def get_schema(self, ident, request):
+        """
+        Returns a specific schema.
+        The responsible function is determined by adding _schema to the ident parameter.
+        """
         result = getattr(self, '_' + ident + '_schema')(request)
         return result
 
     def _category_schema(self, request):
+        """
+        Schema for a category.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('category',))
@@ -28,7 +41,9 @@ class Schemas(object):
 
 
     def _category_collection_schema(self, request):
-
+        """
+        Schema for a list of categories
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('category_collection',))
@@ -51,6 +66,9 @@ class Schemas(object):
         return s
 
     def _category_properties(self, request):
+        """
+        Properties of a category.
+        """
         p = OrderedDict([
             ('id', OrderedDict([
                 ('description', 'Unique Identifier of the category'),
@@ -69,6 +87,9 @@ class Schemas(object):
 
 
     def _converter_schema(self, request):
+        """
+        Schema for the converter.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('converter',))
@@ -88,6 +109,9 @@ class Schemas(object):
         return s
 
     def _converter_result_schema(self, request):
+        """
+        Schema for the result of a conversion.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('converter_result',))
@@ -132,6 +156,9 @@ class Schemas(object):
         return s
 
     def _metrics_manager_schema(self, request):
+        """
+        Schema for the base resource of the Metrics Manager
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('metrics_manager',))
@@ -179,6 +206,9 @@ class Schemas(object):
         return s
 
     def _metric_collection_schema(self, request):
+        """
+        Schema for the list of metrics,
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('metric_collection',))
@@ -191,6 +221,9 @@ class Schemas(object):
         return s
 
     def _metric_collection_properties(self, request):
+        """
+        Properties of the list of metrics.
+        """
         p = OrderedDict()
 
         p['count'] = OrderedDict([
@@ -220,6 +253,9 @@ class Schemas(object):
         return p
 
     def _metric_collection_links(self, request):
+        """
+        Links of the list of metrics.
+        """
         l = [
             OrderedDict([
                 ('title', 'Get one metric, including metric data'),
@@ -298,6 +334,9 @@ class Schemas(object):
 
 
     def _metric_schema(self, request):
+        """
+        Schema for a metric.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('metric',))
@@ -310,7 +349,12 @@ class Schemas(object):
         return s
 
     def _metric_create_schema(self, request):
+        """
+        Schema for creating a metric
+        """
+        # Based on properties for a metric in read mode
         s = self._metric_properties(request)
+        # Pop read-only fields
         s.pop('self')
         s.pop('issued')
         s.pop('modified')
@@ -338,6 +382,9 @@ class Schemas(object):
         return s
 
     def _metric_links(self, request):
+        """
+        Links of a metric resource.
+        """
         l = [
             OrderedDict([
                 ('title', 'List of all metrics'),
@@ -397,6 +444,9 @@ class Schemas(object):
 
 
     def _metric_properties(self, request):
+        """
+        Properties of a metric.
+        """
         p = OrderedDict()
 
         p['self'] = OrderedDict([
@@ -493,6 +543,9 @@ class Schemas(object):
         return p
 
     def _metric_data_schema(self, request):
+        """
+        Schema for the raw data of a metric
+        """
         p = OrderedDict()
 
         p['ranges'] = OrderedDict([
@@ -541,6 +594,9 @@ class Schemas(object):
         return p
 
     def _policy_domain_schema(self, request):
+        """
+        Sub-Schema for the policy domains in a metric.
+        """
         p = OrderedDict()
 
         p['title'] = OrderedDict([
@@ -560,6 +616,9 @@ class Schemas(object):
 
 
     def _external_resource_schema(self, request):
+        """
+        Sub-Schema for the external resource.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('external_resource',))
@@ -571,6 +630,9 @@ class Schemas(object):
         return s
 
     def _external_resource_properties(self, request):
+        """
+        Properties of a external resource.
+        """
         p = OrderedDict()
 
         p['title'] = OrderedDict([
@@ -594,6 +656,9 @@ class Schemas(object):
 
 
     def _language_schema(self, request):
+        """
+        Sub-Schema for a language.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('unit',))
@@ -605,6 +670,9 @@ class Schemas(object):
         return s
 
     def _language_properties(self, request):
+        """
+        Properties of a language
+        """
         p = OrderedDict()
 
         p['title'] = OrderedDict([
@@ -624,6 +692,9 @@ class Schemas(object):
         return p
 
     def _unit_schema(self, request):
+        """
+        Sub-Schema for the unit.
+        """
         s = OrderedDict()
 
         s['id'] = reverse('schema-detail', request=request, args=('unit',))
@@ -635,6 +706,9 @@ class Schemas(object):
         return s
 
     def _unit_properties(self, request):
+        """
+        Properties of a unit.
+        """
         p = OrderedDict()
 
         p['description'] = OrderedDict([
@@ -666,7 +740,3 @@ class Schemas(object):
 
 
         return p
-
-
-    def _local_schema(self, request, id):
-        return 'http://' + request.get_host() + '/static/schema.html#' + id
