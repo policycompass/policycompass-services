@@ -54,7 +54,7 @@ class MetricList(APIView):
         queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
         queryset = MetricFilter(request.GET, queryset=queryset)
 
-        paginator = Paginator(queryset, 10)
+        paginator = Paginator(queryset, 8)
         page = request.QUERY_PARAMS.get('page')
         try:
             metrics = paginator.page(page)
