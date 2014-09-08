@@ -1,3 +1,8 @@
+"""
+Mock User Model
+DEPRECATED
+"""
+
 from django.db import models
 
 
