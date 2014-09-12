@@ -3,24 +3,46 @@
        "model": "visualizationsmanager.visualizationtype",
        "pk": 1,
        "fields": {
-            "type": "Type Test"
+            "type": "Graph Line"
 		}
 	},
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 2,
+       "fields": {
+            "type": "Graph Pie"
+		}
+	},
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 3,
+       "fields": {
+            "type": "Graph Bars"
+		}
+	},	
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 4,
+       "fields": {
+            "type": "Map"
+		}
+	},	
     {
        "model": "visualizationsmanager.visualization",
        "pk": 1,
        "fields": {
             "title": "Test visualization",
-            "user_id":"1",
-            "description": "This is a first test visualization.",
+            "description": "This is a first test visualization.",            
             "keywords": "test demo visualization",
+            "publisher": "1",
+            "user_id":"1",
+            "language_id": "1",            
             "created_at": "2014-05-02T22:00:00Z",
             "updated_at": "2014-06-03T22:00:00Z",
             "views_count": "0",
-            "visualization_type_id": 1,
-            "language_id": "1",
+            "visualization_type_id": 1,            
             "status_flag_id": "1",
-            "publisher":"1"
+            "filter_configuration": "graphSelected=graph_line,showLegend=false,showLines=true,showPoints=true,showLabels=false,showGrid=true,showYAxes=true"
        }
     },
     {
@@ -28,16 +50,33 @@
        "pk": 2,
        "fields": {
             "title": "Another Test visualization",
-            "user_id": "1",
             "description": "This is the second test visualization.",
             "keywords": "test2 demo2 visualization2",
+            "publisher":"1",
+            "user_id": "1",
+            "language_id": "1",                        
             "created_at": "2014-07-04T22:00:00Z",
             "updated_at": "2014-08-05T22:00:00Z",
             "views_count": "0",
-            "visualization_type_id": 1,
-            "language_id": "1",
-            "status_flag_id": "1",
-            "publisher":"1"
+            "visualization_type_id": 1,            
+            "status_flag_id": "1",            
+            "filter_configuration": "graphSelected=graph_line,showLegend=true,showLines=true,showPoints=true,showLabels=true,showGrid=false,showYAxes=true"
        }
-    } 
+    },
+    {
+       "model": "visualizationsmanager.metricsinvisualizations",
+       "pk": 1,
+       "fields": {
+            "metric_id": 1,
+            "visualization": 1
+		}
+	},
+    {
+       "model": "visualizationsmanager.metricsinvisualizations",
+       "pk": 2,
+       "fields": {
+            "metric_id": 1,
+            "visualization": 2
+		}
+	}     
 ]

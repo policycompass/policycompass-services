@@ -7,7 +7,7 @@ class VisualizationManager(models.Manager):
     pass
 
 
-class RawDataManager(models.Manager):
-    pass
+#class RawDataManager(models.Manager):
+#    pass
 
 
