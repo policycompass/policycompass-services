@@ -7,10 +7,6 @@ from .models import *
 from .serializers import *
 from rest_framework.reverse import reverse
 
-from apps.metricsmanager.models import Metric
-from apps.eventsmanager.models import Event
-from apps.visualizationsmanager.models import HistoricalEventsInVisualizations
-
 class Base(APIView):
 
      def get(self, request, format=None):
@@ -20,30 +16,10 @@ class Base(APIView):
             "Languages": reverse('language-list', request=request),
             "Policy Domains": reverse('domain-list', request=request),
             "External Resources": reverse('resource-list', request=request),
-            "Metrics": reverse('metric-list', request=request),
-            "Events": reverse('event-list', request=request),
         }
 
         return Response(result)
 
-
-class EventDetail(generics.RetrieveAPIView):
-    model = Event
-    serializer_class = HistoricalEventSerializer
-
-class EventList(generics.ListAPIView):
-    model = Event
-    serializer_class = HistoricalEventSerializer
-    
-    
-class MetricDetail(generics.RetrieveAPIView):
-    model = Metric
-    serializer_class = MetricSerializer
-
-class MetricList(generics.ListAPIView):
-    model = Metric
-    serializer_class = MetricSerializer
-        
         
 class UnitList(generics.ListAPIView):
     model = Unit
