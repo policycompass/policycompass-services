@@ -9,14 +9,30 @@ from rest_framework.reverse import reverse
 from rest_framework import pagination
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 #from apps.common.serviceadapters import references
+from apps.metricsmanager.models import Metric
+from apps.eventsmanager.models import Event
+
+
 from apps.common.fields import *
 from rest_framework.serializers import SortedDictWithMetadata
 import datetime
+from .fields import MetricsField, HistoricalEventsField
 
 import logging
 log = logging.getLogger(__name__)
 
+
+
+class HistoricalEventSerializer(ModelSerializer):
+    class Meta:
+        model = Event
         
+class MetricSerializer(ModelSerializer):
+    class Meta:
+        model = Metric
+
+
+'''
 class MetricsField(serializers.WritableField):
 
     def field_to_native(self, obj, field_name):        
@@ -26,7 +42,8 @@ class MetricsField(serializers.WritableField):
         #ids = []
         ids = getattr(obj, self.source).all()
         result = []
-        metrics = references.Metrics()  
+        #metrics = references.Metrics()
+        metrics = metrics_references.Metrics()
         #metrics = references.PolicyDomain()     
         for i in ids:        
             #logging.warning('--i--')    
@@ -46,9 +63,9 @@ class MetricsField(serializers.WritableField):
         if not type(value) is list:
             raise ValidationError("Metrics property is not a list")
         return value
-    
+'''    
   
-        
+'''        
 class HistoricalEventsField(serializers.WritableField):
 
     def field_to_native(self, obj, field_name):
@@ -57,7 +74,8 @@ class HistoricalEventsField(serializers.WritableField):
         #ids = []
         ids = getattr(obj, self.source).all()
         result = []
-        historical_events = references.HistoricalEvents()       
+        #historical_events = references.HistoricalEvents()  
+        historical_events = metrics_references.HistoricalEvents()     
         for i in ids:
             temporal = historical_events.get(i.historical_event_id)
             temporal['descriptionHE']= i.description
@@ -71,7 +89,7 @@ class HistoricalEventsField(serializers.WritableField):
         if not type(value) is list:
             raise ValidationError("Historical event property is not a list")
         return value
-    
+'''    
     
 
 

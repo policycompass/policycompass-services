@@ -13,6 +13,10 @@ from .permissions import IsAuthenticatedCanCreate
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
 
+from apps.metricsmanager.models import Metric
+from apps.eventsmanager.models import Event
+from apps.visualizationsmanager.models import HistoricalEventsInVisualizations
+
 import django_filters
 
 import logging
@@ -24,6 +28,8 @@ class Base(APIView):
     def get(self, request, format=None):
         result = {
             "Visualizations": reverse('visualization-list', request=request),
+            "Metrics": reverse('metric-list-for-visualization', request=request),
+            "Events": reverse('event-list-for-visualization', request=request),
         }
 
         return Response(result)
@@ -51,7 +57,23 @@ class VisualizationList(APIView):
             return Response(s.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 '''
+class EventDetailForVisualization(generics.RetrieveAPIView):
+    model = Event
+    serializer_class = HistoricalEventSerializer
 
+class EventListForVisualization(generics.ListAPIView):
+    model = Event
+    serializer_class = HistoricalEventSerializer
+    
+    
+class MetricDetailForVisualization(generics.RetrieveAPIView):
+    model = Metric
+    serializer_class = MetricSerializer
+
+class MetricListForVisualization(generics.ListAPIView):
+    model = Metric
+    serializer_class = MetricSerializer
+    
 class VisualizationFilter(django_filters.FilterSet):
     #external_resource = django_filters.Filter(name='ext_resource_id')
     language = django_filters.Filter(name='language_id')
