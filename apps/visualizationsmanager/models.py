@@ -51,9 +51,7 @@ class Visualization(models.Model):
    # @rawdata.deleter
    # def rawdata(self):
    #     pass
-
-
-
+    
     _historical_events_in_visualization = None
 
     @property
@@ -99,25 +97,21 @@ class Visualization(models.Model):
         super(Visualization, self).save(*args, **kwargs)
         
         if update:
-            logging.warning('--update--')
-            logging.warning(self.historical_events.count());
-            if (self.historical_events.count()>0):
-                logging.warning('--delete--')
-                self.historical_events.all().delete()
+            #logging.warning('--update--')
             
-            if self._historical_events_in_visualization:                         
+            if (self.historical_events.count()>0):
+                #logging.warning('--delete--')
+                self.historical_events.all().delete()
+
+            if self._historical_events_in_visualization:   
+                     
                  for d_he in self._historical_events_in_visualization:
-                    #logging.warning('.......')
-                    #logging.warning(self.id)
-                    #logging.warning(d_he['historical_event'])
-                    #logging.warning(d_he['description'])
-                    #logging.warning('-------')
-                    
-                    vhe = HistoricalEventsInVisualizations()
-                    vhe.visualization_id = self.id
-                    vhe.historical_event_id = d_he['historical_event']
-                    vhe.description = d_he['description']
-                    vhe.save()
+                    if (d_he['historical_event']):
+                        vhe = HistoricalEventsInVisualizations()
+                        vhe.visualization_id = self.id
+                        vhe.historical_event_id = d_he['historical_event']
+                        vhe.description = d_he['description']
+                        vhe.save()
              
                 
             self.metrics.all().delete()
@@ -128,7 +122,7 @@ class Visualization(models.Model):
                         metric_id = d_metrics['metric'],
                         visualization_query = d_metrics['visualization_query']
                     )
-            
+                    
         else:
             #logging.warning('--insert--')
             if self._historical_events_in_visualization:
