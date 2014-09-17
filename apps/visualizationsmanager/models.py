@@ -117,11 +117,12 @@ class Visualization(models.Model):
             self.metrics.all().delete()
             if self._metrics_in_visualization:                
                  for d_metrics in self._metrics_in_visualization:
-                    self.metrics.create(
-                        visualization = self.id,
-                        metric_id = d_metrics['metric'],
-                        visualization_query = d_metrics['visualization_query']
-                    )
+                     if (d_metrics['metric']):
+                         self.metrics.create(
+                            visualization = self.id,
+                            metric_id = d_metrics['metric'],
+                            visualization_query = d_metrics['visualization_query']
+                            )
                     
         else:
             #logging.warning('--insert--')

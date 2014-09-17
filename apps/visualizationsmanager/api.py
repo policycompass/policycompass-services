@@ -89,7 +89,7 @@ class VisualizationList(APIView):
     search_fields = ('title','keywords')
     ordering_fields = ('created_at', 'updated_at', 'title')
     def get(self, request):
-        logging.warning('....... get VisualizationList 1')
+        #logging.warning('....... get VisualizationList 1')
         queryset = Visualization.objects.all()
         queryset = filters.SearchFilter().filter_queryset(self.request, queryset, self)
         queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
