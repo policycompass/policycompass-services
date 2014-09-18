@@ -3,6 +3,7 @@ djangorestframework==2.4.1
 django-rest-swagger==0.1.14
 django-filter==0.7
 django-apptemplates==0.0.1
+django-cors-headers==0.13
 psycopg2==2.5.4
 requests==2.4.0
 pandas==0.14.1
