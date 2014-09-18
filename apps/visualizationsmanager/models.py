@@ -111,6 +111,7 @@ class Visualization(models.Model):
                         vhe.visualization_id = self.id
                         vhe.historical_event_id = d_he['historical_event']
                         vhe.description = d_he['description']
+                        vhe.color = d_he['color']
                         vhe.save()
              
                 
@@ -181,6 +182,10 @@ class HistoricalEventsInVisualizations(models.Model):
     visualization = models.ForeignKey(Visualization, related_name='historical_events') 
     historical_event_id = models.IntegerField()
     description = models.TextField(blank=True)
+    color = models.TextField(blank=True, default='')
+    
+    
+    
 
     class Meta:
         verbose_name = "Historical Event in Visualization"

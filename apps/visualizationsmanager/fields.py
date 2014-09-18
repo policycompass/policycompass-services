@@ -66,6 +66,7 @@ class HistoricalEventsField(serializers.WritableField):
         for i in ids:
             temporal = historical_events.get(i.historical_event_id)
             temporal['descriptionHE']= i.description
+            temporal['color']= i.color
             #setattr(temporal, 'descHE', i.description)
             result.append(temporal)
             #result.append(i.historical_event_id)
