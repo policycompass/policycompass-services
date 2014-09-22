@@ -1,4 +1,4 @@
-git+https://github.com/django/django@1.7c1#egg=Django>=1.7c1
+Django==1.7
 djangorestframework==2.4.1
 django-rest-swagger==0.1.14
 django-filter==0.7
