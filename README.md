@@ -73,7 +73,7 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 * Run the elastic search server
 ```shell
 	./apps/searchmager/elasticsearch/bin/elasticsearch
-	
+```
 * Start the application
 ```shell
 	python manage.py runserver
