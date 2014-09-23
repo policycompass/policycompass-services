@@ -14,6 +14,7 @@ class Base(APIView):
             "Reference Pool": reverse('reference-base', request=request),
             "Visualizations Manager": reverse('visualizations-manager-base', request=request),
             "Events Manager": reverse('event-base', request=request),
+            "Search Services": reverse('searchmanager-base', request=request)
         }
 
         return Response(result)
