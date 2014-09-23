@@ -67,3 +67,6 @@ docs/_build/
 # Local settings
 config/settings.py
 
+#Elastic Search directory
+apps/searchmanager/elasticsearch
+

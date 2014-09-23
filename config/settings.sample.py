@@ -21,7 +21,7 @@ DATABASES = {
 #     }
 # }
 
-
+ELASTICSEARCH_URL = 'http://localhost:9200/policycompass/'
 
 PC_SERVICES = {
     'references': {
