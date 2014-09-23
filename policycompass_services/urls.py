@@ -7,7 +7,7 @@ from config import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
+    url(r'^api/v1/searchmanager/', include('apps.searchmanager.urls')),
     url(r'^api/v1/eventsmanager/', include('apps.eventsmanager.urls')),
 	url(r'^api/v1/metricsmanager/', include('apps.metricsmanager.urls')),
     url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),

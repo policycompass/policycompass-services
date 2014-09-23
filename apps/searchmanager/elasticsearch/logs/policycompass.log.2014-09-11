@@ -1,0 +1,91 @@
+[2014-09-11 13:50:53,345][INFO ][node                     ] [Anti-Phoenix Force] version[1.3.2], pid[6082], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-11 13:50:53,348][INFO ][node                     ] [Anti-Phoenix Force] initializing ...
+[2014-09-11 13:50:53,359][INFO ][plugins                  ] [Anti-Phoenix Force] loaded [marvel], sites [marvel]
+[2014-09-11 13:50:56,053][INFO ][node                     ] [Anti-Phoenix Force] initialized
+[2014-09-11 13:50:56,053][INFO ][node                     ] [Anti-Phoenix Force] starting ...
+[2014-09-11 13:50:56,207][INFO ][transport                ] [Anti-Phoenix Force] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.0.2.15:9300]}
+[2014-09-11 13:50:56,229][INFO ][discovery                ] [Anti-Phoenix Force] policycompass/3FztZeFaQVGE1H0JTOeErw
+[2014-09-11 13:50:59,304][INFO ][cluster.service          ] [Anti-Phoenix Force] new_master [Anti-Phoenix Force][3FztZeFaQVGE1H0JTOeErw][spiros-VirtualBox][inet[/10.0.2.15:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-11 13:50:59,386][INFO ][http                     ] [Anti-Phoenix Force] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.0.2.15:9200]}
+[2014-09-11 13:50:59,386][INFO ][node                     ] [Anti-Phoenix Force] started
+[2014-09-11 13:50:59,411][INFO ][gateway                  ] [Anti-Phoenix Force] recovered [0] indices into cluster_state
+[2014-09-11 13:51:06,743][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] creating index, cause [auto(bulk api)], shards [1]/[1], mappings [indices_stats, cluster_stats, node_stats, shard_event, node_event, index_event, index_stats, _default_, cluster_state, cluster_event, routing_event]
+[2014-09-11 13:51:07,492][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [node_stats] (dynamic)
+[2014-09-11 13:51:07,679][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [shard_event] (dynamic)
+[2014-09-11 13:51:07,798][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [index_event] (dynamic)
+[2014-09-11 13:51:07,824][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [node_event] (dynamic)
+[2014-09-11 13:51:07,905][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [routing_event] (dynamic)
+[2014-09-11 13:51:07,953][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [cluster_state] (dynamic)
+[2014-09-11 13:51:08,034][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [cluster_event] (dynamic)
+[2014-09-11 13:51:08,175][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [indices_stats] (dynamic)
+[2014-09-11 13:51:08,328][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [index_stats] (dynamic)
+[2014-09-11 13:51:08,424][INFO ][cluster.metadata         ] [Anti-Phoenix Force] [.marvel-2014.09.11] update_mapping [cluster_stats] (dynamic)
+[2014-09-11 13:51:46,681][INFO ][node                     ] [Anti-Phoenix Force] stopping ...
+[2014-09-11 13:51:46,774][ERROR][marvel.agent.exporter    ] [Anti-Phoenix Force] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-11 13:51:46,780][INFO ][node                     ] [Anti-Phoenix Force] stopped
+[2014-09-11 13:51:46,780][INFO ][node                     ] [Anti-Phoenix Force] closing ...
+[2014-09-11 13:51:46,810][INFO ][node                     ] [Anti-Phoenix Force] closed
+[2014-09-11 13:51:48,301][INFO ][node                     ] [policycompass] version[1.3.2], pid[6143], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-11 13:51:48,304][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-11 13:51:48,313][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-11 13:51:51,016][INFO ][node                     ] [policycompass] initialized
+[2014-09-11 13:51:51,017][INFO ][node                     ] [policycompass] starting ...
+[2014-09-11 13:51:51,172][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.0.2.15:9300]}
+[2014-09-11 13:51:51,198][INFO ][discovery                ] [policycompass] policycompass/UHPF7IMyQ0aR_KZoiavRQA
+[2014-09-11 13:51:54,254][INFO ][cluster.service          ] [policycompass] new_master [policycompass][UHPF7IMyQ0aR_KZoiavRQA][spiros-VirtualBox][inet[/10.0.2.15:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-11 13:51:54,457][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.0.2.15:9200]}
+[2014-09-11 13:51:54,458][INFO ][node                     ] [policycompass] started
+[2014-09-11 13:51:55,288][INFO ][gateway                  ] [policycompass] recovered [1] indices into cluster_state
+[2014-09-11 17:54:02,102][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-11 17:54:02,139][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-11 17:54:02,141][INFO ][node                     ] [policycompass] stopped
+[2014-09-11 17:54:02,144][INFO ][node                     ] [policycompass] closing ...
+[2014-09-11 17:54:02,173][INFO ][node                     ] [policycompass] closed

@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.metricsmanager',
     'apps.eventsmanager',
+    'apps.searchmanager',
     'apps.visualizationsmanager',
     'apps.referencepool',
     'rest_framework',

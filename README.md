@@ -70,7 +70,10 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
     python manage.py syncdb
 	python manage.py loaddata metrics events common references visualizations
 ```
-
+* Run the elastic search server
+```shell
+	./apps/searchmager/elasticsearch/bin/elasticsearch
+	
 * Start the application
 ```shell
 	python manage.py runserver

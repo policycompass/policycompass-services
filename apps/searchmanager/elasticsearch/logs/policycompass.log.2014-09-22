@@ -1,0 +1,464 @@
+[2014-09-22 13:11:10,286][INFO ][node                     ] [policycompass] version[1.3.2], pid[7828], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 13:11:10,287][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 13:11:10,297][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 13:11:13,390][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 13:11:13,390][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 13:11:13,514][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 13:11:13,545][INFO ][discovery                ] [policycompass] policycompass/p8XPZmfXRcC9UbUl_4kCHA
+[2014-09-22 13:11:16,592][INFO ][cluster.service          ] [policycompass] new_master [policycompass][p8XPZmfXRcC9UbUl_4kCHA][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 13:11:16,726][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 13:11:16,727][INFO ][node                     ] [policycompass] started
+[2014-09-22 13:11:17,627][INFO ][gateway                  ] [policycompass] recovered [1] indices into cluster_state
+[2014-09-22 13:11:23,573][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] creating index, cause [auto(bulk api)], shards [1]/[1], mappings [indices_stats, cluster_stats, node_stats, shard_event, node_event, index_event, index_stats, _default_, cluster_state, cluster_event, routing_event]
+[2014-09-22 13:11:23,951][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [node_stats] (dynamic)
+[2014-09-22 13:11:24,297][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [shard_event] (dynamic)
+[2014-09-22 13:11:24,414][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [index_event] (dynamic)
+[2014-09-22 13:11:24,470][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [node_event] (dynamic)
+[2014-09-22 13:11:24,476][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [cluster_state] (dynamic)
+[2014-09-22 13:11:24,518][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [cluster_event] (dynamic)
+[2014-09-22 13:11:24,542][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [routing_event] (dynamic)
+[2014-09-22 13:11:24,689][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [indices_stats] (dynamic)
+[2014-09-22 13:11:24,868][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [index_stats] (dynamic)
+[2014-09-22 13:11:24,949][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [cluster_stats] (dynamic)
+[2014-09-22 13:11:37,328][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 13:11:37,392][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 13:11:37,395][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 13:11:37,395][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 13:11:37,404][INFO ][node                     ] [policycompass] closed
+[2014-09-22 13:14:52,156][INFO ][node                     ] [policycompass] version[1.3.2], pid[8212], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 13:14:52,156][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 13:14:52,169][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 13:15:04,681][INFO ][node                     ] [policycompass] version[1.3.2], pid[8281], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 13:15:04,688][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 13:15:04,717][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 13:15:08,222][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 13:15:08,223][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 13:15:08,338][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 13:15:08,361][INFO ][discovery                ] [policycompass] policycompass/bHltmKAET2yutdOz0H-lOw
+[2014-09-22 13:15:08,520][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 13:15:16,342][INFO ][node                     ] [policycompass] version[1.3.2], pid[8423], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 13:15:16,370][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 13:15:16,417][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 13:15:22,182][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 13:15:22,182][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 13:15:22,316][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 13:15:22,338][INFO ][discovery                ] [policycompass] policycompass/vhywo5OzTL2Ne6JmOM0V4A
+[2014-09-22 13:15:25,405][INFO ][cluster.service          ] [policycompass] new_master [policycompass][vhywo5OzTL2Ne6JmOM0V4A][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 13:15:25,592][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 13:15:25,592][INFO ][node                     ] [policycompass] started
+[2014-09-22 13:15:27,370][INFO ][gateway                  ] [policycompass] recovered [2] indices into cluster_state
+[2014-09-22 13:15:40,316][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 13:15:40,405][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 13:15:40,418][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 13:15:40,418][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 13:15:40,440][INFO ][node                     ] [policycompass] closed
+[2014-09-22 13:44:29,871][INFO ][node                     ] [policycompass] version[1.3.2], pid[9004], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 13:44:29,895][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 13:44:29,936][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 13:44:35,878][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 13:44:35,878][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 13:44:35,995][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 13:44:36,020][INFO ][discovery                ] [policycompass] policycompass/wTCImaGdRWK3dbLOQofXDw
+[2014-09-22 13:44:39,065][INFO ][cluster.service          ] [policycompass] new_master [policycompass][wTCImaGdRWK3dbLOQofXDw][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 13:44:39,312][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 13:44:39,313][INFO ][node                     ] [policycompass] started
+[2014-09-22 13:44:41,086][INFO ][gateway                  ] [policycompass] recovered [2] indices into cluster_state
+[2014-09-22 14:00:45,809][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 14:00:45,879][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 14:00:45,895][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 14:00:45,896][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 14:00:45,925][INFO ][node                     ] [policycompass] closed
+[2014-09-22 15:03:07,636][INFO ][node                     ] [policycompass] version[1.3.2], pid[2382], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 15:03:07,657][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 15:03:07,717][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 15:03:14,396][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 15:03:14,397][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 15:03:14,517][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 15:03:14,552][INFO ][discovery                ] [policycompass] policycompass/Frv4HHnrQ-aG4_sfnEA5Hg
+[2014-09-22 15:03:17,606][INFO ][cluster.service          ] [policycompass] new_master [policycompass][Frv4HHnrQ-aG4_sfnEA5Hg][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 15:03:17,864][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 15:03:17,869][INFO ][node                     ] [policycompass] started
+[2014-09-22 15:03:19,580][INFO ][gateway                  ] [policycompass] recovered [2] indices into cluster_state
+[2014-09-22 16:22:13,180][WARN ][discovery.zen.ping.multicast] [policycompass] failed to read requesting data from /158.42.252.41:51215
+java.io.IOException: No transport address mapped to [16750]
+	at org.elasticsearch.common.transport.TransportAddressSerializers.addressFromStream(TransportAddressSerializers.java:71)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readFrom(DiscoveryNode.java:267)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readNode(DiscoveryNode.java:257)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver.onMessage(MulticastZenPing.java:319)
+	at org.elasticsearch.common.network.MulticastChannel$Plain$Receiver.run(MulticastChannel.java:364)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 16:40:40,305][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 16:40:40,392][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openExportingConnection(ESExporter.java:182)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:248)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportNodeStats(ESExporter.java:130)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportNodeStats(AgentService.java:349)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:236)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 16:40:40,404][ERROR][marvel.agent.exporter    ] [policycompass] could not connect to any configured elasticsearch instances: [localhost:9200]
+[2014-09-22 16:40:40,404][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openExportingConnection(ESExporter.java:182)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:248)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:240)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 16:40:40,405][ERROR][marvel.agent.exporter    ] [policycompass] could not connect to any configured elasticsearch instances: [localhost:9200]
+[2014-09-22 16:40:40,405][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openExportingConnection(ESExporter.java:182)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportIndicesStats(ESExporter.java:144)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportIndicesStats(AgentService.java:277)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:245)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 16:40:40,407][ERROR][marvel.agent.exporter    ] [policycompass] could not connect to any configured elasticsearch instances: [localhost:9200]
+[2014-09-22 16:40:40,408][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openExportingConnection(ESExporter.java:182)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:248)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportClusterStats(ESExporter.java:167)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportClusterStats(AgentService.java:289)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:246)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 16:40:40,438][ERROR][marvel.agent.exporter    ] [policycompass] could not connect to any configured elasticsearch instances: [localhost:9200]
+[2014-09-22 16:40:40,438][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 16:40:40,438][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 16:40:40,447][INFO ][node                     ] [policycompass] closed
+[2014-09-22 16:41:00,177][INFO ][node                     ] [policycompass] version[1.3.2], pid[3997], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 16:41:00,205][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 16:41:00,255][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 16:41:05,639][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 16:41:05,639][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 16:41:05,816][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 16:41:05,844][INFO ][discovery                ] [policycompass] policycompass/vprf95_ESSqQL_SYscuTNw
+[2014-09-22 16:41:08,886][INFO ][cluster.service          ] [policycompass] new_master [policycompass][vprf95_ESSqQL_SYscuTNw][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 16:41:09,052][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 16:41:09,052][INFO ][node                     ] [policycompass] started
+[2014-09-22 16:41:10,704][INFO ][gateway                  ] [policycompass] recovered [2] indices into cluster_state
+[2014-09-22 17:13:33,498][WARN ][discovery.zen.ping.multicast] [policycompass] failed to read requesting data from /158.42.252.41:64994
+java.io.IOException: No transport address mapped to [17256]
+	at org.elasticsearch.common.transport.TransportAddressSerializers.addressFromStream(TransportAddressSerializers.java:71)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readFrom(DiscoveryNode.java:267)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readNode(DiscoveryNode.java:257)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver.onMessage(MulticastZenPing.java:319)
+	at org.elasticsearch.common.network.MulticastChannel$Plain$Receiver.run(MulticastChannel.java:364)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 17:38:05,267][WARN ][discovery.zen.ping.multicast] [policycompass] failed to read requesting data from /136.165.74.16:54328
+java.io.IOException: No transport address mapped to [27759]
+	at org.elasticsearch.common.transport.TransportAddressSerializers.addressFromStream(TransportAddressSerializers.java:71)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readFrom(DiscoveryNode.java:267)
+	at org.elasticsearch.cluster.node.DiscoveryNode.readNode(DiscoveryNode.java:257)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver.onMessage(MulticastZenPing.java:319)
+	at org.elasticsearch.common.network.MulticastChannel$Plain$Receiver.run(MulticastChannel.java:364)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 17:50:57,720][DEBUG][action.admin.indices.create] [policycompass] [_all] failed to create
+org.elasticsearch.indices.InvalidIndexNameException: [_all] Invalid index name [_all], must not start with '_'
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validateIndexName(MetaDataCreateIndexService.java:171)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validate(MetaDataCreateIndexService.java:525)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.access$100(MetaDataCreateIndexService.java:87)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService$2.execute(MetaDataCreateIndexService.java:224)
+	at org.elasticsearch.cluster.service.InternalClusterService$UpdateTask.run(InternalClusterService.java:328)
+	at org.elasticsearch.common.util.concurrent.PrioritizedEsThreadPoolExecutor$TieBreakingPrioritizedRunnable.run(PrioritizedEsThreadPoolExecutor.java:153)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 17:51:16,813][DEBUG][action.admin.indices.create] [policycompass] [_all] failed to create
+org.elasticsearch.indices.InvalidIndexNameException: [_all] Invalid index name [_all], must not start with '_'
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validateIndexName(MetaDataCreateIndexService.java:171)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validate(MetaDataCreateIndexService.java:525)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.access$100(MetaDataCreateIndexService.java:87)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService$2.execute(MetaDataCreateIndexService.java:224)
+	at org.elasticsearch.cluster.service.InternalClusterService$UpdateTask.run(InternalClusterService.java:328)
+	at org.elasticsearch.common.util.concurrent.PrioritizedEsThreadPoolExecutor$TieBreakingPrioritizedRunnable.run(PrioritizedEsThreadPoolExecutor.java:153)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 17:51:31,689][DEBUG][action.admin.indices.create] [policycompass] [_nodes] failed to create
+org.elasticsearch.indices.InvalidIndexNameException: [_nodes] Invalid index name [_nodes], must not start with '_'
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validateIndexName(MetaDataCreateIndexService.java:171)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.validate(MetaDataCreateIndexService.java:525)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService.access$100(MetaDataCreateIndexService.java:87)
+	at org.elasticsearch.cluster.metadata.MetaDataCreateIndexService$2.execute(MetaDataCreateIndexService.java:224)
+	at org.elasticsearch.cluster.service.InternalClusterService$UpdateTask.run(InternalClusterService.java:328)
+	at org.elasticsearch.common.util.concurrent.PrioritizedEsThreadPoolExecutor$TieBreakingPrioritizedRunnable.run(PrioritizedEsThreadPoolExecutor.java:153)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 17:51:54,500][INFO ][cluster.metadata         ] [policycompass] [nodes] creating index, cause [auto(index api)], shards [5]/[1], mappings []
+[2014-09-22 17:51:54,861][INFO ][cluster.metadata         ] [policycompass] [nodes] update_mapping [stats] (dynamic)
+[2014-09-22 17:51:59,365][INFO ][cluster.metadata         ] [policycompass] [.marvel-2014.09.22] update_mapping [index_event] (dynamic)
+[2014-09-22 17:52:10,009][INFO ][cluster.metadata         ] [policycompass] [cat] creating index, cause [auto(index api)], shards [5]/[1], mappings []
+[2014-09-22 17:52:10,222][INFO ][cluster.metadata         ] [policycompass] [cat] update_mapping [nodes] (dynamic)
+[2014-09-22 17:52:27,760][INFO ][cluster.metadata         ] [policycompass] [policycompass] creating index, cause [api], shards [5]/[1], mappings []
+[2014-09-22 17:52:53,361][INFO ][cluster.metadata         ] [policycompass] [all] creating index, cause [auto(index api)], shards [5]/[1], mappings []
+[2014-09-22 17:52:53,714][INFO ][cluster.metadata         ] [policycompass] [all] update_mapping [mapping] (dynamic)
+[2014-09-22 17:54:00,346][INFO ][cluster.metadata         ] [policycompass] [mapping] creating index, cause [api], shards [5]/[1], mappings []
+[2014-09-22 18:10:57,915][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 18:10:58,014][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openExportingConnection(ESExporter.java:182)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:248)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 18:10:58,018][ERROR][marvel.agent.exporter    ] [policycompass] could not connect to any configured elasticsearch instances: [localhost:9200]
+[2014-09-22 18:10:58,018][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 18:10:58,018][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 18:10:58,026][INFO ][node                     ] [policycompass] closed
+[2014-09-22 18:11:15,199][INFO ][node                     ] [policycompass] version[1.3.2], pid[5416], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 18:11:15,217][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 18:11:15,266][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 18:11:20,913][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 18:11:20,914][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 18:11:21,057][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 18:11:21,089][INFO ][discovery                ] [policycompass] policycompass/KKO94oFAR7iq8kgA8XgIaw
+[2014-09-22 18:11:24,140][INFO ][cluster.service          ] [policycompass] new_master [policycompass][KKO94oFAR7iq8kgA8XgIaw][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 18:11:24,259][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 18:11:24,260][INFO ][node                     ] [policycompass] started
+[2014-09-22 18:11:25,308][INFO ][gateway                  ] [policycompass] recovered [7] indices into cluster_state
+[2014-09-22 18:12:42,643][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 18:12:42,786][ERROR][marvel.agent.exporter    ] [policycompass] error connecting to [localhost:9200]
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:996)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:850)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:325)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.openConnection(ESExporter.java:295)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.access$300(ESExporter.java:59)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter$ConnectionKeepAliveWorker.run(ESExporter.java:709)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 18:12:42,790][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 18:12:42,792][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 18:12:42,792][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 18:12:42,795][INFO ][node                     ] [policycompass] closed
+[2014-09-22 18:13:06,967][INFO ][node                     ] [policycompass] version[1.3.2], pid[5767], build[dee175d/2014-08-13T14:29:30Z]
+[2014-09-22 18:13:06,969][INFO ][node                     ] [policycompass] initializing ...
+[2014-09-22 18:13:07,014][INFO ][plugins                  ] [policycompass] loaded [marvel], sites [marvel]
+[2014-09-22 18:13:12,650][INFO ][node                     ] [policycompass] initialized
+[2014-09-22 18:13:12,650][INFO ][node                     ] [policycompass] starting ...
+[2014-09-22 18:13:12,761][INFO ][transport                ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/147.102.6.81:9300]}
+[2014-09-22 18:13:12,783][INFO ][discovery                ] [policycompass] policycompass/S9pmJ3v_Reeoch0FSW1zsQ
+[2014-09-22 18:13:15,832][INFO ][cluster.service          ] [policycompass] new_master [policycompass][S9pmJ3v_Reeoch0FSW1zsQ][spiros-VirtualBox][inet[/147.102.6.81:9300]], reason: zen-disco-join (elected_as_master)
+[2014-09-22 18:13:15,948][INFO ][http                     ] [policycompass] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/147.102.6.81:9200]}
+[2014-09-22 18:13:15,949][INFO ][node                     ] [policycompass] started
+[2014-09-22 18:13:16,910][INFO ][gateway                  ] [policycompass] recovered [7] indices into cluster_state
+[2014-09-22 19:07:01,243][INFO ][node                     ] [policycompass] stopping ...
+[2014-09-22 19:07:01,387][ERROR][marvel.agent.exporter    ] [policycompass] error sending data
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:175)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:340)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:663)
+	at sun.net.www.protocol.http.HttpURLConnection.setNewClient(HttpURLConnection.java:651)
+	at sun.net.www.protocol.http.HttpURLConnection.writeRequests(HttpURLConnection.java:631)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1321)
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:468)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.sendCloseExportingConnection(ESExporter.java:220)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportXContent(ESExporter.java:254)
+	at org.elasticsearch.marvel.agent.exporter.ESExporter.exportEvents(ESExporter.java:161)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.exportEvents(AgentService.java:305)
+	at org.elasticsearch.marvel.agent.AgentService$ExportingWorker.run(AgentService.java:267)
+	at java.lang.Thread.run(Thread.java:745)
+[2014-09-22 19:07:01,391][INFO ][node                     ] [policycompass] stopped
+[2014-09-22 19:07:01,391][INFO ][node                     ] [policycompass] closing ...
+[2014-09-22 19:07:01,394][INFO ][node                     ] [policycompass] closed
