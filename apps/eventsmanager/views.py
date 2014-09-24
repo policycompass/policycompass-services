@@ -3,11 +3,24 @@ from .serializers import EventSerializer
 from rest_framework import generics
 from datetime import datetime
 from django.db.models import Q
+from rest_framework.views import APIView
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
 
+class Base(APIView):
+
+     def get(self, request, format=None):
+        result = {
+            "Events": reverse('author-list', request=request),
+        }
+        return Response(result)
 
 class EventView(generics.ListCreateAPIView):
     model = Event
     serializer_class = EventSerializer
+    paginate_by = 10
+    paginate_by_param = 'page_size'
+    max_paginate_by = 100
 
     def get_queryset(self):
         def validate_date(d):
