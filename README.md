@@ -82,6 +82,8 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 * Unzip elasticsearch into a folder
 * Run ./bin/elasticsearch
 * Check elasticsearch URL setting in policycompass-services/settings.py (should be ok by default localhost:9200)
-* In progress...Very soon a rebuild_index command will be created. For now to rebuild index visit http://localhost:8000/api/v1/ and run the rebuild index api call.
-
+* With elasticsearch and policy-compass backend services running execute the following command to rebuild index
+```shell
+	python manage.py rebuild_index
+```
 
