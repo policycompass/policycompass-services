@@ -26,6 +26,7 @@ Either do
 or
 ```shell
   apt-get install postgresql
+  pip install psycopg2==2.5.4
 ```
 
 If you chose PostgreSQL, you want to create a postgres user and a database:
