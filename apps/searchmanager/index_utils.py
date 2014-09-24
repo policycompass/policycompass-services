@@ -15,7 +15,7 @@ def rebuild_index():
     """
     #Load the Metrics objects and index them on Elastic Search server
     #Start logging the indexing process
-    indexing_log = 'Indexing service started at '  + str(datetime.datetime.now()) + '.'
+    indexing_log = 'Indexing service started at '  + str(datetime.datetime.now()) + '.\n'
     #...set the API url for the metrics
     metrics_api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/metricsmanager/metrics'
     # Set a counter in order to iterate all the pages
@@ -31,7 +31,7 @@ def rebuild_index():
        data = json.loads(decodeddataresponse)
        #Index each item (TODO: use _bulk)
        for item_to_index in data["results"]:
-         indexing_log = indexing_log + index_item('metric',item_to_index)
+         indexing_log = indexing_log + index_item('metric',item_to_index) + '\n'
        page = str(data["next"])
     return indexing_log
 
