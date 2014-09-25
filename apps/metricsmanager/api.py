@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework import status, filters, generics
 from rest_framework.parsers import JSONParser
 from rest_framework.reverse import reverse
+from rest_framework.generics import strict_positive_int
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import transaction
@@ -81,7 +82,16 @@ class MetricList(APIView):
         queryset = MetricFilter(request.GET, queryset=queryset)
 
         # Set the pagination
-        paginator = Paginator(queryset, 10)
+        page_size = 10
+        request_page_size = request.QUERY_PARAMS.get('page_size')
+
+        if request_page_size:
+            try:
+                page_size = strict_positive_int(request_page_size)
+            except (KeyError, ValueError):
+                pass
+
+        paginator = Paginator(queryset, page_size)
         page = request.QUERY_PARAMS.get('page')
         try:
             metrics = paginator.page(page)
