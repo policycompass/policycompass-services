@@ -32,6 +32,12 @@ policy_domain_urls = patterns(
     url(r'^$', PolicyDomainList.as_view(), name='domain-list')
 )
 
+date_format_urls = patterns(
+    '',
+    url(r'^/(?P<pk>\d+)$', DateFormatDetail.as_view(), name='date-format-detail'),
+    url(r'^$', DateFormatList.as_view(), name='date-format-list')
+)
+
 
 urlpatterns = patterns(
     '',
@@ -39,6 +45,7 @@ urlpatterns = patterns(
     url(r'^unitcategories', include(unit_category_urls)),
     url(r'^languages', include(language_urls)),
     url(r'^policydomains', include(policy_domain_urls)),
-    url(r'^externalresources', include(external_resource_urls)),   
+    url(r'^externalresources', include(external_resource_urls)),
+    url(r'^dateformats', include(date_format_urls)),
     url(r'^', Base.as_view(), name="reference-base")
 )

@@ -16,6 +16,7 @@ class Base(APIView):
             "Languages": reverse('language-list', request=request),
             "Policy Domains": reverse('domain-list', request=request),
             "External Resources": reverse('resource-list', request=request),
+            "Date Formats": reverse('date-format-list', request=request),
         }
 
         return Response(result)
@@ -69,3 +70,13 @@ class PolicyDomainList(generics.ListAPIView):
 class PolicyDomainDetail(generics.RetrieveAPIView):
     model = PolicyDomain
     serializer_class = PolicyDomainSerializer
+
+
+class DateFormatList(generics.ListAPIView):
+    model = DateFormat
+    serializer_class = DateFormatSerializer
+
+
+class DateFormatDetail(generics.RetrieveAPIView):
+    model = DateFormat
+    serializer_class = DateFormatSerializer

@@ -58,3 +58,22 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class DateFormat(models.Model):
+    """
+    Holds different formats for dates
+    """
+    # Based on https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+    format = models.CharField(max_length=50, unique=True)
+    example = models.CharField(max_length=50)
+    # Based on http://en.wikipedia.org/wiki/Date_format_by_country
+    symbol = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Date Format"
+        verbose_name_plural = "Date Formats"
+
+    def __str__(self):
+        return self.example
+

@@ -30,3 +30,8 @@ class LanguageSerializer(ModelSerializer):
 class ExternalResourceSerializer(ModelSerializer):
     class Meta:
         model = ExternalResource
+
+
+class DateFormatSerializer(ModelSerializer):
+    class Meta:
+        model = DateFormat

@@ -7,4 +7,5 @@ admin.site.register(Language)
 admin.site.register(PolicyDomain)
 admin.site.register(UnitCategory)
 admin.site.register(Unit)
+admin.site.register(DateFormat)
 
