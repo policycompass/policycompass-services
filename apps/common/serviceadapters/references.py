@@ -50,3 +50,15 @@ class ExternalResource(BaseAdapter):
         self.url_entity = external_resource_url + '/%s'
         super(ExternalResource, self).__init__()
 
+
+class DateFormat(BaseAdapter):
+    """
+    Adapter for date format
+    """
+    def __init__(self):
+        dateformat_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['dateformats']
+        self.url = dateformat_url
+        self.url_entity = dateformat_url + '/%s'
+        super(DateFormat, self).__init__()
+
+
