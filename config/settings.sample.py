@@ -30,6 +30,7 @@ PC_SERVICES = {
         'external_resources': '/api/v1/references/externalresources',
         'languages': '/api/v1/references/languages',
         'domains': '/api/v1/references/policydomains',
+        'dateformats': '/api/v1/references/dateformats',
         'eventsInVisualizations': '/api/v1/visualizationsmanager/eventsInVisualizations',   
         'metricsInvisualizations': '/api/v1/visualizationsmanager/metricsInVisualizations'
     }
