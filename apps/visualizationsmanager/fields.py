@@ -39,8 +39,9 @@ class MetricsField(serializers.WritableField):
             #logging.warning(i.visualization_query)
             #result.append(metrics.get(i.metric_id))
             #result.append(i.metric_id)
-            temporal = metrics.get(i.metric_id)
-            temporal['visualization_query']= i.visualization_query
+            #temporal = metrics.get(i.metric_id)
+            temporal = metrics.get(i.id)
+            #temporal['visualization_query']= i.visualization_query
             #setattr(temporal, 'descHE', i.description)
             result.append(temporal)
         
@@ -64,9 +65,10 @@ class HistoricalEventsField(serializers.WritableField):
         historical_events = HistoricalEventsAdapter()  
                 
         for i in ids:
-            temporal = historical_events.get(i.historical_event_id)
-            temporal['descriptionHE']= i.description
-            temporal['color']= i.color
+            #temporal = historical_events.get(i.historical_event_id)
+            temporal = historical_events.get(i.id)
+            #temporal['descriptionHE']= i.description
+            #temporal['color']= i.color
             #setattr(temporal, 'descHE', i.description)
             result.append(temporal)
             #result.append(i.historical_event_id)

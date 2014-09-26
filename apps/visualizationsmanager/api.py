@@ -1,21 +1,19 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework import filters
+from rest_framework import status, filters
+#from rest_framework import filters
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.parsers import JSONParser,YAMLParser
-from .models import Visualization
+from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
 #from .utils import get_rawdata_for_visualization
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
+from rest_framework.generics import strict_positive_int
 
-from apps.metricsmanager.models import Metric
-from apps.eventsmanager.models import Event
-from apps.visualizationsmanager.models import HistoricalEventsInVisualizations
 
 import django_filters
 
@@ -34,44 +32,26 @@ class Base(APIView):
 
         return Response(result)
 
-'''
-class VisualizationList(APIView):
-    #permission_classes = (IsAuthenticatedCanCreate,)
-    model = Visualization
 
-    def options(self, request, *args, **kwargs):
-        return Response("Options")
-
-    def get(self, request):
-        visualizations = Visualization.objects.all()
-        serializer = ListVisualizationSerializer(visualizations, many=True, context={'request': request})
-        return Response(serializer.data)
-
-    @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        serializer = WriteVisualizationSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            log.info(serializer.object)
-            s = ReadVisualizationSerializer(serializer.object, context={'request': request})
-            return Response(s.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''
 class EventDetailForVisualization(generics.RetrieveAPIView):
-    model = Event
+    #model = Event
+    model = HistoricalEventsInVisualizations
     serializer_class = HistoricalEventSerializer
 
 class EventListForVisualization(generics.ListAPIView):
-    model = Event
+    #model = Event
+    model = HistoricalEventsInVisualizations
     serializer_class = HistoricalEventSerializer
     
     
 class MetricDetailForVisualization(generics.RetrieveAPIView):
-    model = Metric
+    #model = Metric
+    model = MetricsInVisualizations
     serializer_class = MetricSerializer
 
 class MetricListForVisualization(generics.ListAPIView):
-    model = Metric
+    #model = Metric
+    model = MetricsInVisualizations
     serializer_class = MetricSerializer
     
 class VisualizationFilter(django_filters.FilterSet):
@@ -84,18 +64,44 @@ class VisualizationFilter(django_filters.FilterSet):
 
 
 class VisualizationList(APIView):
+    """
+    Serves the visualization list resource.
+    """
     #permission_classes = (IsAuthenticatedCanCreate,)
     parser_classes = (JSONParser,)
+    # Sets the fields, which can be searched
     search_fields = ('title','keywords')
+    # Sets the fields, which are available for sorting the metrics
     ordering_fields = ('created_at', 'updated_at', 'title')
+        
+    
     def get(self, request):
-        #logging.warning('....... get VisualizationList 1')
+        """
+        Builds the representation for the GET method.
+        """
+        # Get all visualizations
         queryset = Visualization.objects.all()
+        # Perform a search
         queryset = filters.SearchFilter().filter_queryset(self.request, queryset, self)
+        # Order the set accordingly to query parameters
         queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
+         # Filter the set by potential filters
         queryset = VisualizationFilter(request.GET, queryset=queryset)
 
-        paginator = Paginator(queryset, 10)
+        # Set the pagination
+        #set defaul
+        page_size = 10
+        #get url param
+        request_page_size = request.QUERY_PARAMS.get('page_size')
+
+        if request_page_size:
+            try:
+                page_size = strict_positive_int(request_page_size)
+            except (KeyError, ValueError):
+                pass
+
+        # Set the pagination
+        paginator = Paginator(queryset, page_size)
         page = request.QUERY_PARAMS.get('page')
 
         try:
@@ -105,11 +111,12 @@ class VisualizationList(APIView):
         except EmptyPage:
             visualizations = paginator.page(paginator.num_pages)
 
+        # Serialize the data
         serializer = PaginatedListMetricSerializer(visualizations)
 
         #log.info(paginator.page_range)        
         #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)
-        return Response(serializer.data)
+        return Response(serializer.data)    
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):                    

@@ -2,14 +2,9 @@ from django.db import models
 
 import datetime
 import logging
-#from .managers import VisualizationManager, RawDataManager
 from .managers import VisualizationManager
-#from .utils import get_rawdata_for_visualization, save_rawdata_for_visualization
-
-from apps.metricsmanager.models import Metric
 
 log = logging.getLogger(__name__)
-
 
     
 class VisualizationType(models.Model):
@@ -135,6 +130,7 @@ class Visualization(models.Model):
                     vhe.visualization_id = self.id
                     vhe.historical_event_id = d['historical_event']
                     vhe.description = d['description']
+                    vhe.color = d['color']
                     vhe.save()
                      
             if self._metrics_in_visualization:

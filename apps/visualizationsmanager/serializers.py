@@ -1,14 +1,11 @@
 __author__ = 'miquel'
 
-from .models import Metric, Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
-#,  RawDataCategory
+from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
 from rest_framework.serializers import ModelSerializer, WritableField, ValidationError
 from rest_framework import serializers
-#from .utils import get_rawdata_for_visualization
 from rest_framework.reverse import reverse
 from rest_framework import pagination
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-#from apps.common.serviceadapters import references
 from apps.metricsmanager.models import Metric
 from apps.eventsmanager.models import Event
 
@@ -25,74 +22,13 @@ log = logging.getLogger(__name__)
 
 class HistoricalEventSerializer(ModelSerializer):
     class Meta:
-        model = Event
+        #model = Event
+        model = HistoricalEventsInVisualizations
         
 class MetricSerializer(ModelSerializer):
     class Meta:
-        model = Metric
-
-
-'''
-class MetricsField(serializers.WritableField):
-
-    def field_to_native(self, obj, field_name):        
-        #logging.warning('----MetricsField--')
-        #logging.warning(obj)
-        #logging.warning(self.source)
-        #ids = []
-        ids = getattr(obj, self.source).all()
-        result = []
-        #metrics = references.Metrics()
-        metrics = metrics_references.Metrics()
-        #metrics = references.PolicyDomain()     
-        for i in ids:        
-            #logging.warning('--i--')    
-            #logging.warning(i.metric_id)
-            #logging.warning(i.visualization_query)
-            #result.append(metrics.get(i.metric_id))
-            #result.append(i.metric_id)
-            temporal = metrics.get(i.metric_id)
-            temporal['visualization_query']= i.visualization_query
-            #setattr(temporal, 'descHE', i.description)
-            result.append(temporal)
-
-            
-        return result
-
-    def from_native(self, value):
-        if not type(value) is list:
-            raise ValidationError("Metrics property is not a list")
-        return value
-'''    
-  
-'''        
-class HistoricalEventsField(serializers.WritableField):
-
-    def field_to_native(self, obj, field_name):
-        #logging.warning('--HistoricalEventsField--')
-        #logging.warning(self.source)
-        #ids = []
-        ids = getattr(obj, self.source).all()
-        result = []
-        #historical_events = references.HistoricalEvents()  
-        historical_events = metrics_references.HistoricalEvents()     
-        for i in ids:
-            temporal = historical_events.get(i.historical_event_id)
-            temporal['descriptionHE']= i.description
-            #setattr(temporal, 'descHE', i.description)
-            result.append(temporal)
-            #result.append(i.historical_event_id)
-            #result.append(i.description)
-        return result
-
-    def from_native(self, value):
-        if not type(value) is list:
-            raise ValidationError("Historical event property is not a list")
-        return value
-'''    
-    
-
-
+        #model = Metric
+        model = MetricsInVisualizations
 
 class BaseVisualizationSerializer(ModelSerializer):
     #spatial = serializers.CharField(source='geo_location', blank=True)
