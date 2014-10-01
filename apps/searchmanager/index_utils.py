@@ -13,17 +13,26 @@ def rebuild_index():
     Metrics, Events, Visualizations, FCM models
     TODO: Events, Visualizations, FCM models
     """
-    #Load the Metrics objects and index them on Elastic Search server
+    indexing_log = rebuild_index_itemtype('metric')
+    indexing_log = indexing_log + rebuild_index_itemtype('visualization')
+    indexing_log = indexing_log + rebuild_index_itemtype('event')
+    return indexing_log
+
+def rebuild_index_itemtype(itemtype):
+    """
+    Rebuilds the index of the Elastic search for a specific itemtype entity:
+    """
+    #Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
     #Start logging the indexing process
-    indexing_log = 'Indexing service started at '  + str(datetime.datetime.now()) + '.\n'
-    #...set the API url for the metrics
-    metrics_api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/metricsmanager/metrics'
+    indexing_log = 'Indexing service of ' + itemtype + ' started at '  + str(datetime.datetime.now()) + '.\n'
+    #...set the API url for the item type (e.g. metrics api url)
+    api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
     # Set a counter in order to iterate all the pages
     page = '?page=1'
     while page != 'None' :
-       #...Make the api call to get the metrics at current page
-       response = urllib.request.urlopen(metrics_api_url + page)
-       #...Read the metrics json object returned by the api call
+       #...Make the api call to get the itemtype (e.g. metric) at current page
+       response = urllib.request.urlopen(api_url + page)
+       #...Read the itemtype json object returned by the api call
        rawdataresponse = response.read()
        #...Decode the response from bytes to str
        decodeddataresponse = rawdataresponse.decode()
@@ -31,11 +40,42 @@ def rebuild_index():
        data = json.loads(decodeddataresponse)
        #Index each item (TODO: use _bulk)
        for item_to_index in data["results"]:
-         indexing_log = indexing_log + index_item('metric',item_to_index) + '\n'
-       page = str(data["next"])
+         indexing_log = indexing_log + index_item(itemtype,item_to_index) + '\n'
+       page = str(data["next"]).replace(api_url,"")
     return indexing_log
 
 def index_item(itemtype,document):
+    """
+    Indexs a single document to the elastic search
+    """
     #Call the Elastic API Index service (PUT command) to index current document 
-    response = requests.put(settings.ELASTICSEARCH_URL+ '/' + itemtype +'/' + str(document["id"]), data=json.dumps(document))
+    response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(document["id"]), data=json.dumps(document))
+    return response.text
+
+def update_index_item(itemtype,item_id):
+    """
+    Creates or updates a document index based on its id.To be used by external apps when creating / updating an object
+    """
+     #Set the API url for the item type (e.g. metrics api url)
+    api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
+    #Make the api call to get the itemtype (e.g. metric) with the specific id
+    response = urllib.request.urlopen(api_url + '/' + str(item_id))
+    #Read the itemtype json object returned by the api call
+    rawdataresponse = response.read()
+    #Decode the response from bytes to str
+    decodeddataresponse = rawdataresponse.decode()
+    #Convert from JSON to python dict
+    data = json.loads(decodeddataresponse)
+    #Remove the data container specifically of the metrics object that contains a lot of table information
+    data.pop("data", None) 
+    #Call the Elastic API Index service (PUT command) to index current document 
+    response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
+    return response.text
+
+def delete_index_item(itemtype,item_id):
+    """
+    Delete the index of a document based on its id.To be used by external apps when deleting the actual object
+    """
+    #Call the Elastic API Index service (PUT command) to index current document 
+    response = requests.delete(settings.ELASTICSEARCH_URL + itemtype +'/' + str(item_id))
     return response.text

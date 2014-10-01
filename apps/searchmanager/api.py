@@ -7,7 +7,12 @@ class Base(APIView):
 
      def get(self, request, format=None):
         result = {
-            "Rebuild Index Service": reverse('rebuildindex', request=request),
+            "Rebuild Index Service for all items": reverse('rebuildindex', request=request),
+            "Rebuild Index Service only for metrics": reverse('rebuildindex_metric', request=request),
+            "Rebuild Index Service only for visualizations": reverse('rebuildindex_visualization', request=request),
+            "Rebuild Index Service only for events": reverse('rebuildindex_event', request=request),
+            "Create or Update Index for an itemtype ('metric','visualization','event')": reverse('update_index_item', request=request,kwargs={'itemtype':'metric','itemid':26}),
+            "Delete Index for an itemtype ('metric','visualization','event')": reverse('delete_index_item', request=request,kwargs={'itemtype':'metric','itemid':26})
         }
 
         return Response(result)
