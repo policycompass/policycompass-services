@@ -39,7 +39,7 @@ class EventView(generics.ListCreateAPIView):
                 queryset = queryset.filter(Q(startEventDate__range=[start, end]) | Q(endEventDate__range=[start, end]))
                 queryset = queryset | queryset2.filter(startEventDate__lte=start).filter(endEventDate__gte=end)
         if title is not None:
-            queryset = queryset.filter(title=title)
+            queryset = queryset.filter(title__icontains=title)
         return queryset
 
 
