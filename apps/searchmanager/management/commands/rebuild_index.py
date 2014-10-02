@@ -8,8 +8,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
             try:
                 #if the user has provided arguments
-                self.stdout.write(index_utils.update_index_item('metric',26))
-                import pdb;pdb.set_trace()
                 if args:
                   for itemtype in args:
                      self.stdout.write('Indexing started for ' + itemtype + '.Please wait a few minutes')
