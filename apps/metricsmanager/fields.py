@@ -126,12 +126,14 @@ class RawDataField(serializers.WritableField):
         # The table has to have certain properties it its objects
         required_fields = ["to", "from", "value"] + value['extra_columns']
 
+        date_format = None
         if 'date_format' in value:
             if not type(value['date_format']) is int:
                 raise ValidationError("Date Format is not an Integer ID")
 
             dateformat_resource = references.DateFormat()
             date_format = dateformat_resource.get(value['date_format'])['format']
+            value['date_format'] = date_format
 
         for i, r in enumerate(value['table']):
             if not type(r) is dict:
