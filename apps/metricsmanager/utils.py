@@ -6,6 +6,7 @@ This is functionality of the Metric model, but put here to improve readability.
 __author__ = 'fki'
 
 import logging
+import datetime as d
 from .metricdata import MetricData
 from collections import OrderedDict
 
@@ -103,9 +104,14 @@ def save_rawdata_for_metric(metric, value):
     for r in value['table']:
         raw = RawData()
 
+        if 'date_format' in value:
+            raw.from_date = d.datetime.strptime(r['from'], value['date_format'])
+            raw.to_date = d.datetime.strptime(r['to'], value['date_format'])
+        else:
+            raw.from_date = r['from']
+            raw.to_date = r['to']
+
         raw.metric = metric
-        raw.from_date = r['from']
-        raw.to_date = r['to']
         raw.row = row_number
         raw.value = r['value']
         raw.save()

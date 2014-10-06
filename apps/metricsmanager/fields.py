@@ -14,6 +14,9 @@ from .utils import get_rawdata_for_metric
 
 import datetime
 
+import logging
+log = logging.getLogger(__name__)
+
 
 class PolicyDomainsField(serializers.WritableField):
     """
@@ -122,7 +125,17 @@ class RawDataField(serializers.WritableField):
 
         # The table has to have certain properties it its objects
         required_fields = ["to", "from", "value"] + value['extra_columns']
-        for r in value['table']:
+
+        date_format = None
+        if 'date_format' in value:
+            if not type(value['date_format']) is int:
+                raise ValidationError("Date Format is not an Integer ID")
+
+            dateformat_resource = references.DateFormat()
+            date_format = dateformat_resource.get(value['date_format'])['format']
+            value['date_format'] = date_format
+
+        for i, r in enumerate(value['table']):
             if not type(r) is dict:
                 raise ValidationError("Table Dict is malformed")
 
@@ -130,15 +143,19 @@ class RawDataField(serializers.WritableField):
                 raise ValidationError("Table Dict is malformed, some keys are missing")
 
             # The date format has to be correct
-            try:
-                datetime.datetime.strptime(r['from'], '%Y-%m-%d')
-            except ValueError:
-                raise ValidationError("Wrong Date Format")
+            format = '%Y-%m-%d'
+            if date_format:
+                format = date_format
 
             try:
-                datetime.datetime.strptime(r['to'], '%Y-%m-%d')
+                datetime.datetime.strptime(r['from'], format)
             except ValueError:
-                raise ValidationError("Wrong Date Format")
+                raise ValidationError("Wrong Date Format in From-Value in Row " + str(i+1))
+
+            try:
+                datetime.datetime.strptime(r['to'], format)
+            except ValueError:
+                raise ValidationError("Wrong Date Format in To-Value Row " + str(i+1))
 
             # The value has to be a float
             try:
