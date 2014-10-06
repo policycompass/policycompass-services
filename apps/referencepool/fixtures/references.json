@@ -212,5 +212,41 @@
          "unit_category":4
       },
       "model":"referencepool.unit"
-   }
+   },
+   {
+        "pk": 1,
+        "fields": {
+            "example": "21.02.2010",
+            "format": "%d.%m.%Y",
+            "symbol": "dd.mm.yyyy"
+        },
+        "model": "referencepool.dateformat"
+    },
+    {
+        "pk": 2,
+        "fields": {
+            "example": "2010-02-21",
+            "format": "%Y-%m-%d",
+            "symbol": "yyyy-mm-dd"
+        },
+        "model": "referencepool.dateformat"
+    },
+    {
+        "pk": 3,
+        "fields": {
+            "example": "21/02/2010",
+            "format": "%d/%m/%Y",
+            "symbol": "dd/mm/yyyy"
+        },
+        "model": "referencepool.dateformat"
+    },
+    {
+        "pk": 4,
+        "fields": {
+            "example": "02/21/2010",
+            "format": "%m/%d/%Y",
+            "symbol": "mm/dd/yyyy"
+        },
+        "model": "referencepool.dateformat"
+    }
 ]
