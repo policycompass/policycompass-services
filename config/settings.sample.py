@@ -32,6 +32,8 @@ PC_SERVICES = {
         'domains': '/api/v1/references/policydomains',
         'dateformats': '/api/v1/references/dateformats',
         'eventsInVisualizations': '/api/v1/visualizationsmanager/eventsInVisualizations',   
-        'metricsInvisualizations': '/api/v1/visualizationsmanager/metricsInVisualizations'
+        'metricsInvisualizations': '/api/v1/visualizationsmanager/metricsInVisualizations',
+        'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
+        'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem'
     }
 }
