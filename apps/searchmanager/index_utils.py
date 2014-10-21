@@ -10,8 +10,8 @@ import json,requests
 def rebuild_index():
     """
     Rebuilds the index of the Elastic search for the following entities:
-    Metrics, Events, Visualizations, FCM models
-    TODO: Events, Visualizations, FCM models
+    Metrics, Events, Visualizations
+    TODO: FCM models
     """
     indexing_log = rebuild_index_itemtype('metric')
     indexing_log = indexing_log + rebuild_index_itemtype('visualization')
@@ -22,6 +22,8 @@ def rebuild_index_itemtype(itemtype):
     """
     Rebuilds the index of the Elastic search for a specific itemtype entity:
     """
+    #Clear item type on Elastic Search Server
+    deleteresponse = requests.delete(settings.ELASTICSEARCH_URL + itemtype)
     #Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
     #Start logging the indexing process
     indexing_log = 'Indexing service of ' + itemtype + ' started at '  + str(datetime.datetime.now()) + '.\n'
