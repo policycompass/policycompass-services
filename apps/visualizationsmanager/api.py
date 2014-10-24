@@ -28,6 +28,7 @@ class Base(APIView):
             "Visualizations": reverse('visualization-list', request=request),
             "Metrics": reverse('metric-list-for-visualization', request=request),
             "Events": reverse('event-list-for-visualization', request=request),
+            "Visualizations linked by metric": reverse('linked-visualizations-by-metric', request=request),
         }
 
         return Response(result)
@@ -53,7 +54,76 @@ class MetricListForVisualization(generics.ListAPIView):
     #model = Metric
     model = MetricsInVisualizations
     serializer_class = MetricSerializer
+
+class VisualizationLinkedWithMetric(APIView):
+    """
+    Serves the visualizations linked with a metrice.
+    """
+    #permission_classes = (IsAuthenticatedCanCreate,)
+    parser_classes = (JSONParser,)
+    # Sets the fields, which can be searched
+    search_fields = ('metric_id')    
+    # Sets the fields, which are available for sorting the metrics
+    ordering_fields = ('id')
+        
+    #model = MetricsInVisualizations
+    #serializer_class = VisualizationLinkedWithMetricSerializer    
+
+    def get(self, request):
+            """
+            Builds the representation for the GET method.
+            """
+            # Get all MetricsInVisualizations
+            queryset = MetricsInVisualizations.objects.all()
+            
+            # Perform a search
+            queryset = filters.SearchFilter().filter_queryset(self.request, queryset, self)
+            # Order the set accordingly to query parameters
+            queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
+            # Filter the set by potential filters
+            queryset = VisualizationLinkedWithMetricFilter(request.GET, queryset=queryset)
     
+            # Set the pagination
+            #set defaul
+            page_size = 10
+            #get url param
+            request_page_size = request.QUERY_PARAMS.get('page_size')
+    
+            if request_page_size:
+                try:
+                    page_size = strict_positive_int(request_page_size)
+                except (KeyError, ValueError):
+                    pass
+    
+            # Set the pagination
+            paginator = Paginator(queryset, page_size)
+            page = request.QUERY_PARAMS.get('page')
+    
+            try:
+                metricsinvisualizations = paginator.page(page)
+            except PageNotAnInteger:
+                metricsinvisualizations = paginator.page(1)
+            except EmptyPage:
+                metricsinvisualizations = paginator.page(paginator.num_pages)
+    
+            # Serialize the data
+            serializer = PaginatedListVisualizationLinkedWithMetricSerializer(metricsinvisualizations)
+    
+            #log.info(paginator.page_range)        
+            #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)
+            return Response(serializer.data)    
+
+
+class VisualizationLinkedWithMetricFilter(django_filters.FilterSet):
+    #external_resource = django_filters.Filter(name='ext_resource_id')
+    metric = django_filters.Filter(name='metric_id')
+
+    class Meta:
+        model = MetricsInVisualizations
+        fields = ['metric_id']
+        #model = Visualization
+        #fields = ['id']
+        
 class VisualizationFilter(django_filters.FilterSet):
     #external_resource = django_filters.Filter(name='ext_resource_id')
     language = django_filters.Filter(name='language_id')

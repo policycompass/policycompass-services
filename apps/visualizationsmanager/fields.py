@@ -79,3 +79,17 @@ class HistoricalEventsField(serializers.WritableField):
         if not type(value) is list:
             raise ValidationError("Historical event property is not a list")
         return value
+
+
+class VisualizationTitleField(serializers.WritableField):
+
+    def field_to_native(self, obj, field_name):
+        
+        #temporal = Visualization.get(obj.visualization)
+        result = obj.visualization.title
+        return result
+
+    def from_native(self, value):
+        if not type(value) is list:
+            raise ValidationError("Visualization is not a list")
+        return value

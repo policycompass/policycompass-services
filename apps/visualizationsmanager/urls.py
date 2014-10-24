@@ -22,10 +22,16 @@ visualization_events_urls = patterns(
 )
 
 
+visualizations_linked_with_metric = patterns(
+    '',
+    url(r'^$',VisualizationLinkedWithMetric.as_view(), name='linked-visualizations-by-metric')
+)
+
 urlpatterns = patterns(
     '',
     url(r'^visualizations', include(visualization_urls)),
     url(r'^metricsInVisualizations', include(visualization_metrics_urls)),
     url(r'^eventsInVisualizations', include(visualization_events_urls)),    
+    url(r'^linkedVisualizationsByMetric', include(visualizations_linked_with_metric)),
     url(r'^', Base.as_view(), name="visualizations-manager-base")
 )

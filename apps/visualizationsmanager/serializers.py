@@ -13,7 +13,7 @@ from apps.eventsmanager.models import Event
 from apps.common.fields import *
 from rest_framework.serializers import SortedDictWithMetadata
 import datetime
-from .fields import MetricsField, HistoricalEventsField
+from .fields import MetricsField, HistoricalEventsField, VisualizationTitleField
 
 import logging
 log = logging.getLogger(__name__)
@@ -30,6 +30,37 @@ class MetricSerializer(ModelSerializer):
         #model = Metric
         model = MetricsInVisualizations
 
+
+
+
+
+class BaseVisualizationLinkedWithMetricSerializer(ModelSerializer):
+
+    title =  VisualizationTitleField(source='visualization')
+   
+    class Meta:
+        
+        model = MetricsInVisualizations
+            
+    
+#            fields = (
+#                      'id',
+#            )
+        exclude = (
+                   'id',
+                   'visualization_query',
+            )
+        
+
+
+class ListVisualizationLinkedWithMetricSerializer(BaseVisualizationLinkedWithMetricSerializer):
+    pass
+
+
+class PaginatedListVisualizationLinkedWithMetricSerializer(pagination.PaginationSerializer):    
+    class Meta:
+        object_serializer_class = ListVisualizationLinkedWithMetricSerializer
+        
 class BaseVisualizationSerializer(ModelSerializer):
     #spatial = serializers.CharField(source='geo_location', blank=True)
     #resource_url = serializers.URLField(source='details_url', blank=True)
