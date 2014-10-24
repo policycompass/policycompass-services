@@ -34,6 +34,7 @@ PC_SERVICES = {
         'eventsInVisualizations': '/api/v1/visualizationsmanager/eventsInVisualizations',   
         'metricsInvisualizations': '/api/v1/visualizationsmanager/metricsInVisualizations',
         'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
-        'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem'
+        'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem',
+        'fcm_base_url': 'http://localhost:8080'
     }
 }
