@@ -179,9 +179,6 @@ class HistoricalEventsInVisualizations(models.Model):
     historical_event_id = models.IntegerField()
     description = models.TextField(blank=True)
     color = models.TextField(blank=True, default='')
-    
-    
-    
 
     class Meta:
         verbose_name = "Historical Event in Visualization"

@@ -29,6 +29,7 @@ class Base(APIView):
             "Metrics": reverse('metric-list-for-visualization', request=request),
             "Events": reverse('event-list-for-visualization', request=request),
             "Visualizations linked by metric": reverse('linked-visualizations-by-metric', request=request),
+            "Visualizations linked by event": reverse('linked-visualizations-by-event', request=request),
         }
 
         return Response(result)
@@ -55,10 +56,12 @@ class MetricListForVisualization(generics.ListAPIView):
     model = MetricsInVisualizations
     serializer_class = MetricSerializer
 
-class VisualizationLinkedWithMetric(APIView):
+
+class VisualizationsLinkedByMetric(APIView):
     """
-    Serves the visualizations linked with a metrice.
+    Serves the visualizations linked by a metric. ?metric_id=#
     """
+    #API to get visualizations related with a metric by metric id
     #permission_classes = (IsAuthenticatedCanCreate,)
     parser_classes = (JSONParser,)
     # Sets the fields, which can be searched
@@ -81,7 +84,7 @@ class VisualizationLinkedWithMetric(APIView):
             # Order the set accordingly to query parameters
             queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
             # Filter the set by potential filters
-            queryset = VisualizationLinkedWithMetricFilter(request.GET, queryset=queryset)
+            queryset = VisualizationsLinkedByMetricFilter(request.GET, queryset=queryset)
     
             # Set the pagination
             #set defaul
@@ -107,20 +110,90 @@ class VisualizationLinkedWithMetric(APIView):
                 metricsinvisualizations = paginator.page(paginator.num_pages)
     
             # Serialize the data
-            serializer = PaginatedListVisualizationLinkedWithMetricSerializer(metricsinvisualizations)
+            serializer = PaginatedListVisualizationLinkedByMetricSerializer(metricsinvisualizations)
     
             #log.info(paginator.page_range)        
             #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)
             return Response(serializer.data)    
 
 
-class VisualizationLinkedWithMetricFilter(django_filters.FilterSet):
+class VisualizationsLinkedByMetricFilter(django_filters.FilterSet):
+    #API filter to get visualizations related with a metric by metric id'
     #external_resource = django_filters.Filter(name='ext_resource_id')
     metric = django_filters.Filter(name='metric_id')
 
     class Meta:
         model = MetricsInVisualizations
         fields = ['metric_id']
+        #model = Visualization
+        #fields = ['id']
+        
+class VisualizationsLinkedByEvent(APIView):
+    """
+    Serves the visualizations linked by an event. ?historical_event_id=#.    
+    """
+    #API to get visualizations related with an event by event id
+    #permission_classes = (IsAuthenticatedCanCreate,)
+    parser_classes = (JSONParser,)
+    # Sets the fields, which can be searched
+    search_fields = ('historical_event_id')    
+    # Sets the fields, which are available for sorting the metrics
+    ordering_fields = ('id')
+        
+
+    def get(self, request):
+            """
+            Builds the representation for the GET method.
+            """
+            # Get all MetricsInVisualizations
+            queryset = HistoricalEventsInVisualizations.objects.all()
+            
+            # Perform a search
+            queryset = filters.SearchFilter().filter_queryset(self.request, queryset, self)
+            # Order the set accordingly to query parameters
+            queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
+            # Filter the set by potential filters
+            queryset = VisualizationsLinkedByEventFilter(request.GET, queryset=queryset)
+    
+            # Set the pagination
+            #set defaul
+            page_size = 10
+            #get url param
+            request_page_size = request.QUERY_PARAMS.get('page_size')
+    
+            if request_page_size:
+                try:
+                    page_size = strict_positive_int(request_page_size)
+                except (KeyError, ValueError):
+                    pass
+    
+            # Set the pagination
+            paginator = Paginator(queryset, page_size)
+            page = request.QUERY_PARAMS.get('page')
+    
+            try:
+                eventsinvisualizations = paginator.page(page)
+            except PageNotAnInteger:
+                eventsinvisualizations = paginator.page(1)
+            except EmptyPage:
+                eventsinvisualizations = paginator.page(paginator.num_pages)
+    
+            # Serialize the data
+            serializer = PaginatedListVisualizationLinkedByEventSerializer(eventsinvisualizations)
+    
+            #log.info(paginator.page_range)        
+            #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)
+            return Response(serializer.data)    
+
+
+class VisualizationsLinkedByEventFilter(django_filters.FilterSet):   
+    #API filter to get visualizations related with an event by event id 
+    #external_resource = django_filters.Filter(name='ext_resource_id')
+    event = django_filters.Filter(name='historical_event_id')
+
+    class Meta:
+        model = HistoricalEventsInVisualizations
+        fields = ['historical_event_id']
         #model = Visualization
         #fields = ['id']
         

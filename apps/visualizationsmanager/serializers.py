@@ -30,36 +30,45 @@ class MetricSerializer(ModelSerializer):
         #model = Metric
         model = MetricsInVisualizations
 
+class BaseVisualizationLinkedByMetricSerializer(ModelSerializer):
 
+    title =  VisualizationTitleField(source='visualization')
+   
+    class Meta:
+        model = MetricsInVisualizations
+            
+        exclude = (
+                   'id',
+                   'visualization_query',
+            )
 
+class ListVisualizationLinkedByMetricSerializer(BaseVisualizationLinkedByMetricSerializer):
+    pass
 
+class PaginatedListVisualizationLinkedByMetricSerializer(pagination.PaginationSerializer):    
+    class Meta:
+        object_serializer_class = ListVisualizationLinkedByMetricSerializer
 
-class BaseVisualizationLinkedWithMetricSerializer(ModelSerializer):
+class BaseVisualizationLinkedByEventSerializer(ModelSerializer):
 
     title =  VisualizationTitleField(source='visualization')
    
     class Meta:
         
-        model = MetricsInVisualizations
+        model =  HistoricalEventsInVisualizations
             
-    
-#            fields = (
-#                      'id',
-#            )
         exclude = (
                    'id',
-                   'visualization_query',
+                   'description',
+                   'color',
             )
         
-
-
-class ListVisualizationLinkedWithMetricSerializer(BaseVisualizationLinkedWithMetricSerializer):
+class ListVisualizationLinkedByEventSerializer(BaseVisualizationLinkedByEventSerializer):
     pass
 
-
-class PaginatedListVisualizationLinkedWithMetricSerializer(pagination.PaginationSerializer):    
+class PaginatedListVisualizationLinkedByEventSerializer(pagination.PaginationSerializer):    
     class Meta:
-        object_serializer_class = ListVisualizationLinkedWithMetricSerializer
+        object_serializer_class = ListVisualizationLinkedByEventSerializer
         
 class BaseVisualizationSerializer(ModelSerializer):
     #spatial = serializers.CharField(source='geo_location', blank=True)
