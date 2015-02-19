@@ -1,0 +1,30 @@
+[
+     {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 1,
+       "fields": {
+            "type": "Graph Line"
+		}
+	},
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 2,
+       "fields": {
+            "type": "Graph Pie"
+		}
+	},
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 3,
+       "fields": {
+            "type": "Graph Bars"
+		}
+	},	
+    {
+       "model": "visualizationsmanager.visualizationtype",
+       "pk": 4,
+       "fields": {
+            "type": "Map"
+		}
+	}
+]

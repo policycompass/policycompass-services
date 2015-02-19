@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "title": "Country",
+        "description": "Country"
+    },
+    {
+        "id": 2,
+        "title": "Age Class",
+        "description": "Age Class"
+    },
+    {
+        "id": 3,
+        "title": "City",
+        "description": "City"
+    },
+    {
+        "id": 4,
+        "title": "State",
+        "description": "State"
+    },
+    {
+        "id": 5,
+        "title": "Continent",
+        "description": "Continent"
+    }
+]

@@ -1,0 +1,58 @@
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+        	"self": "/api/v1/metricsmanager/metrics/1",
+            "spatial": "Germany, Spain",
+            "resource_url": "http://epp.eurostat.ec.europa.eu/tgm/refreshTableAction.do?tab=table&plugin=1&pcode=tec00001&language=en",
+            "unit": {
+                "unit_category": {
+                    "title": "Currency",
+                    "id": 4
+                },
+                "title": "Million Euro",
+                "id": 10,
+                "description": "Million Euro"
+            },
+            "language": {
+                "title": "English",
+                "id": 1,
+                "code": "en"
+            },
+            "external_resource": {
+                "title": "Eurostat",
+                "api_url": "http://epp.eurostat.ec.europa.eu/portal/page/portal/sdmx_web_services/getting_started/rest_sdmx_2.1",
+                "id": 1,
+                "url": "http://epp.eurostat.ec.europa.eu/"
+            },
+            "resource_issued": "2014-05-28",
+            "issued": "2014-07-05T16:27:07.168Z",
+            "modified": "2014-07-05T16:27:07.168Z",
+            "policy_domains": [
+                {
+                    "title": "Education",
+                    "id": 1,
+                    "description": "Education"
+                },
+                {
+                    "title": "Economy",
+                    "id": 2,
+                    "description": "Economy"
+                }
+            ],
+            "id": 1,
+            "title": "Gross Domestic Product at Market Prices for Germany and Spain",
+            "acronym": "GDP (GER, SPA)",
+            "description": "GDP (gross domestic product) is an indicator for a nation´s economic situation. It reflects the total value of all goods and services produced less the value of goods and services used for intermediate consumption in their production. Expressing GDP in PPS (purchasing power standards) eliminates differences in price levels between countries, and calculations on a per head basis allows for the comparison of economies significantly different in absolute size. (Source: Eurostat)",
+            "keywords": "GDP, Market Price",
+            "publisher": "Eurostat",
+            "license": "",
+            "user_id": 1,
+            "version": 1,
+            "formula": "1"
+        }
+    ]
+
+}
