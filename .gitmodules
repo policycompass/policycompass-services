@@ -1,6 +1,3 @@
-[submodule "apps/metricsmanager"]
-	path = apps/metricsmanager
-	url = git@github.com:policycompass/policycompass-metricsmanager.git
 [submodule "apps/common"]
 	path = apps/common
 	url = git@github.com:policycompass/policycompass-common.git
