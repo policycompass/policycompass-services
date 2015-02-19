@@ -1,3 +1,0 @@
-[submodule "apps/searchmanager"]
-	path = apps/searchmanager
-	url = git@github.com:policycompass/policycompass-searchmanager.git
