@@ -1,0 +1,37 @@
+{
+    "spatial": "Germany, Spain",
+    "resource_url": "http://epp.eurostat.ec.europa.eu/tgm/refreshTableAction.do?tab=table&plugin=1&pcode=tec00001&language=en",
+    "unit": 2,
+    "language": 1,
+    "external_resource": 1,
+    "resource_issued": "2014-05-28",
+    "policy_domains": [1,2],
+    "data": {
+        "table": [
+            {
+                "from": "2003-01-01",
+                "to": "2003-12-31",
+                "value": "23900.0",
+                "Country": "Germany"
+            },
+            {
+                "from": "2004-01-01",
+                "to": "2004-12-31",
+                "value": "25000.0",
+                "Country": "Germany"
+            }
+        ],
+        "extra_columns": [
+            "Country"
+        ]
+    },
+    "title": "New Metric",
+    "acronym": "NMT",
+    "description": "GDP (gross domestic product) is an indicator for a nation´s economic situation. It reflects the total value of all goods and services produced less the value of goods and services used for intermediate consumption in their production. Expressing GDP in PPS (purchasing power standards) eliminates differences in price levels between countries, and calculations on a per head basis allows for the comparison of economies significantly different in absolute size. (Source: Eurostat)",
+    "keywords": "GDP, Market Price",
+    "publisher": "Eurostat",
+    "license": "MIT",
+    "user_id": 1,
+    "version": 1,
+    "formula": "1"
+}
