@@ -1,6 +1,3 @@
-[submodule "apps/common"]
-	path = apps/common
-	url = git@github.com:policycompass/policycompass-common.git
 [submodule "apps/referencepool"]
 	path = apps/referencepool
 	url = git@github.com:policycompass/policycompass-referencepool.git
