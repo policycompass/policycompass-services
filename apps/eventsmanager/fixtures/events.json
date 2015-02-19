@@ -1,0 +1,46 @@
+[
+    {
+        "model": "eventsmanager.event",
+        "pk": 1,
+        "fields": {
+            "title": "Test Event 1",
+            "description": "Test Event 1 description",
+            "keywords": "Berlin, Test",
+            "startEventDate": "2014-06-30T22:00:00Z",
+            "endEventDate": "2014-07-02T22:00:00Z",
+            "detailsURL": "http://www.google.com",
+            "geoLocation": "52.521332, 13.342037",
+            "relatedVisualisation": "visualisation1",
+            "languageID": 1,
+            "userID": 1,
+            "scale": "Global",
+            "externalResourceID": 0,
+            "dateAddedToPC": "2014-07-30T19:06:23.779Z",
+            "dateIssuedByExternalResource": "2014-07-30T19:06:23.779Z",
+            "dateModified": "2014-07-30T19:06:23.779Z",
+            "viewsCount": 1
+        }
+    },
+    {
+        "model": "eventsmanager.event",
+        "pk": 2,
+        "fields": {
+            "title": "Test Event 2",
+            "description": "Event 2 description",
+            "keywords": "Berlin, Event",
+            "startEventDate": "2014-07-04T22:00:00Z",
+            "endEventDate": "2014-07-06T22:00:00Z",
+            "detailsURL": "http://www.berlin.de",
+            "geoLocation": "52.510677, 13.376369",
+            "relatedVisualisation": "visualisation2",
+            "languageID": 2,
+            "userID": 1,
+            "scale": "Global",
+            "externalResourceID": 0,
+            "dateAddedToPC": "2014-07-30T19:07:42.062Z",
+            "dateIssuedByExternalResource": "2014-07-30T19:07:42.062Z",
+            "dateModified": "2014-07-30T19:07:42.062Z",
+            "viewsCount": 1
+        }
+    }
+]
