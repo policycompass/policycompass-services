@@ -37,6 +37,23 @@ class DateFormatViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = DateFormatSerializer
 
 
+class DataClassViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = DataClass.objects.all()
+    serializer_class = DataClassSerializer
+
+
+class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = IndividualSerializer
+
+    def get_queryset(self):
+
+        queryset = Individual.objects.all()
+        data_class = self.request.QUERY_PARAMS.get('class', None)
+        if data_class is not None:
+            queryset = queryset.filter(data_class__id=data_class)
+        return queryset
+
+
 class ReferencePool(APIView):
 
     def get(self, request, format=None):
@@ -47,5 +64,7 @@ class ReferencePool(APIView):
             "Policy Domains": reverse('policydomain-list', request=request),
             "External Resources": reverse('externalresource-list', request=request),
             "Date Formats": reverse('dateformat-list', request=request),
+            "Classes": reverse('class-list', request=request),
+            "Individuals": reverse('individual-list', request=request)
         }
         return Response(result)

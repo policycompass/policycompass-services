@@ -34,3 +34,15 @@ class ExternalResourceSerializer(ModelSerializer):
 class DateFormatSerializer(ModelSerializer):
     class Meta:
         model = DateFormat
+
+
+class DataClassSerializer(ModelSerializer):
+    class Meta:
+        model = DataClass
+
+
+class IndividualSerializer(ModelSerializer):
+    data_class = DataClassSerializer()
+
+    class Meta:
+        model = Individual

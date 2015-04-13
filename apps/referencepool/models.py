@@ -37,6 +37,7 @@ class ExternalResource(models.Model):
     def __str__(self):
         return self.title
 
+
 class UnitCategory(models.Model):
     title = models.CharField(max_length=100, unique=True)
 
@@ -78,3 +79,30 @@ class DateFormat(models.Model):
     def __str__(self):
         return self.example
 
+
+class DataClass(models.Model):
+    """
+    Refers to a Policy Compass Class
+    """
+    title = models.CharField(max_length=100, unique=True)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = "Class"
+        verbose_name_plural = "Classes"
+
+    def __str__(self):
+        return self.title
+
+
+class Individual(models.Model):
+
+    title = models.CharField(max_length=100)
+    data_class = models.ForeignKey(DataClass)
+
+    class Meta:
+        verbose_name = "Individual"
+        verbose_name_plural = "Individuals"
+
+    def __str__(self):
+        return self.title

@@ -10,6 +10,8 @@ router.register(r'unitcategories', UnitCategoryViewSet)
 router.register(r'languages', LanguageViewSet)
 router.register(r'externalresources', ExternalResourceViewSet)
 router.register(r'dateformats', DateFormatViewSet)
+router.register(r'classes', DataClassViewSet, base_name='class')
+router.register(r'individuals', IndividualViewSet, base_name='individual')
 
 urlpatterns = patterns(
     '',

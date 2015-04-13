@@ -1,252 +1,292 @@
 [
-   {
-      "pk":1,
-      "fields":{
-         "description":"Education",
-         "title":"Education"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":2,
-      "fields":{
-         "description":"Economy",
-         "title":"Economy"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":3,
-      "fields":{
-         "description":"Justice",
-         "title":"Justice"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":4,
-      "fields":{
-         "description":"Health",
-         "title":"Health"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":5,
-      "fields":{
-         "description":"Population",
-         "title":"Population"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":6,
-      "fields":{
-         "description":"Culture",
-         "title":"Culture"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":7,
-      "fields":{
-         "description":"Infrastructure",
-         "title":"Infrastructure"
-      },
-      "model":"referencepool.policydomain"
-   },
-   {
-      "pk":1,
-      "fields":{
-         "code":"en",
-         "title":"English"
-      },
-      "model":"referencepool.language"
-   },
-   {
-      "pk":2,
-      "fields":{
-         "code":"de",
-         "title":"German"
-      },
-      "model":"referencepool.language"
-   },
-   {
-      "pk":3,
-      "fields":{
-         "code":"es",
-         "title":"Spanish"
-      },
-      "model":"referencepool.language"
-   },
-   {
-      "pk":4,
-      "fields":{
-         "code":"el",
-         "title":"Greek"
-      },
-      "model":"referencepool.language"
-   },
-   {
-      "pk":5,
-      "fields":{
-         "code":"ru",
-         "title":"Russian"
-      },
-      "model":"referencepool.language"
-   },
-   {
-      "pk":1,
-      "fields":{
-         "title":"Eurostat",
-         "api_url":"http://epp.eurostat.ec.europa.eu/portal/page/portal/sdmx_web_services/getting_started/rest_sdmx_2.1",
-         "url":"http://epp.eurostat.ec.europa.eu/"
-      },
-      "model":"referencepool.externalresource"
-   },
-   {
-      "pk":1,
-      "fields":{
-         "title":"Length"
-      },
-      "model":"referencepool.unitcategory"
-   },
-   {
-      "pk":2,
-      "fields":{
-         "title":"Mass"
-      },
-      "model":"referencepool.unitcategory"
-   },
-   {
-      "pk":3,
-      "fields":{
-         "title":"Time"
-      },
-      "model":"referencepool.unitcategory"
-   },
-   {
-      "pk":4,
-      "fields":{
-         "title":"Currency"
-      },
-      "model":"referencepool.unitcategory"
-   },
-   {
-      "pk":2,
-      "fields":{
-         "description":"Day",
-         "title":"day",
-         "unit_category":3
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":3,
-      "fields":{
-         "description":"Month",
-         "title":"month",
-         "unit_category":3
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":4,
-      "fields":{
-         "description":"Year",
-         "title":"year",
-         "unit_category":3
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":5,
-      "fields":{
-         "description":"Decade",
-         "title":"decade",
-         "unit_category":3
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":6,
-      "fields":{
-         "description":"Kilogram",
-         "title":"kg",
-         "unit_category":2
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":7,
-      "fields":{
-         "description":"Metre",
-         "title":"m",
-         "unit_category":1
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":8,
-      "fields":{
-         "description":"Dollar",
-         "title":"Dollar",
-         "unit_category":4
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":9,
-      "fields":{
-         "description":"Euro",
-         "title":"Euro",
-         "unit_category":4
-      },
-      "model":"referencepool.unit"
-   },
-   {
-      "pk":10,
-      "fields":{
-         "description":"Million Euro",
-         "title":"Million Euro",
-         "unit_category":4
-      },
-      "model":"referencepool.unit"
-   },
-   {
-        "pk": 1,
-        "fields": {
-            "example": "21.02.2010",
-            "format": "%d.%m.%Y",
-            "symbol": "dd.mm.yyyy"
-        },
-        "model": "referencepool.dateformat"
-    },
-    {
-        "pk": 2,
-        "fields": {
-            "example": "2010-02-21",
-            "format": "%Y-%m-%d",
-            "symbol": "yyyy-mm-dd"
-        },
-        "model": "referencepool.dateformat"
-    },
-    {
-        "pk": 3,
-        "fields": {
-            "example": "21/02/2010",
-            "format": "%d/%m/%Y",
-            "symbol": "dd/mm/yyyy"
-        },
-        "model": "referencepool.dateformat"
-    },
-    {
-        "pk": 4,
-        "fields": {
-            "example": "02/21/2010",
-            "format": "%m/%d/%Y",
-            "symbol": "mm/dd/yyyy"
-        },
-        "model": "referencepool.dateformat"
+  {
+    "pk": 1,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Education",
+      "description": "Education"
     }
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Economy",
+      "description": "Economy"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Justice",
+      "description": "Justice"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Health",
+      "description": "Health"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Population",
+      "description": "Population"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Culture",
+      "description": "Culture"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "referencepool.policydomain",
+    "fields": {
+      "title": "Infrastructure",
+      "description": "Infrastructure"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.language",
+    "fields": {
+      "title": "English",
+      "code": "en"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.language",
+    "fields": {
+      "title": "German",
+      "code": "de"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.language",
+    "fields": {
+      "title": "Spanish",
+      "code": "es"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.language",
+    "fields": {
+      "title": "Greek",
+      "code": "el"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "referencepool.language",
+    "fields": {
+      "title": "Russian",
+      "code": "ru"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.externalresource",
+    "fields": {
+      "title": "Eurostat",
+      "url": "http://epp.eurostat.ec.europa.eu/",
+      "api_url": "http://epp.eurostat.ec.europa.eu/portal/page/portal/sdmx_web_services/getting_started/rest_sdmx_2.1"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.unitcategory",
+    "fields": {"title": "Length"}
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.unitcategory",
+    "fields": {"title": "Mass"}
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.unitcategory",
+    "fields": {"title": "Time"}
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.unitcategory",
+    "fields": {"title": "Currency"}
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 3,
+      "title": "day",
+      "description": "Day"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 3,
+      "title": "month",
+      "description": "Month"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 3,
+      "title": "year",
+      "description": "Year"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 3,
+      "title": "decade",
+      "description": "Decade"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 2,
+      "title": "kg",
+      "description": "Kilogram"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 1,
+      "title": "m",
+      "description": "Metre"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 4,
+      "title": "Dollar",
+      "description": "Dollar"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 4,
+      "title": "Euro",
+      "description": "Euro"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "referencepool.unit",
+    "fields": {
+      "unit_category": 4,
+      "title": "Million Euro",
+      "description": "Million Euro"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.dateformat",
+    "fields": {
+      "format": "%d.%m.%Y",
+      "example": "21.02.2010",
+      "symbol": "dd.mm.yyyy"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.dateformat",
+    "fields": {
+      "format": "%Y-%m-%d",
+      "example": "2010-02-21",
+      "symbol": "yyyy-mm-dd"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.dateformat",
+    "fields": {
+      "format": "%d/%m/%Y",
+      "example": "21/02/2010",
+      "symbol": "dd/mm/yyyy"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.dateformat",
+    "fields": {
+      "format": "%m/%d/%Y",
+      "example": "02/21/2010",
+      "symbol": "mm/dd/yyyy"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.dataclass",
+    "fields": {
+      "title": "Country",
+      "description": "Country"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "referencepool.individual",
+    "fields": {
+      "data_class": 1,
+      "title": "Spain"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "referencepool.individual",
+    "fields": {
+      "data_class": 1,
+      "title": "Germany"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "referencepool.individual",
+    "fields": {
+      "data_class": 1,
+      "title": "United Kingdom"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "referencepool.individual",
+    "fields": {
+      "data_class": 1,
+      "title": "Russia"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "referencepool.individual",
+    "fields": {
+      "data_class": 1,
+      "title": "Greece"
+    }
+  }
 ]
