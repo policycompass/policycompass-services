@@ -52,11 +52,7 @@ def index_item(itemtype,document):
     """
     Indexs a single document to the elastic search
     """
-    #TODO: FIX because of FCM API incosistency
-    if itemtype == "fuzzymap":
-        item_id = str(document["fcmmodelID"])
-    else:
-        item_id = str(document["id"])
+    item_id = str(document["id"])
     #Call the Elastic API Index service (PUT command) to index current document 
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + item_id, data=json.dumps(document))
     return response.text
@@ -84,7 +80,7 @@ def update_index_item(itemtype,item_id):
     data.pop("data", None)  
     #Call the Elastic API Index service (PUT command) to index current document 
     if itemtype == 'fuzzymap':
-        response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["model"]["fcmmodelID"]), data=json.dumps(data["model"]))
+        response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["model"]["id"]), data=json.dumps(data["model"]))
     else:
         response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
     return response.text
