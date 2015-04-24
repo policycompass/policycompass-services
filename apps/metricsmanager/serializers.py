@@ -5,7 +5,7 @@ All Serializers of the Metrics Manager.
 __author__ = 'fki'
 
 
-from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata
+from rest_framework.serializers import ModelSerializer
 from rest_framework.reverse import reverse
 from rest_framework import pagination
 
@@ -23,24 +23,31 @@ class BaseMetricSerializer(ModelSerializer):
     """
     # Remap some field in order to make the names different from the model names
     spatial = serializers.CharField(source='geo_location', required=False)
-    resource_url = serializers.URLField(source='details_url', required=False)
+    resource_url = serializers.URLField(source='details_url', required=False, allow_blank=True)
     unit = UnitField(source='unit_id')
     language = LanguageField(source='language_id')
     external_resource = ExternalResourceField(source='ext_resource_id', required=False)
-    resource_issued = serializers.DateField(source='publisher_issued', required=False)
-    issued = serializers.DateField(source='created_at', read_only=True)
-    modified = serializers.DateField(source='updated_at', read_only=True)
-    policy_domains = PolicyDomainsField(source='policy_domains')
+    resource_issued = serializers.DateField(source='publisher_issued', required=False, allow_null=True)
+    issued = serializers.DateTimeField(source='created_at', read_only=True)
+    modified = serializers.DateTimeField(source='updated_at', read_only=True)
+    policy_domains = PolicyDomainsField()
 
-    def to_native(self, obj):
-        """
-        Deserializes the Django model object
-        """
-        result = SortedDictWithMetadata()
-        # Set the self attribute.
-        result['self'] = reverse('metric-detail', args=[obj.pk])
-        result.update(super(BaseMetricSerializer, self).to_native(obj))
-        return result
+    def to_representation(self, instance):
+        ret = super(BaseMetricSerializer, self).to_representation(instance)
+        ret['self'] = reverse('metric-detail', args=[instance.pk])
+        return ret
+
+
+
+    # def to_native(self, obj):
+    #     """
+    #     Deserializes the Django model object
+    #     """
+    #     result = SortedDictWithMetadata()
+    #     # Set the self attribute.
+    #     result['self'] = reverse('metric-detail', args=[obj.pk])
+    #     result.update(super(BaseMetricSerializer, self).to_native(obj))
+    #     return result
 
     class Meta:
         # The serializers is based on the Metric model
@@ -58,9 +65,6 @@ class BaseMetricSerializer(ModelSerializer):
             'updated_at'
         )
 
-        fields = (
-
-        )
 
 
 class ListMetricSerializer(BaseMetricSerializer):
@@ -93,20 +97,31 @@ class WriteMetricSerializer(BaseMetricSerializer):
     Serializer for creating a metric.
     """
 
-    policy_domains = PolicyDomainsField(source='policy_domains', required=True)
+    policy_domains = PolicyDomainsField(required=True)
     # Make raw data required.
     data = RawDataField(required=True)
 
-    def restore_object(self, attrs, instance=None):
+    def create(self, validated_data):
         # Set an intermediate variable with the raw data,
-        raw_data = attrs['data']
+        raw_data = validated_data['data']
         # Delete the data attribute, otherwise DRF would raise an error, because this field is not defined in the model.
-        del attrs['data']
-        metric = super(WriteMetricSerializer, self).restore_object(attrs, instance)
-        # hand the raw data to the newly created metric.
+        del validated_data['data']
+        metric = super(WriteMetricSerializer, self).create(validated_data)
         metric.rawdata = raw_data
-
+        metric.save()
         return metric
+
+
+    # def restore_object(self, attrs, instance=None):
+    #     # Set an intermediate variable with the raw data,
+    #     raw_data = attrs['data']
+    #     # Delete the data attribute, otherwise DRF would raise an error, because this field is not defined in the model.
+    #     del attrs['data']
+    #     metric = super(WriteMetricSerializer, self).restore_object(attrs, instance)
+    #     # hand the raw data to the newly created metric.
+    #     metric.rawdata = raw_data
+    #
+    #     return metric
 
 
 class ExtraCategorySerializer(ModelSerializer):

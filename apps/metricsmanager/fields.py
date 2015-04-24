@@ -18,14 +18,12 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class PolicyDomainsField(serializers.WritableField):
-    """
-    Field for resolving a Policy Domain field.
-    The Field must hold a list of integer values, which represent IDs
-    """
-    def field_to_native(self, obj, field_name):
+class PolicyDomainsField(serializers.Field):
+
+    def get_attribute(self, obj):
         """
-        Resolves the list of IDs into full representations
+        Field for resolving a Policy Domain field.
+        The Field must hold a list of integer values, which represent IDs
         """
         ids = getattr(obj, self.source).all()
         result = []
@@ -35,25 +33,31 @@ class PolicyDomainsField(serializers.WritableField):
             result.append(domains.get(i.domain_id))
         return result
 
-    def from_native(self, value):
+    def to_representation(self, value):
+        return value
+
+    def to_internal_value(self, data):
         """
         Checks, if the value is a list
         """
-        if not type(value) is list:
+        if not type(data) is list:
             raise ValidationError("Policy_domains property is not a list")
-        return value
+        return data
 
 
-class RawDataField(serializers.WritableField):
+class RawDataField(serializers.Field):
     """
     Field for handling the serialization and deserialization of the raw data of a metric.
     """
-    def field_to_native(self, obj, field_name):
+    def to_representation(self, value):
+        return value
+
+    def get_attribute(self, obj):
         """
         Returns the representation of the raw data
         """
         # Process Query Paramters
-        params = self.context['request'].QUERY_PARAMS
+        params = self.context['request'].query_params
         order = None
         new_sort = []
         # Get the sort query parameter
@@ -92,7 +96,7 @@ class RawDataField(serializers.WritableField):
         # Get the actual raw data and return it
         return get_rawdata_for_metric(obj, sort=new_sort, order=order, filter=filter)
 
-    def from_native(self, value):
+    def to_internal_value(self, value):
         """
         Validates the input of raw data
         """
@@ -164,7 +168,4 @@ class RawDataField(serializers.WritableField):
                 raise ValidationError("At least one value is not a float")
 
         return value
-
-    def validate(self, value):
-        pass
 

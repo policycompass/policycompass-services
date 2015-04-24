@@ -19,7 +19,7 @@ from .adapter import *
 import datetime
 
 
-class MetricsField(serializers.WritableField):
+class MetricsField(serializers.Field):
 
     def field_to_native(self, obj, field_name):        
         #logging.warning('----MetricsField--')
@@ -53,7 +53,7 @@ class MetricsField(serializers.WritableField):
         return value
     
 
-class HistoricalEventsField(serializers.WritableField):
+class HistoricalEventsField(serializers.Field):
 
     def field_to_native(self, obj, field_name):
         #logging.warning('--HistoricalEventsField--')
@@ -81,7 +81,7 @@ class HistoricalEventsField(serializers.WritableField):
         return value
 
 
-class VisualizationTitleField(serializers.WritableField):
+class VisualizationTitleField(serializers.Field):
 
     def field_to_native(self, obj, field_name):
         

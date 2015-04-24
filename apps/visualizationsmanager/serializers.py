@@ -1,7 +1,7 @@
 __author__ = 'miquel'
 
 from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
-from rest_framework.serializers import ModelSerializer, WritableField, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 from rest_framework import pagination
@@ -11,7 +11,6 @@ from apps.eventsmanager.models import Event
 
 
 from apps.common.fields import *
-from rest_framework.serializers import SortedDictWithMetadata
 import datetime
 from .fields import MetricsField, HistoricalEventsField, VisualizationTitleField
 

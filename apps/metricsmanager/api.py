@@ -115,7 +115,7 @@ class MetricList(APIView):
         if serializer.is_valid():
             serializer.save()
             # Take another Serializer, so IDs from the Reference Pool become full representations
-            s = ReadMetricSerializer(serializer.object, context={'request': request})
+            s = ReadMetricSerializer(serializer.instance, context={'request': request})
             response = Response(s.data, status=status.HTTP_201_CREATED)
             # Add the Location Header
             response['Location'] = s.data['self']
@@ -127,7 +127,7 @@ class MetricDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Serves the metric resource
     """
-    model = Metric
+    queryset = Metric.objects.all()
     serializer_class = ReadMetricSerializer
 
     def get(self, request, *args, **kwargs):
