@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from .api import *
 from rest_framework import routers
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'policydomains', PolicyDomainViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'unitcategories', UnitCategoryViewSet)
