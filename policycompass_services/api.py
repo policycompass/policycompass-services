@@ -10,6 +10,7 @@ class Base(APIView):
 
      def get(self, request, format=None):
         result = {
+            "Dataset Manager": reverse('dataset-manager-base', request=request),
             "Metrics Manager": reverse('metrics-manager-base', request=request),
             "Reference Pool": reverse('reference-base', request=request),
             "Visualizations Manager": reverse('visualizations-manager-base', request=request),

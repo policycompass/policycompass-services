@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/searchmanager/', include('apps.searchmanager.urls')),
     url(r'^api/v1/eventsmanager/', include('apps.eventsmanager.urls')),
 	url(r'^api/v1/metricsmanager/', include('apps.metricsmanager.urls')),
+    url(r'^api/v1/datasetmanager/', include('apps.datasetmanager.urls')),
     url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),
     url(r'^api/v1/auth/', include('apps.common.urls')),
     url(r'^api/v1/references/', include('apps.referencepool.urls')),
@@ -18,6 +19,6 @@ urlpatterns = patterns('',
     url(r'^docs/', include('rest_framework_swagger.urls'), name='swagger'),
 
     # For the time being redirect to swagger
-    url(r'^$', lambda x: HttpResponseRedirect('/app/'))
+    url(r'^$', lambda x: HttpResponseRedirect('/api/v1'))
 
 )
