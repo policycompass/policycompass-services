@@ -1,1 +1,1 @@
-__author__ = 'john'
+default_app_config = 'apps.datasetmanager.apps.datasetmanagerConfig'
