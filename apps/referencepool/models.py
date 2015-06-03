@@ -40,6 +40,7 @@ class ExternalResource(models.Model):
 
 class UnitCategory(models.Model):
     title = models.CharField(max_length=100, unique=True)
+    identifier = models.CharField(max_length=100, unique=True)
 
     class Meta:
         verbose_name = "Unit Category"
@@ -53,6 +54,7 @@ class Unit(models.Model):
     title = models.CharField(max_length=50, unique=True)
     description = models.TextField()
     unit_category = models.ForeignKey(UnitCategory)
+    identifier = models.CharField(max_length=100, unique=True)
 
     class Meta:
         verbose_name = "Unit"
@@ -86,6 +88,7 @@ class DataClass(models.Model):
     """
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField()
+    code_type = models.CharField(max_length=30, blank=True)
 
     class Meta:
         verbose_name = "Class"
@@ -98,6 +101,7 @@ class DataClass(models.Model):
 class Individual(models.Model):
 
     title = models.CharField(max_length=100)
+    code = models.CharField(max_length=30, blank=True)
     data_class = models.ForeignKey(DataClass)
 
     class Meta:
