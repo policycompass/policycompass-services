@@ -1,0 +1,492 @@
+{
+    "0": {
+        "col_0": "1",
+        "col_1": "daten_hamburg_de",
+        "col_2": "Open Data HamburgDie bisher unter dem Open Data Portal veröffentlichten Daten, finden Sie nun hier im Transparenzportal.",
+        "col_3": "ckan",
+        "col_4": "Germany"
+    },
+    "1": {
+        "col_0": "2",
+        "col_1": "data_gov_uk",
+        "col_2": "The government is opening up its data for other people to re-use. This is only about non-personal, non-sensitive data – information like the list of schools, crime rates or the performance of your council.To make sure that we do this properly and work with the web, this work is being...",
+        "col_3": "ckan",
+        "col_4": "United Kingdom"
+    },
+    "2": {
+        "col_0": "3",
+        "col_1": "dati_gov_it",
+        "col_2": "Il portale di Dati.gov.it è stato progettato e realizzato nel rispetto dei criteri di accessibilità indicati nel Decreto Ministeriale di attuazione della Legge Stanca (Legge 4/2004 'Disposizioni per favorire l'accesso dei soggetti disabili agli strumenti informatici') e alle linee guida WCAG 1.0 previste dallo standard internazionale WAI Web Accessibility Initative,...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "3": {
+        "col_0": "4",
+        "col_1": "govdata_de",
+        "col_2": "Auf GovData, dem Datenportal für Deutschland sind Daten aller Verwaltungsebenen zentral zugänglich. Aktuelle Infos und Ähnliches finden Sie im Bereich 'Neues', dem Blog von GovData. Auf dem Weg zu „Open Data 'Unser Ziel ist klar: Wir wollen Daten der öffentlichen Hand möglichst umfassend und offen zur Weiterverwendung zur Verfügung stellen....",
+        "col_3": "ckan",
+        "col_4": "Germany"
+    },
+    "4": {
+        "col_0": "5",
+        "col_1": "open_data_europa_eu",
+        "col_2": "The European Union Open Data Portal is the single point of access to a growing range of data from the institutions and other bodies of the European Union (EU). Data are free for you to use and reuse for commercial or non-commercial purposes.By providing easy and free access to data,...",
+        "col_3": "html",
+        "col_4": "International"
+    },
+    "5": {
+        "col_0": "6",
+        "col_1": "daten_rlp_de",
+        "col_2": "Willkommen auf dem Open-Government-Data-Portal Rheinland-Pfalz.Rheinland-Pfalz bietet seit Anfang März einen zentralen Zugang zu Daten und Informationen aus den rheinland-pfälzischen Verwaltungen einschließlich der Kommunen. Dieses Portal ist dabei als Prototyp angelegt. Es wird ständig um neue Funktionalitäten erweitert und vor allem mit Verlinkungen (Querverweisen) zu weiteren interessanten Datensätzen ausgebaut. Genauere Informationen...",
+        "col_3": "ckan",
+        "col_4": "Germany"
+    },
+    "6": {
+        "col_0": "7",
+        "col_1": "datos_gob_es",
+        "col_2": "Datos.gob.es ofrece recursos prácticos, informativos y divulgativos de utilidad para el desarrollo de productos y servicios de alto valor social y económico basados en la reutilización de la información del sector público.El eje de ese esfuerzo es el Catálogo de Información Pública, que da acceso a múltiples servicios y conjuntos...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "7": {
+        "col_0": "8",
+        "col_1": "datiopen-it",
+        "col_2": "Idea di base del progetto: rendere gli open data usabili dal grande pubblico. L’idea di base di DatiOpen.it è quella di dare una spinta decisa al fenomeno OpenData Italiano con le seguenti azioni: Raccogliere e documentare la maggiore quantità possibile di dati open italiani. La redazione di datiopen.it quotidianamente monitora...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "8": {
+        "col_0": "9",
+        "col_1": "opendata_admin_ch",
+        "col_2": "Offene Behördendaten der Schweiz-Auf dem Open Government Data-Pilotportal stehen Ihnen 1850 Datensätze zur Verfügung – für einfache Auswertungen, Kombinationen oder die Entwicklung von Applikationen und Visualisierungen.",
+        "col_3": "ckan",
+        "col_4": "Switzerland"
+    },
+    "9": {
+        "col_0": "10",
+        "col_1": "opendata_euskadi_net",
+        "col_2": "El Gobierno Vasco publica los datos en formato reutilizable con el fin de que terceros puedan crear servicios derivados de los mismos:Por parte de la iniciativa privada: servicios con fines comerciales que contribuyan a generar valor para la ciudadanía.Por parte de otras Administraciones Públicas: servicios horizontales útiles para la ciudadanía...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "10": {
+        "col_0": "11",
+        "col_1": "opendata_aragon_es",
+        "col_2": "Busca datos- Lo más importante de Aragón Open Data son sus datos y los hemos ordenado para que se puedan buscar fácilmente. Si eres un ciudadano puedes acceder a ellos haciendo búsquedas libres o usando filtros de búsqueda. Si eres un infomediario accede a ellos a través de nuestra API...",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "11": {
+        "col_0": "12",
+        "col_1": "portal_openbelgium_be",
+        "col_2": "Open Belgium is community driven news platform and and annual conference about Open Knowledge in Belgium hosted by Open Knowledge Belgium.",
+        "col_3": "ckan",
+        "col_4": "Belgium"
+    },
+    "12": {
+        "col_0": "13",
+        "col_1": "data_gv_at",
+        "col_2": "The Federal Chancellery provides a compilation of published in Austria administrative data in machine-readable form for further use by the citizens as well as the economy. The re-use should be facilitated by standardized and transparent terms of use.The use of open data is available to any person shall release when...",
+        "col_3": "ckan",
+        "col_4": "Austria"
+    },
+    "13": {
+        "col_0": "14",
+        "col_1": "offenedaten_de",
+        "col_2": "Warum ein Daten-Portal der Open Data Community? OffeneDaten.de ist ein Datenkatalog für offene Daten in Deutschland. Die Seite wurde 2010 von engagierten Bürgern initiiert, weil es bis Dato kein vergleichbares Angebot in Deutschland gab.Die Seite wird heute von der Open Knowledge Foundation Deutschland mit dem Zweck betrieben ein unabhängiges und...",
+        "col_3": "ckan",
+        "col_4": "Germany"
+    },
+    "14": {
+        "col_0": "15",
+        "col_1": "data_opendataforum_info",
+        "col_2": "open data in vlaanderen",
+        "col_3": "ckan",
+        "col_4": "Belgium"
+    },
+    "15": {
+        "col_0": "16",
+        "col_1": "dadesobertes_gencat_cat",
+        "col_2": "És el web oficial de la Generalitat de Catalunya, el punt de referència per a la gent de Catalunya i d'arreu del món que vol informar-se sobre els organismes, les actuacions i els serveis de la Generalitat.A més, permet localitzar ràpidament informació pràctica de viure i conèixer millor el país...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "16": {
+        "col_0": "17",
+        "col_1": "hri_fin",
+        "col_2": "Description of the Helsinki Region Infoshare Service:Cities continuously collect and produce large quantities of data which are utilised in the planning, production and decision-making processes. It is also utilised in the evaluation of municipal activities. Traditionally, this data has only been in the city’s internal use but since 2011 metropolitan...",
+        "col_3": "ckan",
+        "col_4": "Finland"
+    },
+    "17": {
+        "col_0": "18",
+        "col_1": "opengov_es",
+        "col_2": "En esta web ponemos a su disposición conjuntos de datos libres obtenidos de fuentes públicas mediante técnicas de raspado (scraping) o mediante elaboración propia a través del tratamiento de fuentes públicas.Se trata de una iniciativa ciudadana que se engloba dentro del Proyecto Kelsen. Los grupos de datos se categorizan mediante...",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "18": {
+        "col_0": "19",
+        "col_1": "dati_trentino_it",
+        "col_2": "Il portale Dati aperti del Trentino è un catalogo che permette la ricerca, l'accesso, il download e l'anteprima dei dati aperti del Trentino tramite un unico punto di accesso. Grazie al rispetto degli standard definiti nelle Linee guida approvate con la Deliberazione della Giunta Provinciale n. 2858/2012, i dati pubblici...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "19": {
+        "col_0": "20",
+        "col_1": "data_digitaliser_dk",
+        "col_2": "Datakataloget udstiller alle datakilder på Digitaliser.dk og har som ambition at udstille alle det offentliges data. Kataloget er dermed det danske svar på data.gov og en række andre officielle forsøg på at skabe gennemsigtighed i de nationale forvaltninger rundt omkring i verden.Det er IT- og Telestyrelsen der står bag Datakataloget,...",
+        "col_3": "html",
+        "col_4": "Denmark"
+    },
+    "20": {
+        "col_0": "21",
+        "col_1": "data_london_gov_uk",
+        "col_2": "Over the last few months we have been busy updating London Datastore to deliver a host of practical new features - improved (geography based) searches, dataset previews and APIs – all of which will make for a much sleeker experience. The technical improvements are there to support our broader aim...",
+        "col_3": "ckan",
+        "col_4": "United Kingdom"
+    },
+    "21": {
+        "col_0": "22",
+        "col_1": "transparencia_gijon_es",
+        "col_2": "Éste es el catálogo de todos los conjuntos de datos (datasets) publicados por el Ayuntamiento. Cada conjunto de datos cuenta con una ficha propia donde se detalla toda la información sobre él.",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "22": {
+        "col_0": "23",
+        "col_1": "data_gov_ie",
+        "col_2": "About data.gov.ie - This is the first version of the national data portal, launched in May 2014.The departments of the Government and other public sector bodies are releasing public data to help people understand how government works, how decisions are made, and what we know about the country and society....",
+        "col_3": "ckan",
+        "col_4": "Ireland"
+    },
+    "23": {
+        "col_0": "24",
+        "col_1": "data_glasgow_gov_uk",
+        "col_2": "Glasgow takes the groundbreaking step to open data.Browse, search and use the datasets to design practical solutions for the city's specific challenges.Contribute or suggest datasets, share your ideas and the innovative ways you use open data.",
+        "col_3": "ckan",
+        "col_4": "United Kingdom"
+    },
+    "24": {
+        "col_0": "25",
+        "col_1": "dati-toscana-it",
+        "col_2": "Con il progetto OPENDATA la Regione Toscana raccoglie la sfida della trasparenza e della collaborazione con le comunità che producono idee, conoscenze e competenze.Per questo non si limita a rilasciare dataset aperti ma si apre alla richiesta di cittadini, imprese, startup perché i dati a disposizione rispondano ai bisogni di...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "25": {
+        "col_0": "26",
+        "col_1": "abertos_xunta_es",
+        "col_2": "Portal open data da xunta de galicia",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "26": {
+        "col_0": "27",
+        "col_1": "opendata-antwerpen-be",
+        "col_2": "De stad Antwerpen stelt sinds november 2012 een aantal lijsten met gegevens of datasets vrij ter beschikking van iedereen. Zo zijn er nu al enkele tientallen datasets toegankelijk.",
+        "col_3": "html",
+        "col_4": "Belgium"
+    },
+    "27": {
+        "col_0": "28",
+        "col_1": "it_ckan_net",
+        "col_2": "CKAN Italia contiene dataset that you can browse, learn about and download",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "28": {
+        "col_0": "29",
+        "col_1": "ie_ckan_net",
+        "col_2": "CKAN Ireland contains datasets that you can browse, learn about and download.",
+        "col_3": "ckan",
+        "col_4": "Ireland"
+    },
+    "29": {
+        "col_0": "30",
+        "col_1": "datosabiertos_malaga_eu",
+        "col_2": "Málaga se compromete con la iniciativa a nivel global que pretende poner a disposición del conjunto de ciudadanos y empresas el conjunto de datos e información que poseen las admnistraciones públicas.Además se trata de dotar de mayor transparencia a la gestión municipal y hacer más fluido en diálogo entre el...",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "30": {
+        "col_0": "31",
+        "col_1": "data_bris_ac_uk",
+        "col_2": "The data.bris Research Data Repository: The University of Bristol’s mission is to pursue and share knowledge and understanding, both for their own sake and to help individuals and society fulfil their potential. The University is research-intensive, supporting both individual scholarship and interdisciplinary or thematic research of the highest quality. The...",
+        "col_3": "ckan",
+        "col_4": "United Kingdom"
+    },
+    "31": {
+        "col_0": "32",
+        "col_1": "daten_berlin_de",
+        "col_2": "Im Berliner Datenportal stellt das Land Berlin Datensätze der öffentlichen Verwaltung zur Verfügung. So soll Verwaltungsmitarbeitern, Bürgern, Unternehmen und Wissenschaftlern die Möglichkeit gegeben werden, über einen zentralen Einstiegspunkt auf Daten und Informationen der Berliner Verwaltung zuzugreifen und diese weiterzuverwenden, so dass durch neue Ideen sowie Kombination und Analyse neue Erkenntnisse...",
+        "col_3": "html",
+        "col_4": "Germany"
+    },
+    "32": {
+        "col_0": "33",
+        "col_1": "open_wien_at",
+        "col_2": "Vienna open data catalogue.",
+        "col_3": "html",
+        "col_4": "Austria"
+    },
+    "33": {
+        "col_0": "34",
+        "col_1": "nosdonnees_fr",
+        "col_2": "NosDonnées.fr recense jeux de données que vous pouvez parcourir, découvrir et télécharger.",
+        "col_3": "ckan",
+        "col_4": "France"
+    },
+    "34": {
+        "col_0": "35",
+        "col_1": "ckan_data_linz_gv_at",
+        "col_2": "OpenData Linz CKAN is an open registry of data and content packages. Harnessing the CKAN software, this site makes it easy to find, share and reuse content and data, especially in ways that are machine automatable.",
+        "col_3": "ckan",
+        "col_4": "Austria"
+    },
+    "35": {
+        "col_0": "36",
+        "col_1": "data_gov_sk",
+        "col_2": "Nová verzia portálu data.gov.sk 4.6.2014, Bratislava - Národná agentúra pre sieťové a elektronické služby (NASES) spustila novú, vylepšenú verziu portálu.Podrobný popis všetkých vylepšení a zmien nájdete tu.",
+        "col_3": "ckan",
+        "col_4": "Slovakia"
+    },
+    "36": {
+        "col_0": "37",
+        "col_1": "opendata-montpelliernumerique-fr",
+        "col_2": "Le catalogue des données rassemble l’ensemble des descriptions des données disponibles et publiées par les différents partenaires. Plusieurs partenaires participent en effet à son enrichissement. Il s’agit des institutions publiques locales mais aussi régionales ou nationales, d’acteurs non gouvernementaux comme des associations ou des entreprises privées dès lors que leur...",
+        "col_3": "html",
+        "col_4": "France"
+    },
+    "37": {
+        "col_0": "38",
+        "col_1": "www_data_rennes-metropole_fr",
+        "col_2": "L'entrepôt de données de Rennes Métropole vous donne la possibilité d'accéder à différents jeux de données, sous différents formats et en provenance de différents services de la Ville de Rennes et de Rennes Métropole et leurs partenaires.Pour trouver les données qui vous intéressent ou simplement pour visiter notre entrepôt n'hésitez...",
+        "col_3": "html",
+        "col_4": "France"
+    },
+    "38": {
+        "col_0": "39",
+        "col_1": "rotterdamopendata_nl",
+        "col_2": "Open Data Beslismodel-Dit beslismodel is gemaakt door het Kenniscentrum Creating010 van de Hogeschool Rotterdam in het kader van het SIA Raak Project: Professionals Supported - Rotterdam Open Data, voor de Gemeente Rotterdam. Met dit beslismodel kan je testen of en hoe een dataset kan worden geopend en geschikt gemaakt voor...",
+        "col_3": "ckan",
+        "col_4": "Netherlands"
+    },
+    "39": {
+        "col_0": "40",
+        "col_1": "data_gov_ro",
+        "col_2": "data.gov.ro este punctul central de acces pentru seturile de date deschise livrate de autoritățile și instituțiile administrației publice, ajutând publicul să găsească, să descarce și să folosească informațiile generate și deținute de structurile administrative.",
+        "col_3": "ckan",
+        "col_4": "Romania"
+    },
+    "40": {
+        "col_0": "41",
+        "col_1": "rs_ckan_net",
+        "col_2": "CKAN - Serbia садржи скуп(ов)а података које можете прегледати, учити о њима и преузети.",
+        "col_3": "ckan",
+        "col_4": "Serbia"
+    },
+    "41": {
+        "col_0": "42",
+        "col_1": "data_amsterdamopendata_nl",
+        "col_2": "Amsterdam Open Data Catalogue.",
+        "col_3": "ckan",
+        "col_4": "Netherlands"
+    },
+    "42": {
+        "col_0": "43",
+        "col_1": "dados-madrid-es",
+        "col_2": "Listado con el catálogo completo de conjuntos de datos que el Ayuntamiento de Madrid pone a disposición de los ciudadanos. Este listado puede descargarlo en formato RDF  (DCAT) o CSV. De cada dataset se presenta su sector, la fecha en la que se incorporó al catálogo, su periodicidad, el número...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "43": {
+        "col_0": "44",
+        "col_1": "cz_ckan_net",
+        "col_2": "CKAN Czech Republic contains 180 datasets that you can browse, learn about and download.",
+        "col_3": "ckan",
+        "col_4": "Czech Republic"
+    },
+    "44": {
+        "col_0": "45",
+        "col_1": "datosabiertos-jcyl-es",
+        "col_2": "El portal de Datos Abiertos se enmarca en el proyecto de Gobierno Abierto de la Junta de Castilla y León aprobado por Acuerdo 17/2012, de 8 de marzo, de la Junta de Castilla y León, por el que se pone en marcha el Modelo de Gobierno Abierto de la Junta...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "45": {
+        "col_0": "46",
+        "col_1": "gobiernoabierto-navarra-es",
+        "col_2": "Catalogo de datos de open data Navarra",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "46": {
+        "col_0": "47",
+        "col_1": "ckan_data_graz_gv_at",
+        "col_2": "Es stehen Datensätze zur Verfügung, die man durchsuchen, verstehen, und herunterladen kann.",
+        "col_3": "ckan",
+        "col_4": "Austria"
+    },
+    "47": {
+        "col_0": "48",
+        "col_1": "dati_veneto_it",
+        "col_2": "Regione Veneto ha realizzato il portale Dati.veneto.it per divulgare in maniera semplice e intuitiva i dati in formato aperto prodotti dalla Regione Veneto e dagli Enti del territorio veneto che aderiscono all'iniziativa. Regione Veneto si riserva il diritto di modificare i contenuti del sito e delle note legali in qualsiasi...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "48": {
+        "col_0": "49",
+        "col_1": "opendata-hro_de",
+        "col_2": "Die Hansestadt Rostock sammelt und pflegt eine Vielzahl von Daten, beispielsweise aus den Bereichen Transport und Verkehr, Umwelt und Klima sowie Infrastruktur, Bauen und Wohnen. Diese Daten bergen enormes Potenzial für Innovationen, sofern sie als offene Daten für jedermann frei zugänglich gemacht werden und für jegliche Zwecke weiterverwendet und weiterverbreitet...",
+        "col_3": "ckan",
+        "col_4": "Germany"
+    },
+    "49": {
+        "col_0": "50",
+        "col_1": "data_belgium_be",
+        "col_2": "The Belgian open data initiative. Search for open data - Currently the number of data sets is rather limited, but it will to grow rapidly. Audience : Developers and open data researchers.",
+        "col_3": "html",
+        "col_4": "Belgium"
+    },
+    "50": {
+        "col_0": "51",
+        "col_1": "data_kk_dk",
+        "col_2": "Åbne data fra KøbenhavnPå data.kk.dk kan du finde en række datasæt fra Københavns Kommune. Det er eksempelvis trafik, parkeringsforhold, byens fysiske infrastruktur, aktuelle aktiviteter i byens rum og meget andet.Læs mere om projektet på siden om.Vi arbejder p.t. på at få udstillet: 70+ datasæt med statistik om københavnerne,energidata omkring Københavns...",
+        "col_3": "ckan",
+        "col_4": "Denmark"
+    },
+    "51": {
+        "col_0": "52",
+        "col_1": "dati_venezia_it",
+        "col_2": "Con Dati aperti, comunemente chiamati con il termine inglese Open Data anche nel contesto italiano, si fa riferimento ad una filosofia, che è al tempo stesso una pratica. Essa implica che alcune tipologie di dati siano liberamente accessibili a tutti, senza restrizioni di copyright, brevetti o altre forme di controllo...",
+        "col_3": "html",
+        "col_4": "Italy"
+    },
+    "52": {
+        "col_0": "53",
+        "col_1": "data_opendataportal_at",
+        "col_2": "Open Data Portal Österreich:Das zentrale Datenportal für Wirtschaft, Kultur, NGO/NPO, Forschung und Zivilgesellschaft.Das Open Data Portal Österreich bietet allen eine Plattform, um auf Daten zu verlinken, Daten einzustellen, Daten zu nutzen, sowie daraus entstandene Services zu präsentieren.",
+        "col_3": "ckan",
+        "col_4": "Austria"
+    },
+    "53": {
+        "col_0": "54",
+        "col_1": "www_juntadeandalucia_es",
+        "col_2": "Existen 70 conjuntos de datos publicados para 19 organismos públicos diferentes.La mayor parte de los conjuntos de datos continúan siendo formatos no reutilizables (HTML/PDF) y el 51% aun requieren de autorización previa por parte del organismo responsable de los datos de cara a la reutilización.Se destacan cinco conjuntos de datos...",
+        "col_3": "html",
+        "col_4": "Spain"
+    },
+    "54": {
+        "col_0": "55",
+        "col_1": "aperto_comune_torino_it",
+        "col_2": "Torino open Data Catalogue",
+        "col_3": "html",
+        "col_4": "Italy"
+    },
+    "55": {
+        "col_0": "56",
+        "col_1": "openadata_service_bw_de",
+        "col_2": "Ein Vorteil von Open Data Portalen ist die Bereitstellung großer Mengen maschinenlesbarer Daten. Für den „normalen Anwender“ besteht die Herausforderung darin, die richtigen Daten zu finden und zu interpretieren. Dafür bietet das Open Data Portal Baden-Württemberg neben den Funktionen zur Suche und Navigation spezielle Werkzeuge an. Interessierte Bürgerinnen und Bürger...",
+        "col_3": "html",
+        "col_4": "Germany"
+    },
+    "56": {
+        "col_0": "57",
+        "col_1": "odaa_kk",
+        "col_2": "Det overordnede formål med www.odaa.dk er at gøre data frit tilgængelige for at understøtte produktivitet og innovation ved højere grad af udnyttelse af data. Udviklere, iværksættere, virksomheder, institutioner, borgere m.fl. får mulighed for nemt at kunne tilgå åbne data og forvandle dem til nye services/applikationer, der kan gøre det bedre,...",
+        "col_3": "ckan",
+        "col_4": "Denmark"
+    },
+    "57": {
+        "col_0": "58",
+        "col_1": "data_ktn_gv_at",
+        "col_2": "Das Portal wurde mit den OpenSource Komponenten CKAN und WordPress realisiert und erfüllt den österreichischen OGD Metadatenstandard (2.1). Das Kärntner OGD Portal ist technisch und inhaltlich auch mit dem nationalen OGD Portal (data.gv.at) harmonisiert.Im Verständnis des Landes Kärnten ist Open Government eine umfassende Neugestaltung von Politik- und Verwaltungshandeln im Sinne...",
+        "col_3": "html",
+        "col_4": "Austria"
+    },
+    "58": {
+        "col_0": "59",
+        "col_1": "ckan_opendatacanarias_es",
+        "col_2": "Bienvenido al catálogo de datos abiertos de Open Data Canarias. Puede consultar los conjuntos de datos disponibles, y recuerde que puede solicitar un conjunto de datos aquí.",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "59": {
+        "col_0": "60",
+        "col_1": "opendata_bordeaux_fr",
+        "col_2": "En ouvrant son portail opendata.bordeaux.fr avec le concours de l’ensemble de ses directions, la Ville entend insuffler toujours plus de transparence, de participation, de promotion de l’action locale, de collaboration et d’innovation dans sa relation avec ses citoyens, mais aussi favoriser un potentiel économique et d’innovation majeur pour les entreprises...",
+        "col_3": "html",
+        "col_4": "France"
+    },
+    "60": {
+        "col_0": "61",
+        "col_1": "data_upf_edu",
+        "col_2": "The data platform of the UPF is part of an institutional project to open up public data (OpenData) in order to support the dynamism of the innovation process in the public sector, with a joint long-term work with other European Universities.",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "61": {
+        "col_0": "62",
+        "col_1": "opendata_provincia_roma_it",
+        "col_2": "Attualmente nel portale opendata della Provincia di Roma sono presenti 51 dataset",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "62": {
+        "col_0": "63",
+        "col_1": "oppnadata_se",
+        "col_2": "None",
+        "col_3": "ckan",
+        "col_4": "Sweden"
+    },
+    "63": {
+        "col_0": "64",
+        "col_1": "opendata_hu",
+        "col_2": "Üdvözlünk az opendata.hu oldalon. Regisztrálj és töltsd fel, vagy linkeld az általad létrehozott vagy máshol talált nyílt adatokat. Az oldal használatáról a Felhasználási feltételekből és a Rövid használati útmutatóból tudhatsz meg többet, adataidat az Adatvédelmi nyilatkozatnaknak megfelelően kezeljük.Megtalálsz miket a közösségi médiában is, blogunkon pedig a nyílt adatokról többet is...",
+        "col_3": "ckan",
+        "col_4": "Hungary"
+    },
+    "64": {
+        "col_0": "65",
+        "col_1": "opendata_comune_bari_it",
+        "col_2": "Informazioni Portale OpenData del Comune di Bari. Qual'era il prezzo medio di una casa nel Regno Unito nel 1935? Quando avverrà il sorpasso della popolazione dell'India su quella della Cina? Dove si possono ammirare opere d'arte finanziate da enti pubblici a Seattle? I dati per rispondere a molte, molte domande...",
+        "col_3": "ckan",
+        "col_4": "Italy"
+    },
+    "65": {
+        "col_0": "66",
+        "col_1": "se",
+        "col_2": "What was the air quality in 2009? What is the growth in population? Where can you see publicly-funded art in the centre of the city? Data to answer many, many questions like these is out there on the Internet somewhere - but it is not always easy to find.OpenNorth is...",
+        "col_3": "ckan",
+        "col_4": "Sweden"
+    },
+    "66": {
+        "col_0": "67",
+        "col_1": "opendata_ayto_caceres_es",
+        "col_2": "El portal de datos abiertos Opendata Cáceres es una iniciativa del Ayuntamiento de Cáceres desarrollada a través del Proyecto RED NOVA SOSTENIBLE, cofinanciado por el FEDER dentro del Programa Operativo de Cooperación Transfronteriza España – Portugal (POCTEP) 2007 – 2013, para hacer públicos sus datos y documentos de interés para...",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "67": {
+        "col_0": "68",
+        "col_1": "datos_alcobendas_org",
+        "col_2": "Bienvenidos a Datos Abiertos del Ayuntamiento de Alcobendas, la institución pública local de España más transparente, que avanza en el compromiso de ser cada día más útil y accesible para todos los ciudadanos.Desde este espacio ofrecemos conjuntos de datos municipales de calidad, completos, estructurados y con un gran potencial para...",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "68": {
+        "col_0": "69",
+        "col_1": "opendata_cmt_es",
+        "col_2": "El portal de Datos Abiertos de la Comisión",
+        "col_3": "ckan",
+        "col_4": "Spain"
+    },
+    "69": {
+        "col_0": "70",
+        "col_1": "opendatamalta-org",
+        "col_2": "The Government of Malta is committed to ensuring transparency throughout the way it works. One of the main tools to ensure transparency with citizens, is to make Government's data widely available. This raw data can be freely used and republished by anyone.",
+        "col_3": "ckan",
+        "col_4": "Malta"
+    }
+}
