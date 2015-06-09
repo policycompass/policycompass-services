@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'apps.searchmanager',
     'apps.visualizationsmanager',
     'apps.referencepool',
+    'apps.indicatorservice',
     'rest_framework',
     'rest_framework_swagger',
 )
