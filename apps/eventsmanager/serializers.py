@@ -11,3 +11,11 @@ class EventSerializer(serializers.ModelSerializer):
 from apps.eventsmanager.models import (
     Event,
 )
+
+
+class ExternalEventSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+    url = serializers.CharField()
+    start = serializers.DateTimeField()
+    finish = serializers.DateTimeField()
