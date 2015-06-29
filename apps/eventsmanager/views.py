@@ -6,6 +6,9 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from SPARQLWrapper import SPARQLWrapper, JSON
+import json
 
 class Base(APIView):
 
@@ -46,3 +49,39 @@ class EventView(generics.ListCreateAPIView):
 class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
     model = Event
     serializer_class = EventSerializer
+
+@api_view(['GET'])
+def harvest_events(request):
+    start = request.QUERY_PARAMS.get('start', None)
+    if start is None:
+        start = "0001-01-01"
+    end = request.QUERY_PARAMS.get('end', None)
+    if end is None:
+        end = "2099-12-31"
+    keyword = request.QUERY_PARAMS.get('keyword', None)
+    if keyword is None:
+        keyword = ""
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery("""
+        PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+        SELECT ?event ?date ?comment ?label ?startDate ?endDate {
+            ?event a dbpedia-owl:Event ;
+            rdfs:comment ?comment ;
+            rdfs:label ?label ;
+            dbpedia-owl:date ?date .
+            FILTER (?date > \"""" + start + """\"^^xsd:date &&
+            ?date < \"""" + end + """\"^^xsd:date &&
+            langMatches(lang(?label),"en") &&
+            langMatches(lang(?comment),"en") &&
+            (regex(?label, \"""" + keyword + """\", "i") || regex(?comment, \"""" + keyword + """\", "i"))) .
+        }
+        limit 10
+    """)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    output = []
+    for key in results["results"]["bindings"]:
+        output.append({"title": key["label"]["value"], "description": key["comment"]["value"], "date": key["date"]["value"], "url": key["event"]["value"]})
+    #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
+    return Response(output)
