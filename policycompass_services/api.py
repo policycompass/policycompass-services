@@ -7,7 +7,6 @@ from rest_framework.reverse import reverse
 
 class Base(APIView):
 
-
      def get(self, request, format=None):
         result = {
             "Metrics Manager": reverse('metrics-manager-base', request=request),
@@ -15,6 +14,7 @@ class Base(APIView):
             "Visualizations Manager": reverse('visualizations-manager-base', request=request),
             "Events Manager": reverse('event-base', request=request),
             "Search Services": reverse('searchmanager-base', request=request),
+            "Indicator Services": reverse('indicator-base', request=request),
         }
 
         return Response(result)
