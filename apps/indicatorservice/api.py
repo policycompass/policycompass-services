@@ -1,26 +1,29 @@
 __author__ = 'fki'
 
+from .serializers import *
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import *
 from rest_framework.reverse import reverse
-from rest_framework import viewsets
 
 
 class IndicatorViewSet(viewsets.ModelViewSet):
+    pagination_serializer_class = PaginatedListIndicatorSerializer
     serializer_class = IndicatorSerializer
     queryset = Indicator.objects.all()
-
-    # def get_queryset(self):
-    #
-    #     queryset = Individual.objects.all()
-    #     data_class = self.request.QUERY_PARAMS.get('class', None)
-    #     if data_class is not None:
-    #         try:
-    #             data_class = int(data_class)
-    #             queryset = queryset.filter(data_class__id=data_class)
-    #         except ValueError:
-    #             queryset = queryset.filter(data_class__title=data_class)
-    #     return queryset
+    paginate_by = 10
+    paginate_by_param = 'page_size'
 
 
+class Base(APIView):
+    """
+    Serves the base resource.
+    """
+    def get(self, request):
+        """
+        Builds the representation for the GET method.
+        """
+        result = {
+            "Indicators": reverse('indicator-list', request=request),
+            }
+        return Response(result)

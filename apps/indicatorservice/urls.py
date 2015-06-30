@@ -8,5 +8,7 @@ router.register(r'indicators', IndicatorViewSet, base_name='indicator')
 
 urlpatterns = patterns(
     '',
+    url(r'^$', Base.as_view(), name="indicator-base"),
     url(r'', include(router.urls))
+
 )
