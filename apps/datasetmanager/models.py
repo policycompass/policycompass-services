@@ -25,7 +25,7 @@ class Dataset(models.Model):
 
     resource_url = models.URLField(max_length=500, blank=True)
     resource_issued = models.DateField(blank=True)
-    resource_id = models.IntegerField(blank=True)  # RP external_resource
+    resource_id = models.IntegerField(blank=True, null=True)  # RP external_resource
     resource_publisher = models.CharField(max_length=100, blank=True)
 
     is_applied = models.BooleanField(blank=True, default=False)
