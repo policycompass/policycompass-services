@@ -1,6 +1,7 @@
 __author__ = 'fki'
 
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import *
 
 
@@ -10,7 +11,7 @@ class UnitCategorySerializer(ModelSerializer):
 
 
 class UnitSerializer(ModelSerializer):
-    unit_category = UnitCategorySerializer()
+    unit_category = serializers.CharField(source='unit_category.title', read_only=True)
 
     class Meta:
         model = Unit
@@ -42,7 +43,7 @@ class DataClassSerializer(ModelSerializer):
 
 
 class IndividualSerializer(ModelSerializer):
-    data_class = DataClassSerializer()
+    data_class = serializers.CharField(source='data_class.title', read_only=True)
 
     class Meta:
         model = Individual

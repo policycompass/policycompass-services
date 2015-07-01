@@ -18,8 +18,21 @@ class UnitCategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Unit.objects.all()
     serializer_class = UnitSerializer
+
+    def get_queryset(self):
+
+        queryset = Unit.objects.all()
+        category = self.request.QUERY_PARAMS.get('category', None)
+        if category is not None:
+            try:
+                category = int(category)
+                queryset = queryset.filter(unit_category__id=category)
+            except ValueError:
+                queryset = queryset.filter(unit_category__title=category)
+        return queryset
+
+
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
@@ -50,7 +63,11 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = Individual.objects.all()
         data_class = self.request.QUERY_PARAMS.get('class', None)
         if data_class is not None:
-            queryset = queryset.filter(data_class__id=data_class)
+            try:
+                data_class = int(data_class)
+                queryset = queryset.filter(data_class__id=data_class)
+            except ValueError:
+                queryset = queryset.filter(data_class__title=data_class)
         return queryset
 
 

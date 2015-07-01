@@ -8,3 +8,4 @@ django-jsonfield==0.9.13
 requests==2.4.0
 pandas==0.14.1
 xlrd==0.9.3
+SPARQLWrapper==1.6.4
