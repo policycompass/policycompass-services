@@ -2543,6 +2543,16 @@
   },
   {
     "fields": {
+      "title": "Unitless",
+      "unit_category": 12,
+      "identifier": "unitless",
+      "description": "Unitless"
+    },
+    "pk": 25,
+    "model": "referencepool.unit"
+  },
+  {
+    "fields": {
       "example": "21.02.2010",
       "format": "%d.%m.%Y",
       "symbol": "dd.mm.yyyy"

@@ -5,6 +5,7 @@ from django.db import models
 
 import logging
 from .utils import get_rawdata_for_metric, save_rawdata_for_metric, update_rawdata_for_metric
+from jsonfield import JSONField
 
 log = logging.getLogger(__name__)
 

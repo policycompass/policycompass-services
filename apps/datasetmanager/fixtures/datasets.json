@@ -1,0 +1,86 @@
+[
+  {
+    "model": "datasetmanager.dataset",
+    "pk": 1,
+    "fields": {
+      "metric_id": null,
+      "time_end": "2010",
+      "time_resolution": "year",
+      "class_id": 1,
+      "resource_publisher": "Eurostat",
+      "user_id": 1,
+      "modified": "2015-07-02T11:21:16.615Z",
+      "language_id": 38,
+      "version": 1,
+      "description": "Causes of death in Spain and Germany from drug dependance in 2001 -2010",
+      "title": "Causes of death in Spain and Germany from drug dependance",
+      "resource_url": "http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=hlth_cd_anr&lang=en",
+      "time_start": "2001",
+      "spatial": null,
+      "resource_id": null,
+      "data": "{\"table\": [{\"row\": 1, \"individual\": 82, \"values\": {\"2001\": 744.0, \"2004\": 632.0, \"2002\": 662.0, \"2007\": 716.0, \"2009\": 827.0, \"2003\": 702.0, \"2006\": 680.0, \"2010\": 774.0, \"2008\": 865.0, \"2005\": 756.0}}, {\"row\": 2, \"individual\": 208, \"values\": {\"2001\": 39.0, \"2004\": 181.0, \"2002\": 127.0, \"2007\": 45.0, \"2009\": 50.0, \"2003\": 158.0, \"2006\": 82.0, \"2010\": 48.0, \"2008\": 76.0, \"2005\": 124.0}}]}",
+      "is_applied": false,
+      "keywords": "Deaths, Toxicomania, Drugs, Spain, Germany",
+      "license": "",
+      "unit_id": 22,
+      "resource_issued": "2015-06-05",
+      "acronym": "Deaths from drugs",
+      "issued": "2015-07-02T11:21:16.615Z",
+      "indicator_id": 1
+    }
+  },
+  {
+    "model": "datasetmanager.dataset",
+    "pk": 2,
+    "fields": {
+      "metric_id": null,
+      "time_end": "2009",
+      "time_resolution": "year",
+      "class_id": 1,
+      "resource_publisher": "European Monitoring Centre for Drugs and Drug Addiction (EMCDDA)",
+      "user_id": 1,
+      "modified": "2015-07-02T11:39:54.347Z",
+      "language_id": 38,
+      "version": 1,
+      "description": "Drug law offences In Germany and Spain, 1996\u20132009 Number of reports of offences 1996\u20132009",
+      "title": "Drug law offences In Germany and Spain, 1996\u20132009",
+      "resource_url": "http://www.emcdda.europa.eu/stats13#display:/stats13/dlotab1a",
+      "time_start": "1996",
+      "spatial": null,
+      "resource_id": null,
+      "data": "{\"table\": [{\"row\": 1, \"individual\": 82, \"values\": {\"2001\": 246518, \"2004\": 283708, \"2000\": 244336, \"2007\": 248355, \"2006\": 255019, \"1997\": 205099, \"2008\": 239951, \"2005\": 276740, \"1998\": 216682, \"2002\": 250969, \"1996\": 187022, \"2009\": 235842, \"2003\": 255575, \"1999\": 226563}}, {\"row\": 2, \"individual\": 208, \"values\": {\"2001\": 12965, \"2004\": 164492, \"2000\": 98369, \"2007\": 278797, \"2006\": 235422, \"1997\": 78846, \"2008\": 329296, \"2005\": 189395, \"1998\": 81599, \"2002\": 139264, \"1996\": 65705, \"2009\": 397620, \"2003\": 135352, \"1999\": 89994}}]}",
+      "is_applied": false,
+      "keywords": "Drugs, Offences, Crime",
+      "license": "",
+      "unit_id": 25,
+      "resource_issued": "2015-06-05",
+      "acronym": "Drug law offences",
+      "issued": "2015-07-02T11:39:54.346Z",
+      "indicator_id": 1
+    }
+  },
+  {
+    "model": "datasetmanager.datasetindomain",
+    "pk": 1,
+    "fields": {
+      "dataset": 1,
+      "domain": 9
+    }
+  },
+  {
+    "model": "datasetmanager.datasetindomain",
+    "pk": 2,
+    "fields": {
+      "dataset": 2,
+      "domain": 12
+    }
+  },
+  {
+    "model": "datasetmanager.datasetindomain",
+    "pk": 3,
+    "fields": {
+      "dataset": 2,
+      "domain": 8
+    }
+  }
+]

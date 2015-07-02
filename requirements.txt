@@ -4,6 +4,7 @@ django-rest-swagger==0.1.14
 django-filter==0.7
 django-apptemplates==0.0.1
 django-cors-headers==0.13
+django-jsonfield==0.9.13
 requests==2.4.0
 pandas==0.14.1
 xlrd==0.9.3
