@@ -16,16 +16,25 @@ class Base(APIView):
         :param request:
         :return:
         """
-        response = "Not yet implemented."
-        return Response(response)
+        result = {
+            "Datasets": reverse('dataset-list', request=request),
+        }
+        return Response(result)
+
 
 
 class DatasetList(generics.ListCreateAPIView):
     model = Dataset
-    serializer_class = DatasetSerializer
+    serializer_class = BaseDatasetSerializer
+    paginate_by = 10
+    paginate_by_param = 'page_size'
 
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = DetailDatasetSerializer
+
+        return super(DatasetList, self).post(request, args, kwargs)
 
 class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
 
     model = Dataset
-    serializer_class = DatasetSerializer
+    serializer_class = DetailDatasetSerializer

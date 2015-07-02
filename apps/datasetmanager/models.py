@@ -50,10 +50,25 @@ class Dataset(models.Model):
     issued = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
     modified = models.DateTimeField(auto_now=True)  # dateModified
 
+    data = models.TextField()
+
     # ToDo Fields
     # applied_details
     # dimensions
     # data
+
+    # Private property to handle the policy domains
+    _policy_domains = None
+
+    # Get all Policy Domain IDs
+    @property
+    def policy_domains(self):
+        return self.domains.all()
+
+    # Set the list of policy domains
+    @policy_domains.setter
+    def policy_domains(self, value):
+        self._policy_domains = value
 
     def save(self, *args, **kwargs):
         """
@@ -69,6 +84,19 @@ class Dataset(models.Model):
 
         super(Dataset, self).save(*args, **kwargs)
 
+        # When it is just an update
+        if update:
+            if self._policy_domains:
+                # Delete olf policy domain relations
+                self.domains.all().delete()
+                # Create new relations
+                for d in self._policy_domains:
+                    self.domains.create(domain=d)
+        else:
+            if self._policy_domains:
+                # Create Policy Domain relations
+                for d in self._policy_domains:
+                    self.domains.create(domain=d)
 
     class Meta:
         # Standard sorting by date
@@ -76,3 +104,19 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class DatasetInDomain(models.Model):
+    """
+    Represents the 1:m relation between an Indicator and Policy Domains
+    """
+    domain = models.IntegerField()
+    # Set the relation
+    dataset = models.ForeignKey(Dataset, related_name='domains')
+
+    class Meta:
+        verbose_name = "Dataset in Domain"
+        verbose_name_plural = "Dataset in Domains"
+
+    def __str__(self):
+        return str(self.domain)

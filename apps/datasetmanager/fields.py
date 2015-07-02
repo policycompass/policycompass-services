@@ -1,10 +1,29 @@
 __author__ = 'fki'
 
-from rest_framework.serializers import  WritableField
+from rest_framework.serializers import  WritableField, SlugRelatedField
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from .models import Dataset
+import json
+from .dataset_data import DatasetData
 
+
+class DataField(WritableField):
+
+    def to_native(self, value):
+        data = DatasetData.from_json(value)
+        return data.data
+
+    def field_from_native(self, data, files, field_name, into):
+        if 'data' not in data:
+            raise ValidationError("Field 'data' is required.")
+
+        dataset = DatasetData(data=data[field_name])
+        dataset.validate(into['time_start'], into['time_end'])
+        result = {
+            'data': dataset.get_json()
+        }
+        into.update(result)
 
 class TimeField(WritableField):
 
@@ -94,3 +113,10 @@ class ResourceField(WritableField):
                 return
             else:
                 raise ValidationError('Field resource is missing')
+
+
+class PolicyDomainSlugRelatedField(SlugRelatedField):
+
+    def to_internal_value(self, data):
+        i = 5
+        pass
