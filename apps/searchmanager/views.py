@@ -41,6 +41,15 @@ def rebuildindex_event_service(request):
         return Response(res)
 
 @api_view(['POST'])
+def rebuildindex_dataset_service(request):
+    """
+    Rebuilds the elastic search index only for datasets.
+    """
+    if request.method == 'POST':
+        res = index_utils.rebuild_index_itemtype('dataset')
+        return Response(res)
+
+@api_view(['POST'])
 def rebuildindex_fuzzymap_service(request):
     """
     Rebuilds the elastic search index only for fuzzy maps.
