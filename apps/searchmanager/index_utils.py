@@ -10,11 +10,12 @@ import json,requests
 def rebuild_index():
     """
     Rebuilds the index of the Elastic search for the following entities:
-    Metrics, Events, Visualizations, FCM Models
+    Metrics, Events, Visualizations, FCM Models, Datasets
     """
     indexing_log = rebuild_index_itemtype('metric')
     indexing_log = indexing_log + rebuild_index_itemtype('visualization')
     indexing_log = indexing_log + rebuild_index_itemtype('event')
+    indexing_log = indexing_log + rebuild_index_itemtype('dataset')
     indexing_log = indexing_log + rebuild_index_fcm('fuzzymap')
     return indexing_log
 
@@ -31,6 +32,9 @@ def rebuild_index_itemtype(itemtype):
     #Begin indexing - Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
     #...set the API url for the item type (e.g. metrics api url)
     api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
+    if itemtype == "dataset":
+        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
+
     # Set a counter in order to iterate all the pages
     page = '?page=1'
     while page != 'None' :
@@ -66,6 +70,8 @@ def update_index_item(itemtype,item_id):
         api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
     else:
         api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
+    if itemtype == "dataset":
+        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
     #Make the api call to get the itemtype (e.g. metric) with the specific id
     response = urllib.request.urlopen(api_url + '/' + str(item_id))
     #Read the itemtype json object returned by the api call
