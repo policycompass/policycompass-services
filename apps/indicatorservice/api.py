@@ -14,6 +14,13 @@ class IndicatorViewSet(viewsets.ModelViewSet):
     paginate_by = 10
     paginate_by_param = 'page_size'
 
+    def create(self, request, *args, **kwargs):
+        self.serializer_class = CreateIndicatorSerializer
+        return super(IndicatorViewSet, self).create(request, args, kwargs)
+
+    def update(self, request, *args, **kwargs):
+        self.serializer_class = CreateIndicatorSerializer
+        return super(IndicatorViewSet, self).update(request, args, kwargs)
 
 class Base(APIView):
     """
