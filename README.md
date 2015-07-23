@@ -85,3 +85,9 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 	python manage.py rebuild_index
 ```
 
+
+## Policy Compass is Free Software
+
+This project (i.e. all files in this repository if not declared otherwise) is
+licensed under the GNU Affero General Public License (AGPLv3), see
+LICENSE.txt.
