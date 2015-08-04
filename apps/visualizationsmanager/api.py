@@ -5,7 +5,8 @@ from rest_framework import status, filters
 #from rest_framework import filters
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.parsers import JSONParser,YAMLParser
-from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
+#from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
+from .models import Visualization, DatasetsInVisualizations, HistoricalEventsInVisualizations
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
@@ -26,9 +27,11 @@ class Base(APIView):
     def get(self, request, format=None):
         result = {
             "Visualizations": reverse('visualization-list', request=request),
-            "Metrics": reverse('metric-list-for-visualization', request=request),
+            #"Metrics": reverse('metric-list-for-visualization', request=request),
+            "Datasets": reverse('dataset-list-for-visualization', request=request),
             "Events": reverse('event-list-for-visualization', request=request),
-            "Visualizations linked by metric": reverse('linked-visualizations-by-metric', request=request),
+            #"Visualizations linked by metric": reverse('linked-visualizations-by-metric', request=request),
+            "Visualizations linked by dataset": reverse('linked-visualizations-by-dataset', request=request),
             "Visualizations linked by event": reverse('linked-visualizations-by-event', request=request),
         }
 
@@ -46,27 +49,37 @@ class EventListForVisualization(generics.ListAPIView):
     serializer_class = HistoricalEventSerializer
     
     
-class MetricDetailForVisualization(generics.RetrieveAPIView):
-    #model = Metric
-    model = MetricsInVisualizations
-    serializer_class = MetricSerializer
+#class MetricDetailForVisualization(generics.RetrieveAPIView):
+#    #model = Metric
+#    model = MetricsInVisualizations
+#    serializer_class = MetricSerializer
 
-class MetricListForVisualization(generics.ListAPIView):
-    #model = Metric
-    model = MetricsInVisualizations
-    serializer_class = MetricSerializer
+class DatasetDetailForVisualization(generics.RetrieveAPIView):
+    model = DatasetsInVisualizations
+    serializer_class = DatasetSerializer
+
+#class MetricListForVisualization(generics.ListAPIView):
+#    #model = Metric
+#    model = MetricsInVisualizations
+#    serializer_class = MetricSerializer
+
+class DatasetListForVisualization(generics.ListAPIView):
+    model = DatasetsInVisualizations
+    serializer_class = DatasetSerializer
 
 
-class VisualizationsLinkedByMetric(APIView):
+#class VisualizationsLinkedByMetric(APIView):
+class VisualizationsLinkedByDataset(APIView):
     """
-    Serves the visualizations linked by a metric. ?metric_id=#
+    Serves the visualizations linked by a dataset. ?dataset_id=#
     """
-    #API to get visualizations related with a metric by metric id
+    #API to get visualizations related with a dataset by dataset id
     #permission_classes = (IsAuthenticatedCanCreate,)
     parser_classes = (JSONParser,)
     # Sets the fields, which can be searched
-    search_fields = ('metric_id')    
-    # Sets the fields, which are available for sorting the metrics
+    #search_fields = ('metric_id')    
+    search_fields = ('dataset_id')
+    # Sets the fields, which are available for sorting
     ordering_fields = ('id')
         
     #model = MetricsInVisualizations
@@ -76,15 +89,17 @@ class VisualizationsLinkedByMetric(APIView):
             """
             Builds the representation for the GET method.
             """
-            # Get all MetricsInVisualizations
-            queryset = MetricsInVisualizations.objects.all()
+            # Get all Datasets In Visualizations
+            #queryset = MetricsInVisualizations.objects.all()
+            queryset = DatasetsInVisualizations.objects.all()
             
             # Perform a search
             queryset = filters.SearchFilter().filter_queryset(self.request, queryset, self)
             # Order the set accordingly to query parameters
             queryset = filters.OrderingFilter().filter_queryset(self.request, queryset, self)
             # Filter the set by potential filters
-            queryset = VisualizationsLinkedByMetricFilter(request.GET, queryset=queryset)
+            #queryset = VisualizationsLinkedByMetricFilter(request.GET, queryset=queryset)
+            queryset = VisualizationsLinkedByDatasetFilter(request.GET, queryset=queryset)
     
             # Set the pagination
             #set defaul
@@ -103,31 +118,43 @@ class VisualizationsLinkedByMetric(APIView):
             page = request.QUERY_PARAMS.get('page')
     
             try:
-                metricsinvisualizations = paginator.page(page)
+                #metricsinvisualizations = paginator.page(page)
+                datasetsinvisualizations = paginator.page(page)
             except PageNotAnInteger:
-                metricsinvisualizations = paginator.page(1)
+                #metricsinvisualizations = paginator.page(1)
+                datasetsinvisualizations = paginator.page(1)
             except EmptyPage:
-                metricsinvisualizations = paginator.page(paginator.num_pages)
-    
+                #metricsinvisualizations = paginator.page(paginator.num_pages)
+                datasetsinvisualizations = paginator.page(paginator.num_pages)
             # Serialize the data
-            serializer = PaginatedListVisualizationLinkedByMetricSerializer(metricsinvisualizations)
+            #serializer = PaginatedListVisualizationLinkedByMetricSerializer(metricsinvisualizations)
+            serializer = PaginatedListVisualizationLinkedByDatasetSerializer(datasetsinvisualizations)
     
             #log.info(paginator.page_range)        
             #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)
             return Response(serializer.data)    
 
 
-class VisualizationsLinkedByMetricFilter(django_filters.FilterSet):
-    #API filter to get visualizations related with a metric by metric id'
-    #external_resource = django_filters.Filter(name='ext_resource_id')
-    metric = django_filters.Filter(name='metric_id')
+#class VisualizationsLinkedByMetricFilter(django_filters.FilterSet):
+#    #API filter to get visualizations related with a metric by metric id'
+#    #external_resource = django_filters.Filter(name='ext_resource_id')
+#    metric = django_filters.Filter(name='metric_id')
+#
+#    class Meta:
+#        model = MetricsInVisualizations
+#        fields = ['metric_id']
+#        #model = Visualization
+#        #fields = ['id']
+
+class VisualizationsLinkedByDatasetFilter(django_filters.FilterSet):
+    #API filter to get visualizations related with a dataset by dataset id'
+    metric = django_filters.Filter(name='dataset_id')
 
     class Meta:
-        model = MetricsInVisualizations
-        fields = ['metric_id']
-        #model = Visualization
-        #fields = ['id']
-        
+        model = DatasetsInVisualizations
+        fields = ['dataset_id']
+
+               
 class VisualizationsLinkedByEvent(APIView):
     """
     Serves the visualizations linked by an event. ?historical_event_id=#.    
@@ -137,7 +164,7 @@ class VisualizationsLinkedByEvent(APIView):
     parser_classes = (JSONParser,)
     # Sets the fields, which can be searched
     search_fields = ('historical_event_id')    
-    # Sets the fields, which are available for sorting the metrics
+    # Sets the fields, which are available for sorting 
     ordering_fields = ('id')
         
 
@@ -145,7 +172,7 @@ class VisualizationsLinkedByEvent(APIView):
             """
             Builds the representation for the GET method.
             """
-            # Get all MetricsInVisualizations
+            # Get all HE InVisualizations
             queryset = HistoricalEventsInVisualizations.objects.all()
             
             # Perform a search
@@ -214,7 +241,7 @@ class VisualizationList(APIView):
     parser_classes = (JSONParser,)
     # Sets the fields, which can be searched
     search_fields = ('title','keywords')
-    # Sets the fields, which are available for sorting the metrics
+    # Sets the fields, which are available for sorting
     ordering_fields = ('created_at', 'updated_at', 'title')
         
     
@@ -255,7 +282,8 @@ class VisualizationList(APIView):
             visualizations = paginator.page(paginator.num_pages)
 
         # Serialize the data
-        serializer = PaginatedListMetricSerializer(visualizations)
+        #serializer = PaginatedListMetricSerializer(visualizations)
+        serializer = PaginatedListDatasetSerializer(visualizations)
 
         #log.info(paginator.page_range)        
         #return set_jsonschema_link_header(Response(serializer.data), 'visualization_collection', request)

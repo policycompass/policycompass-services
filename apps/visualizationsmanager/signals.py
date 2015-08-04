@@ -10,6 +10,9 @@ from .models import Visualization
 import requests
 import threading
 import time
+import logging
+from Naked.toolshed.shell import execute_js, muterun_js
+import subprocess
 
 @receiver(post_save, sender=Visualization)
 def update_document_on_search_service(sender, **kwargs):
@@ -20,7 +23,12 @@ def update_document_on_search_service(sender, **kwargs):
          #Start a new thread for indexing the individual document
          indexDocumentThread(curVisualization.id, 'visualization').start()
 
-
+#@receiver(post_save, sender=Visualization)
+#def create_visualisation_image_service(sender, **kwargs):
+#      #Get current Visualization details
+#      curVisualization = kwargs['instance']
+#      createVisualisationImage(curVisualization.id).start()     
+     
 @receiver(post_delete, sender=Visualization)
 def delete_document_on_search_service(sender, **kwargs):
      #Get current Visualization details
@@ -52,3 +60,57 @@ class indexDocumentThread(threading.Thread):
         response = requests.post(api_url)
         #Print the response of the API call to console
         print(response.text)
+
+#create image of the svg
+class createVisualisationImage(threading.Thread):
+    def __init__(self, itemid, **kwargs):
+        self.itemid = itemid
+        super(createVisualisationImage, self).__init__(**kwargs)
+
+    def run(self):
+
+        logging.warning('----------------------------');
+        logging.warning('----------------------------');
+        logging.warning('----------------------------');
+        logging.warning('--------------->'+str(self.itemid))
+        logging.warning('----------------------------');
+        logging.warning('----------------------------');
+        logging.warning('----------------------------');
+                
+        #urlFrontEnd = settings.PC_SERVICES['references']['frontend_base_url']+'/app/#/visualizations/graph/'+str(self.itemid);
+        urlFrontEnd = settings.PC_SERVICES['references']['frontend_base_url']+'/app/#/visualizations/'+str(self.itemid);
+        
+        #subprocess.call(['ls', '-1'], shell=True);
+        
+        ##subprocess.call(["node", "/home/miquel/PolicyCompass/policycompass/policycopmass-services-merged/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js"], shell=True);
+        
+        
+        #subprocess.call(["node", "/home/miquel/PolicyCompass/policycompass/policopmass-services-merged/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js http://localhost:9000/app/#/visualizations/graph/95"], shell=True);
+        
+        
+        #logging.warning('----------------------------2 checkCall ='+str(checkCall));
+
+
+        #logging.warning('--external_resources-----------------------');
+        #logging.warning(str(settings.PC_SERVICES['external_resources']['physical_path_phantomCapture']));
+        #logging.warning('--urlFrontEnd-----------------------');
+        #logging.warning(str(urlFrontEnd));
+        
+        
+        #stringCall = str(settings.PC_SERVICES['external_resources']['physical_path_phantomCapture'])+" "+str(urlFrontEnd)+str(" visualization ")+str(settings.PC_SERVICES['references']['MEDIA_URL'])+str(" ");
+        #logging.warning('--stringCall!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        #logging.warning(str(stringCall));
+        #logging.warning('--stringCall!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');        
+        #subprocess.call(["node", stringCall], shell=True);
+        
+        
+        success = execute_js(str(settings.PC_SERVICES['external_resources']['physical_path_phantomCapture'])+' '+str(urlFrontEnd)+ ' visualization '+str(settings.PC_SERVICES['references']['MEDIA_URL'])+' ');
+                    
+        
+        if success:
+            # handle success of the JavaScript
+            logging.warning('--handle success of the JavaScript-----------------------');
+        else:
+            # handle failure of the JavaScript
+            logging.warning('--handle failure of the JavaScript-----------------------');
+        

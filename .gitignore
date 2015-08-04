@@ -71,3 +71,7 @@ config/settings.py
 #Elastic Search directory
 apps/searchmanager/elasticsearch
 
+#Visualisation phantomCapture
+apps/visualizationsmanager/phantomCapture/node_modules
+
+
