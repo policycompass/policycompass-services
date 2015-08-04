@@ -26,7 +26,6 @@ if (url!=null)
 	childArgs.push(url, type, folder);
 }
 
-
 childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
 
 	console.log("err");

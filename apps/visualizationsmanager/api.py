@@ -15,7 +15,6 @@ from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
 from rest_framework.generics import strict_positive_int
 
-
 import django_filters
 
 import logging

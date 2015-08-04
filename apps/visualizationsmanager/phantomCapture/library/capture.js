@@ -79,8 +79,6 @@ page.open(p, function(status) {
 
 	var clipRect = page.evaluate( function(type) {  
 		try { 
-			
-
 	
 			flushAnimationFrames(); // Render visualisation's final state
 

@@ -14,8 +14,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .adapter import * 
 
-
-
 import datetime
 
 

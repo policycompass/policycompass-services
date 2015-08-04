@@ -5,7 +5,6 @@ import logging
 from .managers import VisualizationManager
 
 log = logging.getLogger(__name__)
-
     
 class VisualizationType(models.Model):
     type = models.CharField(max_length=100)

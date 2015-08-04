@@ -27,6 +27,7 @@ visualization_events_urls = patterns(
     url(r'^$', EventListForVisualization.as_view(), name='event-list-for-visualization')
 )
 
+#move from metric to dataset
 #visualizations_linked_with_metric = patterns(
 #    '',
 #    url(r'^$',VisualizationsLinkedByMetric.as_view(), name='linked-visualizations-by-metric')

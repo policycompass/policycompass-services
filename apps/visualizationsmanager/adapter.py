@@ -1,5 +1,5 @@
 """
-Collection of adapters to the Reference Pool
+Collection of adapters to the Visualisation
 """
 
 __author__ = 'mmilparat'
