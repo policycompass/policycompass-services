@@ -8,7 +8,7 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from SPARQLWrapper import SPARQLWrapper, JSON
-#from .plugin import getPlugins, loadPlugin
+from .plugin import getPlugins, loadPlugin
 
 import json
 
@@ -79,10 +79,10 @@ class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view(['GET'])
 def harvest_events(request):
-    # for i in getPlugins():
-    #     print("Loading plugin " + i["name"])
-    #     plugin = loadPlugin(i)
-    #     plugin.run()
+    for i in getPlugins():
+        print("Loading plugin " + i["name"])
+        plugin = loadPlugin(i)
+        plugin.run()
     start = request.QUERY_PARAMS.get('start', None)
     if start is None:
         start = "0001-01-01"
