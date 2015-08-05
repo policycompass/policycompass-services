@@ -71,3 +71,7 @@ config/settings.py
 #Elastic Search directory
 apps/searchmanager/elasticsearch
 
+#Visualisation phantomCapture, first test to create images
+apps/visualizationsmanager/phantomCapture/node_modules
+
+

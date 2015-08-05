@@ -14,33 +14,33 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .adapter import * 
 
-
-
 import datetime
 
 
-class MetricsField(serializers.WritableField):
+#class MetricsField(serializers.WritableField):
+class DatasetsField(serializers.WritableField):
 
     def field_to_native(self, obj, field_name):        
-        #logging.warning('----MetricsField--')
+        #logging.warning('----DatasetsField--')
         #logging.warning(obj)
         #logging.warning(self.source)
         #ids = []
         ids = getattr(obj, self.source).all()
         result = []
-        #metrics = references.Metrics()
-        metrics = MetricsAdapter()
+
+        #metrics = MetricsAdapter()
+        datasets = DatasetsAdapter()
         
-        
-        #metrics = references.PolicyDomain()     
         for i in ids:        
             #logging.warning('--i--')    
             #logging.warning(i.metric_id)
             #logging.warning(i.visualization_query)
-            #result.append(metrics.get(i.metric_id))
-            #result.append(i.metric_id)
-            #temporal = metrics.get(i.metric_id)
-            temporal = metrics.get(i.id)
+            #result.append(metrics.get(i.dataset_id))
+            #result.append(i.dataset_id)
+            #temporal = metrics.get(i.dataset_id)
+            #temporal = metrics.get(i.id)
+            temporal = datasets.get(i.id)
+            
             #temporal['visualization_query']= i.visualization_query
             #setattr(temporal, 'descHE', i.description)
             result.append(temporal)
@@ -49,7 +49,7 @@ class MetricsField(serializers.WritableField):
 
     def from_native(self, value):
         if not type(value) is list:
-            raise ValidationError("Metrics property is not a list")
+            raise ValidationError("Datasets property is not a list")
         return value
     
 

@@ -5,7 +5,6 @@ import logging
 from .managers import VisualizationManager
 
 log = logging.getLogger(__name__)
-
     
 class VisualizationType(models.Model):
     type = models.CharField(max_length=100)
@@ -29,7 +28,7 @@ class Visualization(models.Model):
     views_count = models.IntegerField()    
     visualization_type_id = models.IntegerField()
     status_flag_id = models.IntegerField()
-    filter_configuration = models.CharField(max_length=200)
+    filter_configuration = models.CharField(max_length=800)
 
    # _rawdata = None
 
@@ -59,16 +58,27 @@ class Visualization(models.Model):
         self._historical_events_in_visualization = value
 
 
-    _metrics_in_visualization = None
+#    _metrics_in_visualization = None
+#    @property
+#    def metrics_in_visualization(self):
+#        return self.metrics.all()
+
+
+    _datasets_in_visualization = None
     @property
-    def metrics_in_visualization(self):
-        return self.metrics.all()
+    def datasets_in_visualization(self):
+        return self.datasets.all()
 
 
-    @metrics_in_visualization.setter
-    def metrics_in_visualization(self, value):
-        self._metrics_in_visualization = value
+#    @metrics_in_visualization.setter
+#    def metrics_in_visualization(self, value):
+#        self._metrics_in_visualization = value
 
+    @datasets_in_visualization.setter
+    def datasets_in_visualization(self, value):
+        self._datasets_in_visualization = value
+
+    
     #def save(self, *args, **kwargs):
     def save(self, *args, **kwargs):
         #logging.warning('save visualization') # will print a message to the console
@@ -110,16 +120,27 @@ class Visualization(models.Model):
                         vhe.save()
              
                 
-            self.metrics.all().delete()
-            if self._metrics_in_visualization:                
-                 for d_metrics in self._metrics_in_visualization:
-                     if (d_metrics['metric']):
-                         self.metrics.create(
-                            visualization = self.id,
-                            metric_id = d_metrics['metric'],
-                            visualization_query = d_metrics['visualization_query']
-                            )
+            #self.metrics.all().delete()
+            #if self._metrics_in_visualization:                
+            #     for d_metrics in self._metrics_in_visualization:
+            #         if (d_metrics['metric']):
+            #             self.metrics.create(
+            #                visualization = self.id,
+            #                metric_id = d_metrics['metric'],
+            #                visualization_query = d_metrics['visualization_query']
+            #                )
                     
+            self.datasets.all().delete()
+            if self._datasets_in_visualization:                
+                 for d_datasets in self._datasets_in_visualization:
+                     if (d_datasets['dataset']):
+                         self.datasets.create(
+                            visualization = self.id,
+                            dataset_id = d_datasets['dataset'],
+                            visualization_query = d_datasets['visualization_query']
+                            )
+
+        
         else:
             #logging.warning('--insert--')
             if self._historical_events_in_visualization:
@@ -133,15 +154,26 @@ class Visualization(models.Model):
                     vhe.color = d['color']
                     vhe.save()
                      
-            if self._metrics_in_visualization:
-                logging.warning('--Exist Metrics--')
-                for d_metrics in self._metrics_in_visualization:
+            #if self._metrics_in_visualization:
+            #    logging.warning('--Exist Metrics--')
+            #    for d_metrics in self._metrics_in_visualization:
+            #        
+            #        vi_me = MetricsInVisualizations()
+            #        vi_me.visualization_id = self.id
+            #        vi_me.metric_id = d_metrics['metric']
+            #        vi_me.visualization_query = d_metrics['visualization_query']
+            #        vi_me.save()
+
+            if self._datasets_in_visualization:
+                logging.warning('--Exist Datasets--')
+                for d_datasets in self._datasets_in_visualization:
                     
-                    vi_me = MetricsInVisualizations()
+                    vi_me = DatasetsInVisualizations()
                     vi_me.visualization_id = self.id
-                    vi_me.metric_id = d_metrics['metric']
-                    vi_me.visualization_query = d_metrics['visualization_query']
+                    vi_me.dataset_id = d_datasets['dataset']
+                    vi_me.visualization_query = d_datasets['visualization_query']
                     vi_me.save()
+
                         
         #if self._rawdata:
         #    save_rawdata_for_visualization(self, self._rawdata)
@@ -154,22 +186,32 @@ class Visualization(models.Model):
 
 
 
+#class MetricsInVisualizations(models.Model):
+#    #visualization_id = models.IntegerField()
+#    metric_id = models.IntegerField()
+#    visualization = models.ForeignKey(Visualization, related_name='metrics')    
+#    #metric = models.ForeignKey(Metric, related_name='visualizations')
+#    visualization_query= models.CharField(max_length=200)
+#
+#    class Meta:
+#        verbose_name = "Metric in Visualization"
+#        verbose_name_plural = "Metrics in Visualization"
+#
+#    def __str__(self):
+#        return str(self.metric_id)
 
 
-
-class MetricsInVisualizations(models.Model):
-    #visualization_id = models.IntegerField()
-    metric_id = models.IntegerField()
-    visualization = models.ForeignKey(Visualization, related_name='metrics')    
-    #metric = models.ForeignKey(Metric, related_name='visualizations')
-    visualization_query= models.CharField(max_length=200)
+class DatasetsInVisualizations(models.Model):
+    dataset_id = models.IntegerField()
+    visualization = models.ForeignKey(Visualization, related_name='datasets')    
+    visualization_query= models.CharField(max_length=800)
 
     class Meta:
-        verbose_name = "Metric in Visualization"
-        verbose_name_plural = "Metrics in Visualization"
+        verbose_name = "Dataset in Visualization"
+        verbose_name_plural = "Datasets in Visualization"
 
     def __str__(self):
-        return str(self.metric_id)
+        return str(self.dataset_id)
         
 class HistoricalEventsInVisualizations(models.Model):
     #visualization = models.IntegerField()

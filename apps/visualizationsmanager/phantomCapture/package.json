@@ -1,0 +1,11 @@
+{
+  "name": "policyCompassPhantomCapture", 
+  "author": {
+    "name": "Christos Botsikas",
+    "email": "cbot@epu.ntua.gr"
+  },
+  "main": "main.js",
+  "dependencies": {
+    "phantomjs": "*"
+  }
+}
