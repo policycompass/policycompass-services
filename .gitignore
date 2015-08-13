@@ -74,4 +74,4 @@ apps/searchmanager/elasticsearch
 #Visualisation phantomCapture, first test to create images
 apps/visualizationsmanager/phantomCapture/node_modules
 
-
+pip-selfcheck.json
