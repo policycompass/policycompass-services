@@ -5,4 +5,4 @@ class datasetmanagerConfig(AppConfig):
     verbose_name = "Datasetmanager Manager"
 
     def ready(self):
-        import apps.metricsmanager.signals
+        import apps.datasetmanager.signals

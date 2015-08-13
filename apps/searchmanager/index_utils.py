@@ -16,6 +16,7 @@ def rebuild_index():
     indexing_log = indexing_log + rebuild_index_itemtype('visualization')
     indexing_log = indexing_log + rebuild_index_itemtype('event')
     indexing_log = indexing_log + rebuild_index_itemtype('dataset')
+    indexing_log = indexing_log + rebuild_index_itemtype('indicator')
     indexing_log = indexing_log + rebuild_index_fcm('fuzzymap')
     return indexing_log
 
@@ -34,6 +35,8 @@ def rebuild_index_itemtype(itemtype):
     api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
     if itemtype == "dataset":
         api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
+    if itemtype == "indicator":
+        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' + itemtype + 's'
 
     # Set a counter in order to iterate all the pages
     page = '?page=1'
@@ -72,6 +75,9 @@ def update_index_item(itemtype,item_id):
         api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
     if itemtype == "dataset":
         api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
+    if itemtype == "indicator":
+        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' \
+                                                                   '' + itemtype + 's'
     #Make the api call to get the itemtype (e.g. metric) with the specific id
     response = urllib.request.urlopen(api_url + '/' + str(item_id))
     #Read the itemtype json object returned by the api call
