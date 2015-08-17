@@ -20,6 +20,10 @@ class DataField(WritableField):
 
         dataset = DatasetData(data=data[field_name])
         dataset.validate(into['time_start'], into['time_end'])
+
+        if data['class_id'] == 7:
+            dataset.create_individuals()
+
         result = {
             'data': dataset.get_json()
         }
