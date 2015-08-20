@@ -71,12 +71,19 @@ class FileEncoder(object):
             for col in range(sheet.ncols):
                 cell = sheet.cell(row,col)
                 # Date cells have to be converted to return as string
+                log.info(cell.value)
                 if cell.ctype == XL_CELL_DATE:
                     v = xldate_as_tuple(cell.value,wb.datemode)
                     v = datetime.datetime(*v)
                     v = datetime.date(v.year,v.month,v.day)
+                elif isinstance(cell.value, float):
+                    if cell.value == int(cell.value):
+                        v = int(cell.value)
+                    else:
+                        v = str(cell.value)
                 else:
                     v = str(cell.value)
+
                 values.append(v)
             r.append(values)
         return r

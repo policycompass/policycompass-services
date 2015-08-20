@@ -2643,6 +2643,15 @@
   },
   {
     "fields": {
+      "code_type": "",
+      "title": "Custom",
+      "description": "Custom"
+    },
+    "pk": 7,
+    "model": "referencepool.dataclass"
+  },
+  {
+    "fields": {
       "data_class": 1,
       "title": "Afghanistan",
       "code": "AFG"

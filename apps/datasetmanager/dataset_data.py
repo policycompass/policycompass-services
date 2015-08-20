@@ -3,6 +3,9 @@ __author__ = 'fki'
 import json
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
+from apps.referencepool.models import Individual, DataClass
+import logging
+log = logging.getLogger(__name__)
 
 
 class DatasetData(object):
@@ -20,6 +23,24 @@ class DatasetData(object):
 
     def get_json(self):
         return json.dumps(self.data)
+
+    def create_individuals(self):
+        table = self.data[self.TABLE]
+        for row in table:
+            individual = row['individual']
+            if isinstance(individual, str):
+                # Does it exist already
+                # Todo Make this better
+                try:
+                    saved_ind = Individual.objects.get(title=individual)
+                    row['individual'] = saved_ind.id
+                except Individual.DoesNotExist:
+                    ind = Individual(
+                        title=individual,
+                        data_class=DataClass.objects.get(id=7)
+                    )
+                    ind.save()
+                    row['individual'] = ind.id
 
     @staticmethod
     def from_json(data):
