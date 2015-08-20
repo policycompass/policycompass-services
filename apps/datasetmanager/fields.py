@@ -21,6 +21,9 @@ class DataField(WritableField):
         dataset = DatasetData(data=data[field_name])
         dataset.validate(into['time_start'], into['time_end'])
 
+        if 'class_id' not in data:
+            raise ValidationError('Field class_id is missing.')
+
         if data['class_id'] == 7:
             dataset.create_individuals()
 
