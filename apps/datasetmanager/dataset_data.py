@@ -47,7 +47,7 @@ class DatasetData(object):
         obj = json.loads(data, object_pairs_hook=OrderedDict)
         return DatasetData(data=obj)
 
-    def validate(self, time_start, time_end):
+    def validate(self, time_start, time_end, class_id):
         if not isinstance(self.data, dict):
             raise ValidationError("Data field needs to be a dictionary.")
 
@@ -69,6 +69,10 @@ class DatasetData(object):
                 raise ValidationError("Element %d of data.table has not 'row' field." % index)
             if 'individual' not in value:
                 raise ValidationError("Element %d of data.table has not 'individual' field." % index)
+            if class_id != 7:
+                if not isinstance(value['individual'], int):
+                    raise ValidationError("Individual of Element %d of data.table is not an integer. "
+                                          "Please use class 'custom' to provide strings." % index)
             if 'values' not in value:
                 raise ValidationError("Element %d of data.table has not 'values' field." % index)
             if not isinstance(value['values'], dict):
