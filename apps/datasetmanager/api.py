@@ -3,9 +3,11 @@ __author__ = 'fki'
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework import status
 from rest_framework import generics
 from .models import *
 from .serializers import *
+from .file_encoder import FileEncoder
 
 
 class Base(APIView):
@@ -18,6 +20,7 @@ class Base(APIView):
         """
         result = {
             "Datasets": reverse('dataset-list', request=request),
+            "Converter": reverse('converter', request=request),
         }
         return Response(result)
 
@@ -34,7 +37,45 @@ class DatasetList(generics.ListCreateAPIView):
 
         return super(DatasetList, self).post(request, args, kwargs)
 
+
 class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
 
     model = Dataset
     serializer_class = DetailDatasetSerializer
+
+
+class Converter(APIView):
+    """
+    Serves the converter resource.
+    """
+
+    def post(self, request, *args, **kwargs):
+        """
+        Processes a POST request
+        """
+        files = request.FILES
+
+        if 'file' in files:
+            # File has to be named file
+            file = files['file']
+            encoder = FileEncoder(file)
+
+            # Check if the file extension is supported
+            if not encoder.is_supported():
+                return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Encode the file
+            try:
+                encoding = encoder.encode()
+            except:
+                return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Build the result
+            result = {
+                'filename': file.name,
+                'filesize': file.size,
+                'result': encoding
+            }
+            return Response(result)
+
+        return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
