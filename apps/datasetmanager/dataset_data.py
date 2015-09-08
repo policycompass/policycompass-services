@@ -1,11 +1,47 @@
 __author__ = 'fki'
 
 import json
+import pandas as p
+import pandas.tseries.offsets as offsets
+import voluptuous as v
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from apps.referencepool.models import Individual, DataClass
 import logging
 log = logging.getLogger(__name__)
+
+class TimeResolutions(object):
+
+    YEAR = 'year'
+    QUARTER = 'quarter'
+    MONTH = 'month'
+    DAY = 'day'
+
+    SUPPORT = {
+        DAY: {
+            'level': 10,
+            'display_name': 'Day',
+        },
+        MONTH: {
+            'level': 20,
+            'display_name': 'Month',
+        },
+        QUARTER: {
+            'level': 30,
+            'display_name': 'Quarter',
+        },
+        YEAR: {
+            'level': 40,
+            'display_name': 'Year',
+        }
+    }
+
+    @staticmethod
+    def is_supported(value):
+        if value in TimeResolutions.SUPPORT:
+            return True
+        else:
+            return False
 
 
 class DatasetData(object):
@@ -43,43 +79,53 @@ class DatasetData(object):
                     row['individual'] = ind.id
 
     @staticmethod
-    def from_json(data):
+    def from_json(data, params):
         obj = json.loads(data, object_pairs_hook=OrderedDict)
+
+        rng = p.date_range('2011-01-01', '2012-02-01', freq=offsets.MonthBegin())
+
+        rng.get_values()
+        log.info(rng.get_values())
+
+        ts = p.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], index=rng)
+        converted = ts.resample(offsets.YearBegin(), how='mean')
+        log.info(converted)
+
         return DatasetData(data=obj)
 
     def validate(self, time_start, time_end, class_id):
+
+        def validate_individual(value):
+            if class_id != 7:
+                if not isinstance(value, int):
+                    raise v.Invalid("Individual of Element %d of data.table is not an integer."
+                                     " Please use class 'custom' to provide strings.")
+
         if not isinstance(self.data, dict):
             raise ValidationError("Data field needs to be a dictionary.")
 
-        if self.TABLE not in self.data:
-            raise ValidationError("Data dict needs a 'table' field.")
+        schema = v.Schema({
+            v.Required('table', msg="Data dict needs a 'table' field."): v.All([
+                {
+                    v.Required('row'): int,
+                    v.Required('individual'): validate_individual,
+                    v.Required('values'): v.All(
+                        dict
+                    ),
+                }
+            ], v.Length(min=1))
+        })
 
-        table = self.data[self.TABLE]
+        try:
+            schema(self.data)
+        except v.Invalid as e:
+            raise ValidationError(e)
 
-        if not isinstance(table, list):
-            raise ValidationError("Data.table needs to be a list.")
+        raise ValidationError("hallo")
 
-        if len(table) == 0:
-            raise ValidationError("Data.table cannot be empty.")
-
-        for index, value in enumerate(table):
-            if not isinstance(value, dict):
-                raise ValidationError("Element %d of data.table is not a dictionary." % index)
-            if 'row' not in value:
-                raise ValidationError("Element %d of data.table has not 'row' field." % index)
-            if 'individual' not in value:
-                raise ValidationError("Element %d of data.table has not 'individual' field." % index)
-            if class_id != 7:
-                if not isinstance(value['individual'], int):
-                    raise ValidationError("Individual of Element %d of data.table is not an integer. "
-                                          "Please use class 'custom' to provide strings." % index)
-            if 'values' not in value:
-                raise ValidationError("Element %d of data.table has not 'values' field." % index)
-            if not isinstance(value['values'], dict):
-                raise ValidationError("Data.table.value in element %d is not a dictionary." % index)
-
-            # ToDo Validate time range
-            row = value['values']
+        #
+        #     # ToDo Validate time range
+        #     row = value['values']
 
 
 

@@ -5,13 +5,17 @@ from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from .models import Dataset
 import json
-from .dataset_data import DatasetData
+from .dataset_data import DatasetData, TimeResolutions
 
+import logging
+log = logging.getLogger(__name__)
 
 class DataField(WritableField):
 
     def to_native(self, value):
-        data = DatasetData.from_json(value)
+        # Process Query Paramters
+        params = self.context['request'].QUERY_PARAMS
+        data = DatasetData.from_json(value, params)
         return data.data
 
     def field_from_native(self, data, files, field_name, into):
