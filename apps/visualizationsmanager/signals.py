@@ -18,11 +18,12 @@ import subprocess
 @receiver(post_save, sender=Visualization)
 def update_document_on_search_service(sender, **kwargs):
      #Get current Visualization details
-     curVisualization = kwargs['instance']
-     # If current object is inserted / updated without loaddata then index document
-     if (kwargs.get('created', True) and not kwargs.get('raw', False)):
-         #Start a new thread for indexing the individual document
-         indexDocumentThread(curVisualization.id, 'visualization').start()
+     if kwargs.get('raw', False):
+        instance = sender.objects.get(pk=kwargs['instance'].pk)
+     else:
+        instance = kwargs['instance']
+     #Start a new thread for indexing the individual document
+     indexDocumentThread(instance.id, 'visualization').start()
 
 #@receiver(post_save, sender=Visualization)
 #def create_visualisation_image_service(sender, **kwargs):
