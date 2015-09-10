@@ -1,10 +1,10 @@
 import imp
 import os
 
-PluginFolder = os.path.join(os.path.dirname(__file__), 'plugins')
+PluginFolder = os.path.join(os.path.dirname(__file__), 'extractors')
 MainModule = "__init__"
 
-def getPlugins():
+def getExtractors():
     plugins = []
     possibleplugins = os.listdir(PluginFolder)
     for i in possibleplugins:
@@ -15,5 +15,5 @@ def getPlugins():
         plugins.append({"name": i, "info": info})
     return plugins
 
-def loadPlugin(plugin):
+def loadExtractor(plugin):
     return imp.load_module(MainModule, *plugin["info"])

@@ -1,3 +1,4 @@
+import os
 from .models import Event
 from .serializers import EventSerializer
 from rest_framework import generics
@@ -7,8 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from SPARQLWrapper import SPARQLWrapper, JSON
-from .plugin import getPlugins, loadPlugin
+
+from .extractor import getExtractors, loadExtractor
 
 import json
 
@@ -79,10 +80,7 @@ class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view(['GET'])
 def harvest_events(request):
-    for i in getPlugins():
-        print("Loading plugin " + i["name"])
-        plugin = loadPlugin(i)
-        plugin.run()
+
     start = request.QUERY_PARAMS.get('start', None)
     if start is None:
         start = "0001-01-01"
@@ -92,27 +90,24 @@ def harvest_events(request):
     keyword = request.QUERY_PARAMS.get('keyword', None)
     if keyword is None:
         keyword = ""
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    sparql.setQuery("""
-        PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
-
-        SELECT ?event ?date ?comment ?label ?startDate ?endDate {
-            ?event a dbpedia-owl:Event ;
-            rdfs:comment ?comment ;
-            rdfs:label ?label ;
-            dbpedia-owl:date ?date .
-            FILTER (?date > \"""" + start + """\"^^xsd:date &&
-            ?date < \"""" + end + """\"^^xsd:date &&
-            langMatches(lang(?label),"en") &&
-            langMatches(lang(?comment),"en") &&
-            (regex(?label, \"""" + keyword + """\", "i") || regex(?comment, \"""" + keyword + """\", "i"))) .
-        }
-        limit 10
-    """)
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
     output = []
-    for key in results["results"]["bindings"]:
-        output.append({"title": key["label"]["value"], "description": key["comment"]["value"], "date": key["date"]["value"]+"T00:00:00Z", "url": key["event"]["value"]})
+    for i in getExtractors():
+        print("Loading plugin " + i["name"])
+        plugin = loadExtractor(i)
+        output.extend(plugin.run(start, end, keyword))
+
+
     #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
     return Response(output)
+
+@api_view(['GET'])
+def config_extractor(request):
+
+    name = ""
+    name = request.QUERY_PARAMS.get('name', None)
+    if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
+        os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
+        with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
+            f.write("FOOBAR")
+
+    return Response(name)
