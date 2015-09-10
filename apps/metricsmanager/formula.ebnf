@@ -1,21 +1,21 @@
 (* EBNF definition of a formula used to compute a metric *)
 
-formula     = expression $ ;
+formula     = @:expression $ ;
 
-expression  = term { ( "+" | "-")  term } ;
+expression  = positive+:term { ("+" positive+:term | "-" negative+:term) } ;
 
-term        = factor { ( "*" | "/") factor } ;
+term        = numerator+:factor { ( "*" numerator+:factor | "/" denominator+:factor ) } ;
 
 factor      =
-            application |
-            constant |
-            variable |
-            "(" expression ")";
+            @:application |
+            @:constant |
+            @:variable |
+            "(" @:expression ")";
 
-application = name "(" expression { "," expression }* ")" ;
+application = name "(" { expression "," } expression ")" ;
 
 name        = /[A-Za-z]+/ ;
 
 variable    = /__[0-9]+__/ ;
 
-constant    = /-?[0-9]+(\.[0-9]+)?(e[0-9]+)?/ ;
+constant    = /-?[0-9]+(\.[0-9]*)?(e[0-9]+)?/ ;
