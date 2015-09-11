@@ -39,7 +39,7 @@ PC_SERVICES = {
         'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
         'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem',
         'fcm_base_url': 'http://localhost:8080'
-    }
+    },
     'external_resources': {
         'physical_path_phantomCapture': '/home/miquel/PolicyCompass/policycompass/policycopmass-services-merged/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',    
     }               
