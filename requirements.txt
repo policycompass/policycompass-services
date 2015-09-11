@@ -11,3 +11,4 @@ xlrd==0.9.3
 SPARQLWrapper==1.6.4
 naked==0.1.31
 voluptuous==0.8.7
+grako==3.6.3
