@@ -5,18 +5,20 @@ from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from .models import Dataset
 import json
-from .dataset_data import DatasetData, TimeResolutions
+from .dataset_data import DatasetData, TimeResolutions, DatasetDataTransformer
 
 import logging
 log = logging.getLogger(__name__)
 
 class DataField(WritableField):
 
-    def to_native(self, value):
-        # Process Query Paramters
+    def field_to_native(self, obj, field):
         params = self.context['request'].QUERY_PARAMS
-        data = DatasetData.from_json(value, params)
-        return data.data
+        dataset_data = DatasetData.from_json(obj.data)
+        if 'time_resolution' in params:
+            dataset_data.transform_time(params['time_resolution'])
+        d = DatasetDataTransformer.to_api(dataset_data)
+        return d
 
     def field_from_native(self, data, files, field_name, into):
         if 'data' not in data:
@@ -25,15 +27,19 @@ class DataField(WritableField):
         if 'class_id' not in data:
             raise ValidationError('Field class_id is missing.')
 
-        dataset = DatasetData(data=data[field_name])
-        dataset.validate(into['time_start'], into['time_end'], data['class_id'])
-
-        if data['class_id'] == 7:
-            dataset.create_individuals()
+        data = DatasetDataTransformer.from_api(
+            data[field_name],
+            into['time_start'],
+            into['time_end'],
+            into['time_resolution'],
+            data['class_id'],
+            data['unit_id']
+        )
 
         result = {
-            'data': dataset.get_json()
+            'data': data.get_json()
         }
+
         into.update(result)
 
 class TimeField(WritableField):
