@@ -11,8 +11,6 @@ from rest_framework.decorators import api_view
 
 from .extractor import getExtractors, loadExtractor
 
-import json
-
 class Base(APIView):
 
      def get(self, request, format=None):
@@ -91,10 +89,11 @@ def harvest_events(request):
     if keyword is None:
         keyword = ""
     output = []
+
     for i in getExtractors():
-        print("Loading plugin " + i["name"])
-        plugin = loadExtractor(i)
-        output.extend(plugin.run(start, end, keyword))
+        print("Loading extractor " + i["name"])
+        extractor = loadExtractor(i)
+        output.extend(extractor.run(start, end, keyword))
 
 
     #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
@@ -105,9 +104,15 @@ def config_extractor(request):
 
     name = ""
     name = request.QUERY_PARAMS.get('name', None)
-    if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
-        os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
-        with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
-            f.write("FOOBAR")
+    print(name)
+    if name != None and name !="":
+        if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
+            os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
+            with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
+                f.write("FOOBAR")
+    output = []
 
-    return Response(name)
+    for i in getExtractors():
+        output.append(i["name"])
+
+    return Response(output)

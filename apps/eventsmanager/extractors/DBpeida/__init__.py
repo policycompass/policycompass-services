@@ -1,7 +1,7 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 def run(start, end, keyword):
-    print("Hello from a plugin!" + start + end + keyword)
+    print("DBpedia Extractor: " + start + end + keyword)
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
     sparql.setQuery("""
         PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>

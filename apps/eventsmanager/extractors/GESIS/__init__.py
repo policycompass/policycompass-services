@@ -4,7 +4,7 @@ import xmltodict
 def run(start, end, keyword):
     start = start.replace("-", "")
     end = end.replace("-", "")
-    print("Hello from a plugin!" + start + end + keyword)
+    print("GESIS Extractor: " + start + end + keyword)
 
     r = requests.get('http://www.vizgr.org/historical-events/search.php?begin_date=' + start + '&end_date=' + end + '&query=' + keyword + '&language=en&limit=10')
     #print(r.text)
