@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 from cgi import parse_header
 import json
 
+from django.conf import settings
 from rest_framework import authentication
 from rest_framework import exceptions, HTTP_HEADER_ENCODING
 from rest_framework.authentication import get_authorization_header
@@ -84,7 +85,7 @@ class AdhocracyUser:
 class AdhocracyAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
-        adhocracy_base_url = 'http://localhost:6541'
+        adhocracy_base_url = settings.ADHOCRACY_BASE_URL
         user_path = request.META.get('HTTP_X_USER_PATH')
         user_token = request.META.get('HTTP_X_USER_TOKEN')
         user_url = urljoin(adhocracy_base_url, user_path)
