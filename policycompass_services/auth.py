@@ -1,6 +1,12 @@
+from urllib.request import Request, urlopen
+from urllib.parse import urljoin
+from cgi import parse_header
+import json
+
 from rest_framework import authentication
 from rest_framework import exceptions, HTTP_HEADER_ENCODING
 from rest_framework.authentication import get_authorization_header
+
 import logging as log
 
 class User(object):
@@ -16,7 +22,6 @@ class User(object):
 
     def __str__(self):
         return "User " + str(self.__id)
-
 
 class PolicyCompassAuthentication(authentication.BaseAuthentication):
 
@@ -43,8 +48,72 @@ class PolicyCompassAuthentication(authentication.BaseAuthentication):
 
         return auth[1]
 
+class AdhocracyUser:
 
+    def __init__(self, user_ressource_path, is_god = False):
+        self.resource_path = user_ressource_path
+        self.is_staff = False
+        self.is_superuser = is_god
+        self.user_permissions = []
+        self.groups = []
 
+    def get_username():
+        return self.resource_path
 
+    def is_authenticated(self):
+        return True
 
+    def get_all_permissions(self):
+        return self.user_permissions
 
+    def set_password(self, _password):
+        raise NotImplementedError
+
+    def check_password(self, _password):
+        raise NotImplementedError
+
+    def save(self):
+        raise NotImplementedError
+
+    def delete(self):
+        raise NotImplementedError
+
+    def __repr__(self):
+        return "AdhocracyUser('%s', is_admin=%r)" % (self.resource_path, self.is_superuser)
+
+class AdhocracyAuthentication(authentication.BaseAuthentication):
+
+    def authenticate(self, request):
+        adhocracy_base_url = 'http://localhost:6541'
+        user_path = request.META.get('HTTP_X_USER_PATH')
+        user_token = request.META.get('HTTP_X_USER_TOKEN')
+        user_url = urljoin(adhocracy_base_url, user_path)
+
+        if user_path is None and user_token is None:
+            return None
+        elif user_path is None or user_token is None:
+            raise exceptions.AuthenticationFailed('No `X-User-Path` and `X-User-Token` header provided.')
+
+        request = Request('%s/principals/groups/gods'% adhocracy_base_url )
+        request.add_header('X-User-Path', user_path)
+        request.add_header('X-User-Token', user_token)
+
+        response = urlopen(request)
+
+        if (response.status == 200):
+            content_type, params = parse_header(response.getheader("content-type"))
+            encoding = params['charset'].lower()
+            if content_type != "application/json":
+                exceptions.AuthenticationFailed('Adhocracy authentification failed due wrong response.')
+            resource_as_string = response.read().decode(encoding)
+            gods_group_resource = json.loads(resource_as_string)
+            gods = gods_group_resource['data']['adhocracy_core.sheets.principal.IGroup']['users']
+
+            if user_url in gods:
+                is_god = True
+            else:
+                is_god = False
+
+            return AdhocracyUser(user_path, is_god), None
+        else:
+            raise exceptions.AuthenticationFailed('Adhocracy authentification failed due invalid credentials.')
