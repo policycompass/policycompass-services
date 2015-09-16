@@ -53,6 +53,7 @@ class AdhocracyUser:
 
     def __init__(self, user_ressource_path, is_god = False):
         self.resource_path = user_ressource_path
+        self.is_god = True
         self.is_staff = False
         self.is_superuser = is_god
         self.user_permissions = []
@@ -80,7 +81,7 @@ class AdhocracyUser:
         raise NotImplementedError
 
     def __repr__(self):
-        return "AdhocracyUser('%s', is_admin=%r)" % (self.resource_path, self.is_superuser)
+        return "AdhocracyUser('%s', is_god=%r)" % (self.resource_path, self.is_god)
 
 class AdhocracyAuthentication(authentication.BaseAuthentication):
 

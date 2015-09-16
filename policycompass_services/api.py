@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
+from policycompass_services.permissions import IsAdhocracyGod
 from policycompass_services.auth import AdhocracyAuthentication
 
 class Base(APIView):
@@ -33,7 +34,7 @@ class ExampleAuthenticated(APIView):
 class ExampleAdmin(APIView):
 
      authentication_classes = (AdhocracyAuthentication,)
-     permission_classes = (IsAdminUser,)
+     permission_classes = (IsAdhocracyGod,)
 
      def get(self, request, format=None):
           return Response("Success")
