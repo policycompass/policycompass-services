@@ -18,3 +18,7 @@ class Event(models.Model):
     dateIssuedByExternalResource = models.DateTimeField(auto_now_add=True)
     dateModified = models.DateTimeField(auto_now_add=True)
     viewsCount = models.IntegerField(blank=True)
+
+class Extractor(models.Model):
+    name = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)

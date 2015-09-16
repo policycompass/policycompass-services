@@ -1,4 +1,6 @@
 import os
+from rest_framework import status
+from rest_framework.parsers import JSONParser
 from .models import Event
 from .serializers import EventSerializer
 from rest_framework import generics
@@ -7,7 +9,6 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
 from .extractor import getExtractors, loadExtractor
 
@@ -76,43 +77,95 @@ class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
     model = Event
     serializer_class = EventSerializer
 
-@api_view(['GET'])
-def harvest_events(request):
+class HarvestEvents(APIView):
 
-    start = request.QUERY_PARAMS.get('start', None)
-    if start is None:
-        start = "0001-01-01"
-    end = request.QUERY_PARAMS.get('end', None)
-    if end is None:
-        end = "2099-12-31"
-    keyword = request.QUERY_PARAMS.get('keyword', None)
-    if keyword is None:
-        keyword = ""
-    output = []
+    def get(self, request, format=None):
+        start = request.QUERY_PARAMS.get('start', None)
+        if start is None:
+            start = "0001-01-01"
+        end = request.QUERY_PARAMS.get('end', None)
+        if end is None:
+            end = "2099-12-31"
+        keyword = request.QUERY_PARAMS.get('keyword', None)
+        if keyword is None:
+            keyword = ""
 
-    for i in getExtractors():
-        print("Loading extractor " + i["name"])
-        extractor = loadExtractor(i)
-        output.extend(extractor.run(start, end, keyword))
+        extractors = request.QUERY_PARAMS.get('extractors', None)
+        extractors = extractors.split(",")
+        selectedExtractors = []
+        for extractor in extractors:
+            selectedExtractors.append(extractor)
+
+        output = []
+
+        for name in selectedExtractors:
+            for i in getExtractors():
+                if name == i["name"]:
+                    print("Loading extractor " + i["name"])
+                    extractor = loadExtractor(i)
+                    output.extend(extractor.run(start, end, keyword))
 
 
-    #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
-    return Response(output)
+        #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
+        return Response(output)
 
-@api_view(['GET'])
-def config_extractor(request):
+class ConfigExtractor(APIView):
 
-    name = ""
-    name = request.QUERY_PARAMS.get('name', None)
-    print(name)
-    if name != None and name !="":
-        if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
-            os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
-            with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
-                f.write("FOOBAR")
-    output = []
+    def get(self, request, format=None):
 
-    for i in getExtractors():
-        output.append(i["name"])
+        output = []
 
-    return Response(output)
+        for i in getExtractors():
+            output.append(i["name"])
+
+        return Response(output)
+
+class ConfigUpload(APIView):
+    """
+    A view that can accept POST requests with JSON content.
+    """
+    parser_classes = (JSONParser,)
+
+    def post(self, request, format=None):
+        #print(request.DATA['script'])
+        name = request.DATA['name']
+        script_content = request.DATA['script']
+
+        if name != None and name !="" and script_content != None and script_content !="":
+            if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
+                os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
+                with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
+                    f.write(script_content)
+
+        return Response({'received data': request.DATA})
+
+    # def post(self, request, *args, **kwargs):
+    #     """
+    #     Processes a POST request
+    #     """
+    #     files = request.FILES
+    #
+    #     if 'file' in files:
+    #         # File has to be named file
+    #         file = files['file']
+    #         encoder = FileEncoder(file)
+    #
+    #         # Check if the file extension is supported
+    #         if not encoder.is_supported():
+    #             return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
+    #
+    #         # Encode the file
+    #         try:
+    #             encoding = encoder.encode()
+    #         except:
+    #             return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
+    #
+    #         # Build the result
+    #         result = {
+    #             'filename': file.name,
+    #             'filesize': file.size,
+    #             'result': encoding
+    #         }
+    #         return set_jsonschema_link_header(Response(result), 'converter_result', request)
+    #
+    #     return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
