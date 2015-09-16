@@ -10,4 +10,6 @@ pandas==0.14.1
 xlrd==0.9.3
 SPARQLWrapper==1.6.4
 naked==0.1.31
-xmltodict
+xmltodict==0.9.2
+voluptuous==0.8.7
+grako==3.6.3
