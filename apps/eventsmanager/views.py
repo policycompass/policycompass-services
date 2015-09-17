@@ -1,14 +1,15 @@
 import os
-from rest_framework import status
+from django.core.exceptions import ValidationError
 from rest_framework.parsers import JSONParser
-from .models import Event
+from .models import Event, Extractor
 from .serializers import EventSerializer
 from rest_framework import generics
-from datetime import datetime
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+import voluptuous as v
+import datetime
 
 from .extractor import getExtractors, loadExtractor
 
@@ -102,21 +103,59 @@ class HarvestEvents(APIView):
             for i in getExtractors():
                 if name == i["name"]:
                     print("Loading extractor " + i["name"])
-                    extractor = loadExtractor(i)
-                    output.extend(extractor.run(start, end, keyword))
+                    e = Extractor.objects.filter(name=i["name"])
+                    if e and e[0].active:
+                        extractor = loadExtractor(i)
+                        extractor_return = extractor.run(start, end, keyword)
+
+                        for dict in extractor_return:
+                            self.validate_extractor_output(dict)
+                        output.extend(extractor_return)
+                    else:
+                        print("Extractor " + i["name"] + " not activated!")
 
 
         #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
         return Response(output)
 
+    def validate_extractor_output(self, output):
+
+        schema = v.Schema({
+            v.Required("description"): str,
+            v.Required("title"): str,
+            v.Required("url"): str,
+            v.Required("date"): self.Timestamp,
+        })
+
+        try:
+            schema(output)
+        except v.Invalid as e:
+            raise ValidationError(e)
+
+    def Timestamp(self, value):
+        return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+
+
+
 class ConfigExtractor(APIView):
 
     def get(self, request, format=None):
 
-        output = []
+        name = request.QUERY_PARAMS.get('name', None)
+        active = request.QUERY_PARAMS.get('active', None)
 
-        for i in getExtractors():
-            output.append(i["name"])
+        if name!=None and name!="" and active!=None and active!="":
+            e = Extractor.objects.all().filter(name="Alan")[0]
+            if active == "true":
+                e.active = True
+            elif active == "false":
+                e.active = False
+            e.save()
+
+        output = []
+        e = Extractor.objects.all()
+        for extractor in e:
+            output.append({"name": extractor.name, "active": extractor.active})
 
         return Response(output)
 
@@ -127,11 +166,14 @@ class ConfigUpload(APIView):
     parser_classes = (JSONParser,)
 
     def post(self, request, format=None):
-        #print(request.DATA['script'])
         name = request.DATA['name']
         script_content = request.DATA['script']
 
         if name != None and name !="" and script_content != None and script_content !="":
+
+            e = Extractor(name=name,active=True)
+            e.save()
+
             if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
                 os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
                 with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
@@ -139,33 +181,3 @@ class ConfigUpload(APIView):
 
         return Response({'received data': request.DATA})
 
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     Processes a POST request
-    #     """
-    #     files = request.FILES
-    #
-    #     if 'file' in files:
-    #         # File has to be named file
-    #         file = files['file']
-    #         encoder = FileEncoder(file)
-    #
-    #         # Check if the file extension is supported
-    #         if not encoder.is_supported():
-    #             return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
-    #
-    #         # Encode the file
-    #         try:
-    #             encoding = encoder.encode()
-    #         except:
-    #             return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
-    #
-    #         # Build the result
-    #         result = {
-    #             'filename': file.name,
-    #             'filesize': file.size,
-    #             'result': encoding
-    #         }
-    #         return set_jsonschema_link_header(Response(result), 'converter_result', request)
-    #
-    #     return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
