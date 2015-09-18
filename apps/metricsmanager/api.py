@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework import generics
 from rest_framework import generics, status
 from django.core.exceptions import ValidationError
 from .models import *
@@ -31,7 +30,7 @@ class FormulaValidate(APIView):
             validate_formula(request.QUERY_PARAMS["formula"])
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValidationError as e:
-            return Response(e, status=status.HTTP_400_BAD_REQUEST)
+            return Response({ "formula": e.message }, status=status.HTTP_400_BAD_REQUEST)
 
 class MetricsCreate(generics.CreateAPIView):
     model = Metric
