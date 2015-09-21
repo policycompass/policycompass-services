@@ -37,6 +37,15 @@ class DatasetList(generics.ListCreateAPIView):
 
         return super(DatasetList, self).post(request, args, kwargs)
 
+    def get_queryset(self):
+        queryset = Dataset.objects.all()
+        indicator_id = self.request.GET.get('indicator_id', '')
+
+        if indicator_id:
+            queryset = queryset.filter(indicator_id=indicator_id)
+
+        return queryset
+
 
 class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
 
