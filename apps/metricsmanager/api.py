@@ -25,7 +25,7 @@ class FormulaValidate(APIView):
 
     def get(self, request):
         if "formula" not in request.QUERY_PARAMS:
-            return Response("No formula provided")
+            return Response({ "formula": "Can not be empty"}, status=status.HTTP_400_BAD_REQUEST)
         try:
             validate_formula(request.QUERY_PARAMS["formula"])
             return Response(status=status.HTTP_204_NO_CONTENT)
