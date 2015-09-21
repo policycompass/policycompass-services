@@ -59,7 +59,7 @@ class AdhocracyUser:
         self.user_permissions = []
         self.groups = []
 
-    def get_username():
+    def get_username(self):
         return self.resource_path
 
     def is_authenticated(self):
