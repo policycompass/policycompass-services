@@ -17,13 +17,10 @@ import subprocess
 
 @receiver(post_save, sender=Visualization)
 def update_document_on_search_service(sender, **kwargs):
-     #Get current Visualization details
-     if kwargs.get('raw', False):
-        instance = sender.objects.get(pk=kwargs['instance'].pk)
-     else:
-        instance = kwargs['instance']
      #Start a new thread for indexing the individual document
-     indexDocumentThread(instance.id, 'visualization').start()
+     if not kwargs.get('raw', False):
+        instance = kwargs['instance']
+        indexDocumentThread(instance.id, 'visualization').start()
 
 #@receiver(post_save, sender=Visualization)
 #def create_visualisation_image_service(sender, **kwargs):
