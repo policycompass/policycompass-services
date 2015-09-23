@@ -28,7 +28,7 @@ compute a new Panda data frame, which is the result of this formula.
 """
 def compute_formula(expr, mapping):
     try:
-        return get_parser().parse(expr, semantics = ComputeSemantics())
+        return get_parser().parse(expr, semantics = ComputeSemantics(mapping))
     except FailedParse as e:
         raise ValidationError('Error parsing formular:\n%s' % e)
     except FailedSemantics as e:
@@ -105,17 +105,25 @@ from functools import reduce
 
 class ComputeSemantics():
 
+    def __init__(self, mapping):
+        self.mapping = mapping
+
     def _product(self, factors):
         return reduce(operator.mul, factors, 1)
+
+    def _sum(self, summands):
+        return reduce(operator.add, summands, 0)
 
     def application(self, ast):
         raise NotImplementedError
 
     def expression(self, ast):
-        return math.fsum(ast.get("positive")) - math.fsum(ast.get("negative", []))
+        return self._sum(ast.get("positive")) - self._sum(ast.get("negative", []))
 
-    def variable(self, ast):
-        raise NotImplementedError
+    def variable(self, name):
+        if name not in self.mapping.keys():
+            raise FailedSemantics("Unkown variable %s" % name)
+        return self.mapping.get(name).data.df
 
     def term(self, ast):
         return self._product(ast.get("numerator")) / self._product(ast.get("denominator", []))

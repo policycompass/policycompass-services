@@ -41,19 +41,36 @@ class MetricsDetail(generics.RetrieveAPIView):
 
 
 """
+Compute a new dataset from a given formula and mappings for variables.
 
 Example data:
 
-{
-  "datasets": [
-    { "variable": "__1__", "dataset": 1 }
-  ]
-}
+  {
+    "datasets": [
+      {
+        "variable": "__1__",
+        "dataset": 1
+      }
+    ]
+  }
 
 
 """
 class MetriscOperationalize(APIView):
-    def post(self, request, pk):
+
+    def _get_dataset(self, dataset_id: int):
+        from apps.datasetmanager.models import Dataset
+        from apps.datasetmanager.dataset_data import DatasetData
+        dataset = Dataset.objects.get(pk=dataset_id)
+        dataset.data = DatasetData.from_json(dataset.data)
+        return dataset
+
+    def _store_dataset(self, dataset):
+        dataset.data = dataset.data.to_json
+        dataset.save()
+        return dataset.id
+
+    def post(self, request, pk: int):
         # check if metric exists
         metric = Metric.objects.get(pk=pk)
         if Metric.objects.get(pk=pk) is None:
@@ -65,17 +82,24 @@ class MetriscOperationalize(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # load required data sets
+        id_mapping = serializer.object
+        mapping = { variable: self._get_dataset(dataset_id) for (variable, dataset_id) in id_mapping.items() }
+
+        # normalize time slots (extract data frame)
+
 
         # compute result
-        mapping = serializer.object
         formula = metric.formula
         result = compute_formula(formula, mapping)
 
         # store dataset
+        print(mapping)
+        print(result)
+        # TODO: create dataset here
         dataset_id = 1
 
         return Response({
             "dataset": {
-                "id": dataset_id
+                "id":  dataset_id
             }
         })
