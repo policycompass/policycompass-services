@@ -3,6 +3,7 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework import generics, status
 from django.core.exceptions import ValidationError
+from apps.datasetmanager import internal_api as datasets
 from apps.datasetmanager.models import Dataset
 from apps.datasetmanager.dataset_data import DatasetData
 from .models import *
@@ -63,26 +64,6 @@ Example data:
 """
 class MetriscOperationalize(APIView):
 
-    def _get_dataset(self, dataset_id: int):
-        from apps.datasetmanager.models import Dataset
-        from apps.datasetmanager.dataset_data import DatasetData
-        dataset = Dataset.objects.get(pk=dataset_id)
-        dataset.data = DatasetData.from_json(dataset.data)
-        return dataset
-
-    def _filter_dataset(self, **kwargs):
-        from apps.datasetmanager.models import Dataset
-        from apps.datasetmanager.dataset_data import DatasetData
-        datasets = Dataset.objects.filter(**kwargs)
-        for dataset in datasets:
-            dataset.data = DatasetData.from_json(dataset.data)
-        return datasets
-
-    def _store_dataset(self, dataset):
-        dataset.data = dataset.data.get_json()
-        dataset.save()
-        return dataset.id
-
     def post(self, request, metrics_id: int):
         # check if metric exists
         metric = Metric.objects.get(pk=metrics_id)
@@ -98,16 +79,16 @@ class MetriscOperationalize(APIView):
         title = serializer.object.get("title")
         acronym = serializer.object.get("acronym")
         error = {}
-        if len(self._filter_dataset(title = title)) != 0:
+        if len(datasets.filter(title = title)) != 0:
             error["title"] = "Dataset name is not unique."
-        if len(self._filter_dataset(acronym = acronym)) != 0:
+        if len(datasets.filter(acronym = acronym)) != 0:
             error["acronym"] = "Dataset acronym is not unique."
         if len(error) != 0:
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
         # load required data sets
         id_mapping = serializer.object.get("datasets")
-        mapping = { variable: self._get_dataset(dataset_id) for (variable, dataset_id) in id_mapping.items() }
+        mapping = { variable: datasets.get(dataset_id) for (variable, dataset_id) in id_mapping.items() }
 
         # normalize time resolution (and extract data frame)
         result_time_resolution = "year"
@@ -151,7 +132,7 @@ class MetriscOperationalize(APIView):
             indicator_id = metric.indicator,
             class_id = 0)
 
-        dataset_id = self._store_dataset(dataset)
+        dataset_id = datasets.store(dataset)
 
         return Response({
             "dataset": {
