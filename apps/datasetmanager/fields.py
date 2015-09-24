@@ -15,8 +15,15 @@ class DataField(WritableField):
     def field_to_native(self, obj, field):
         params = self.context['request'].QUERY_PARAMS
         dataset_data = DatasetData.from_json(obj.data)
+
         if 'time_resolution' in params and params['time_resolution']:
             dataset_data.transform_time(params['time_resolution'])
+
+        if 'individuals' in params and params['individuals']:
+            individuals = params['individuals']
+            individuals = individuals.split(',')
+            dataset_data.filter_by_individuals(individuals)
+
         d = DatasetDataTransformer.to_api(dataset_data)
         return d
 
