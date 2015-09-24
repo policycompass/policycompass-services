@@ -27,6 +27,7 @@ class DatasetData(object):
         self.resolution = resolution
         self.df = data_frame
         self.time_transformed = False
+        self.time_filtered = False
         self.unit_transformed = False
 
     def get_json(self) -> str:
@@ -70,19 +71,56 @@ class DatasetData(object):
             self.resolution = time_obj.name
             self.time_transformed = True
 
+    def filter_by_time(self, start_time: str, end_time: str):
+        """
+        Filters the data by the given time interval.
+        """
+        try:
+            self.df = self.df.ix[start_time:end_time]
+            self.time_filtered = True
+        except p.datetools.DateParseError:
+            raise TransformationException("The time parameters are malformed. Please provide a valid date string")
+
+    def filter_by_individuals(self, individuals: list):
+        """
+        Filters the dataframe by a given list of individuals.
+        Raises an exception when individual is not available.
+        """
+        available_individuals = self.get_individuals()
+        filter_inds = []
+        for individual in individuals:
+            i = int(individual)
+            if i not in available_individuals:
+                raise TransformationException("The selected individuals or not valid.")
+            else:
+                filter_inds.append(i)
+
+        self.df = self.df[filter_inds]
+        log.info(self.df)
+
+        pass
+
+    def get_individuals(self) -> list:
+        """
+        Returns all available individuals
+        as a list of integers
+        """
+        result = self.df.columns.values
+        return [int(x) for x in result]
+
     def get_time_start(self) -> str:
         time_obj = trl.get(self.resolution)
         if len(self.df.index) == 1:
             return time_obj.output_expr(self.df.index[0])
         else:
-            return time_obj.output_expr(self.df.index[:1][0])
+            return time_obj.output_expr(self.df.index[0])
 
     def get_time_end(self) -> str:
         time_obj = trl.get(self.resolution)
         if len(self.df.index) == 1:
             return time_obj.output_expr(self.df.index[0])
         else:
-            return time_obj.output_expr(self.df.index[1:][0])
+            return time_obj.output_expr(self.df.index[-1])
 
 
 class DatasetDataTransformer(object):
@@ -243,6 +281,7 @@ class DatasetDataToAPITransformer(object):
         """
         result = {
             'table': self._view_data,
+            'individuals': self._dataset_data.get_individuals()
         }
 
         if self._dataset_data.time_transformed:
@@ -251,6 +290,12 @@ class DatasetDataToAPITransformer(object):
                 'start': self._dataset_data.get_time_start(),
                 'end': self._dataset_data.get_time_end(),
                 'method': 'mean'
+            }
+
+        if self._dataset_data.time_filtered:
+            result['time_filter'] = {
+                'start': self._dataset_data.get_time_start(),
+                'end': self._dataset_data.get_time_end(),
             }
 
         return result
