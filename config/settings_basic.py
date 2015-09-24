@@ -109,6 +109,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-user-path',
     'x-user-token',
+    'cache-control'
 )
 
 TEMPLATE_LOADERS = (
