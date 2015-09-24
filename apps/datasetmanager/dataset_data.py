@@ -27,6 +27,7 @@ class DatasetData(object):
         self.resolution = resolution
         self.df = data_frame
         self.time_transformed = False
+        self.time_filtered = False
         self.unit_transformed = False
 
     def get_json(self) -> str:
@@ -70,6 +71,16 @@ class DatasetData(object):
             self.resolution = time_obj.name
             self.time_transformed = True
 
+    def filter_by_time(self, start_time: str, end_time: str):
+        """
+        Filters the data by the given time interval.
+        """
+        try:
+            self.df = self.df.ix[start_time:end_time]
+            self.time_filtered = True
+        except p.datetools.DateParseError:
+            raise TransformationException("The time parameters are malformed. Please provide a valid date string")
+
     def filter_by_individuals(self, individuals: list):
         """
         Filters the dataframe by a given list of individuals.
@@ -102,14 +113,14 @@ class DatasetData(object):
         if len(self.df.index) == 1:
             return time_obj.output_expr(self.df.index[0])
         else:
-            return time_obj.output_expr(self.df.index[:1][0])
+            return time_obj.output_expr(self.df.index[0])
 
     def get_time_end(self) -> str:
         time_obj = trl.get(self.resolution)
         if len(self.df.index) == 1:
             return time_obj.output_expr(self.df.index[0])
         else:
-            return time_obj.output_expr(self.df.index[1:][0])
+            return time_obj.output_expr(self.df.index[-1])
 
 
 class DatasetDataTransformer(object):
@@ -279,6 +290,12 @@ class DatasetDataToAPITransformer(object):
                 'start': self._dataset_data.get_time_start(),
                 'end': self._dataset_data.get_time_end(),
                 'method': 'mean'
+            }
+
+        if self._dataset_data.time_filtered:
+            result['time_filter'] = {
+                'start': self._dataset_data.get_time_start(),
+                'end': self._dataset_data.get_time_end(),
             }
 
         return result

@@ -24,6 +24,17 @@ class DataField(WritableField):
             individuals = individuals.split(',')
             dataset_data.filter_by_individuals(individuals)
 
+        time_start = None
+        time_end = None
+        if 'time_start' in params and params['time_start']:
+            time_start = params['time_start']
+
+        if 'time_end' in params and params['time_end']:
+            time_end = params['time_end']
+
+        if time_start or time_end:
+            dataset_data.filter_by_time(time_start, time_end)
+
         d = DatasetDataTransformer.to_api(dataset_data)
         return d
 
