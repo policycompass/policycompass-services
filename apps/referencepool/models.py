@@ -6,6 +6,7 @@ class PolicyDomain(models.Model):
     description = models.TextField()
 
     class Meta:
+        ordering = ['title']
         verbose_name = "Policy Domain"
         verbose_name_plural = "Policy Domains"
 

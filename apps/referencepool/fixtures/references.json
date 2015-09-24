@@ -2207,6 +2207,24 @@
   },
   {
     "fields": {
+      "title": "Eurostat",
+      "url": "http://epp.eurostat.ec.europa.eu/",
+      "api_url": "http://epp.eurostat.ec.europa.eu/portal/page/portal/sdmx_web_services/getting_started/rest_sdmx_2.1"
+    },
+    "pk": 71,
+    "model": "referencepool.externalresource"
+  },
+  {
+    "fields": {
+      "title": "Cambridgeshire Insight",
+      "url": "http://opendata.cambridgeshireinsight.org.uk",
+      "api_url": "http://opendata.cambridgeshireinsight.org.uk/api/3/action/package_show"
+    },
+    "pk": 72,
+    "model": "referencepool.externalresource"
+  },
+  {
+    "fields": {
       "title": "Area",
       "identifier": "Area"
     },
