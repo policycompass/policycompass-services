@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
-from grako.exceptions import FailedParse, FailedSemantics
-
+from grako.exceptions import FailedParse, SemanticError
 import grako
 import pkg_resources
 
@@ -17,9 +16,12 @@ Throws Django Validation error if supplied word can't be constructed by out form
 """
 def validate_formula(expr):
     try:
-        get_parser().parse(expr)
+        get_parser().parse(expr, semantics = AstSemantics(get_normalizers()))
     except FailedParse as e:
         raise ValidationError('Error parsing formular:\n%s' % str(e))
+    except SemanticError as e:
+        raise ValidationError('Error validating formular:\n%s' % e)
+
 
 """ Compute value for a formula given a mapping
 
@@ -27,13 +29,7 @@ Takes a mapping between variable names (as string) and Panda data frames. Those 
 compute a new Panda data frame, which is the result of this formula.
 """
 def compute_formula(expr, mapping):
-    try:
-        return get_parser().parse(expr, semantics = ComputeSemantics(mapping))
-    except FailedParse as e:
-        raise ValidationError('Error parsing formular:\n%s' % e)
-    except FailedSemantics as e:
-        raise ValidationError('Error applying formular:\n%s' % e)
-
+    return get_parser().parse(expr, semantics = ComputeSemantics(mapping, get_normalizers()))
 
 class Sum:
     def __init__(self, positive, negative):
@@ -69,21 +65,24 @@ class Application:
     def __repr__(self):
         return "%s(%s)" % (self.function_name, ", ".join([ repr(x) for x in self.arguments]))
 
-class AstSemantics():
 
-    def __init__(self, functions = [ "norm " ]):
-        self.functions = functions
+
+class AstSemantics():
+    """ Semantic definiton to construct an ast of objects. """
+
+    def __init__(self, functions):
+        self.functions = functions.keys()
         self.indicator_variables = set()
 
 
     def application(self, ast):
-        [ function_name, _ , args, last_arg, _ ] = ast
-        args.append(last_arg)
+        name = ast.get("name")
+        args = ast.get("arguments")
 
         if function_name in self.functions:
             return Application(function_name, args)
         else:
-            raise FailedSemantics("Unkown function %s" % function_name)
+            raise SemanticError("Unkown function %s" % function_name)
 
     def expression(self, ast):
         return Sum(ast.get("positive"), ast.get("negative", []))
