@@ -36,7 +36,7 @@ class FormulaValidate(APIView):
         except ValidationError as e:
             return Response({ "formula": e.message }, status=status.HTTP_400_BAD_REQUEST)
 
-class MetricsCreate(generics.CreateAPIView):
+class MetricsCreate(generics.ListCreateAPIView):
     model = Metric
     serializer_class = MetricSerializer
 
