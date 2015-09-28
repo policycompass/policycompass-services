@@ -1,7 +1,9 @@
 from django.core.exceptions import ValidationError
 from grako.exceptions import FailedParse, SemanticError
+from .normalization import get_normalizers
 import grako
 import pkg_resources
+
 
 grammar_ebnf = pkg_resources.resource_string(__name__, "formula.ebnf")
 model = grako.genmodel("formula", grammar_ebnf.decode("utf-8"))
@@ -97,15 +99,16 @@ class AstSemantics():
     def constant(self, ast):
         return float(ast)
 
-
 import math
 import operator
+import inspect
 from functools import reduce
 
 class ComputeSemantics():
 
-    def __init__(self, mapping):
+    def __init__(self, mapping, functions):
         self.mapping = mapping
+        self.functions = functions
 
     def _product(self, factors):
         return reduce(operator.mul, factors, 1)
@@ -114,7 +117,18 @@ class ComputeSemantics():
         return reduce(operator.add, summands, 0)
 
     def application(self, ast):
-        raise NotImplementedError
+        function_name = ast.get("name")
+        args = ast.get("arguments")
+
+        if function_name not in self.functions:
+            raise SemanticError("Unkown function %s" % function_name)
+
+        function = self.functions[function_name]
+        spec = inspect.getfullargspec(function.__call__)
+        if not len(spec.args) ==  len(args) + 1:
+            raise SemanticError("Invalid number of arguments for function %s (expected %s and got %s)" % (function_name, len(spec.args) - 1,  len(args)))
+
+        return function(*args)
 
     def expression(self, ast):
         return self._sum(ast.get("positive")) - self._sum(ast.get("negative", []))
