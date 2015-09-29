@@ -12,7 +12,7 @@ factor      =
             @:variable |
             "(" @:expression ")";
 
-application = name "(" { expression "," } expression ")" ;
+application = name:name "(" { arguments+:expression "," } arguments+:expression ")" ;
 
 name        = /[A-Za-z]+/ ;
 
