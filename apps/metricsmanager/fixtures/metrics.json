@@ -1,0 +1,14 @@
+[
+  {
+    "model": "metricsmanager.metric",
+    "pk": 1,
+    "fields": {
+      "date_created": "2015-07-02T11:39:54.347Z",
+      "creator": 1,
+      "title": "Fixture metric",
+      "indicator": 1,
+      "formula": "0.5 * norm(__1__, 0, 100) + 0.5 * norm(__2__, 0, 200)",
+      "variables": "{ \"__1__\": { \"type\": \"indicator\", \"id\": 1 }, \"__2__\": { \"type\": \"indicator\", \"id\": 2 } }"
+    }
+  }
+]
