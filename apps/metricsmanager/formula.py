@@ -135,7 +135,7 @@ class ComputeSemantics():
 
     def variable(self, name):
         if name not in self.mapping.keys():
-            raise FailedSemantics("Unkown variable %s" % name)
+            raise SemanticError("Unkown variable %s" % name)
         return self.mapping.get(name).data.df
 
     def term(self, ast):
