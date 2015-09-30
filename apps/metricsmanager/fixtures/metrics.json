@@ -4,12 +4,12 @@
     "pk": 1,
     "fields": {
       "date_created": "2015-07-02T11:39:54.347Z",
-      "creator": "/principals/users/000001",
+      "creator_path": "/principals/users/000001",
       "title": "Fixture metric",
       "description": "A example metric shipped with policycompass",
       "acronym": "EXAMPLE",
       "keywords": "Example, Metric",
-      "indicator": 1,
+      "indicator_id": 1,
       "formula": "0.5 * norm(__1__, 0, 100) + 0.5 * norm(__2__, 0, 200)",
       "variables": "{ \"__1__\": { \"type\": \"indicator\", \"id\": 1 }, \"__2__\": { \"type\": \"indicator\", \"id\": 2 } }"
     }
