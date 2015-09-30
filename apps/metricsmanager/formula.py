@@ -78,7 +78,7 @@ class AstSemantics():
 
 
     def application(self, ast):
-        name = ast.get("name")
+        function_name = ast.get("name")
         args = ast.get("arguments")
 
         if function_name in self.functions:
