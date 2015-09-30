@@ -158,13 +158,8 @@ class DatasetDataFromAPITransformer(object):
         self.class_id = class_id
         self.unit_id = unit_id
         self._dataset_data = None
-
+        self._create_individuals()
         self._pre_validate()
-
-        # Todo Make this better
-        if self.class_id == 7:
-            self._create_individuals()
-
         self.df = self._transform()
         self._dataset_data = DatasetData(
             self.df,
