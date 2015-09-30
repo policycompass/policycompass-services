@@ -6,7 +6,7 @@ from drf_compound_fields import fields as compound_fields
 class MetricSerializer(serializers.ModelSerializer):
 
     formula = serializers.CharField(validators=[ validate_formula ])
-    user = serializers.Field(source='user')
+    creator_path = serializers.Field(source='creator_path')
 
     class Meta:
         model = Metric

@@ -41,7 +41,7 @@ class MetricsCreate(generics.ListCreateAPIView):
     serializer_class = MetricSerializer
 
     def pre_save(self, obj):
-        obj.user = "/principals/users/000001"
+        obj.creator_path = "/principals/users/000001"
 
 class MetricsDetail(generics.RetrieveAPIView):
     model = Metric
