@@ -39,6 +39,8 @@ class FormulaValidate(APIView):
 class MetricsCreate(generics.ListCreateAPIView):
     model = Metric
     serializer_class = MetricSerializer
+    paginate_by = 10
+    paginate_by_param = 'page_size'
 
 class MetricsDetail(generics.RetrieveAPIView):
     model = Metric
