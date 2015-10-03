@@ -78,7 +78,7 @@ class AstSemantics():
 
 
     def application(self, ast):
-        name = ast.get("name")
+        function_name = ast.get("name")
         args = ast.get("arguments")
 
         if function_name in self.functions:
@@ -135,7 +135,7 @@ class ComputeSemantics():
 
     def variable(self, name):
         if name not in self.mapping.keys():
-            raise FailedSemantics("Unkown variable %s" % name)
+            raise SemanticError("Unkown variable %s" % name)
         return self.mapping.get(name).data.df
 
     def term(self, ast):
