@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Event
+from .models import Event, Extractor
 
-
+#serializer for an event
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
@@ -11,7 +11,10 @@ class EventSerializer(serializers.ModelSerializer):
 from apps.eventsmanager.models import (
     Event,
 )
-
+#serializer for the extractor model
+class ExtractorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Extractor
 
 class ExternalEventSerializer(serializers.Serializer):
     title = serializers.CharField()

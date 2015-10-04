@@ -42,5 +42,23 @@
             "dateModified": "2014-07-30T19:07:42.062Z",
             "viewsCount": 1
         }
+    },
+    {
+        "model": "eventsmanager.extractor",
+        "pk": 1,
+        "fields": {
+            "name": "DBpedia",
+            "active": "True",
+            "valid": "True"
+        }
+    },
+    {
+        "model": "eventsmanager.extractor",
+        "pk": 2,
+        "fields": {
+            "name": "GESIS",
+            "active": "True",
+            "valid": "True"
+        }
     }
 ]

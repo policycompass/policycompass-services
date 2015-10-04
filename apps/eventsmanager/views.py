@@ -1,9 +1,11 @@
 import os
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
 from .models import Event, Extractor
-from .serializers import EventSerializer
+from .serializers import EventSerializer, ExtractorSerializer
 from rest_framework import generics
+from rest_framework import status
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
@@ -11,16 +13,19 @@ from rest_framework.response import Response
 import voluptuous as v
 import datetime
 
-from .extractor import getExtractors, loadExtractor
+from .extractor_manager import getExtractors, loadExtractor
 
 class Base(APIView):
 
      def get(self, request, format=None):
         result = {
             "Events": reverse('author-list', request=request),
+            "Events Harvester": reverse('harvest-events', request=request),
+            "Harvester Configurator": reverse('config-extractor', request=request),
         }
         return Response(result)
 
+#Creates new events and returns a list of available event with filter options
 class EventView(generics.ListCreateAPIView):
     model = Event
     serializer_class = EventSerializer
@@ -73,11 +78,12 @@ class EventView(generics.ListCreateAPIView):
             queryset = queryset.filter(title__icontains=title)
         return queryset
 
-
+#returns a specific event
 class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
     model = Event
     serializer_class = EventSerializer
 
+#Searches in available data sources for events
 class HarvestEvents(APIView):
 
     def get(self, request, format=None):
@@ -90,12 +96,12 @@ class HarvestEvents(APIView):
         keyword = request.QUERY_PARAMS.get('keyword', None)
         if keyword is None:
             keyword = ""
-
-        extractors = request.QUERY_PARAMS.get('extractors', None)
-        extractors = extractors.split(",")
         selectedExtractors = []
-        for extractor in extractors:
-            selectedExtractors.append(extractor)
+        extractors = request.QUERY_PARAMS.get('extractors', None)
+        if extractors != None:
+            extractors = extractors.split(",")
+            for extractor in extractors:
+                selectedExtractors.append(extractor)
 
         output = []
 
@@ -104,27 +110,107 @@ class HarvestEvents(APIView):
                 if name == i["name"]:
                     print("Loading extractor " + i["name"])
                     e = Extractor.objects.filter(name=i["name"])
-                    if e and e[0].active:
+                    if e and e[0].active and e[0].valid:
                         extractor = loadExtractor(i)
                         extractor_return = extractor.run(start, end, keyword)
-
                         for dict in extractor_return:
-                            self.validate_extractor_output(dict)
+                            dict["source"] = i["name"]
                         output.extend(extractor_return)
                     else:
                         print("Extractor " + i["name"] + " not activated!")
 
+        for idx,item in enumerate(output):
+            item["id"] = idx
 
-        #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
         return Response(output)
 
-    def validate_extractor_output(self, output):
 
+#Creates new datasources and validates them. activaes and deactivates existing data sources
+class ConfigExtractor(APIView):
+
+    def get(self, request, format=None):
+        """
+        Returns a list of all extractors.
+        """
+        queryset = Extractor.objects.all()
+        serializer = ExtractorSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def patch(self, request, format=None):
+        """
+        Switches extractors on and off by changing the state in the Extractor Model.
+        """
+        name = request.DATA['name']
+        active = request.DATA['active']
+
+        if name!=None and name!="" and active!=None and active!="":
+            e = Extractor.objects.all().filter(name=name)
+            if e:
+                e = e[0]
+                if active == "true":
+                    e.active = True
+                elif active == "false":
+                    e.active = False
+                e.save()
+
+        queryset = Extractor.objects.all()
+        serializer = ExtractorSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        """
+        Creates, validates and registers a new extractor and saves the uploaded script.
+        """
+        name = request.DATA['name']
+        script_content = request.DATA['script']
+        e=Extractor.objects.filter(name=name)
+
+        if name != None and name != "" and script_content != None and script_content != "" and not e:
+
+            valid = True
+
+            if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
+                os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
+                with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
+                    f.write(script_content)
+
+            try:
+                for i in getExtractors():
+                    if name == i["name"]:
+                        print("Loading extractor " + i["name"])
+
+                        extractor = loadExtractor(i)
+                        extractor_return = extractor.run("1927-05-03", "2015-09-09", "war")
+
+                        for dict in extractor_return:
+                            self.validate_extractor_output(dict)
+            except:
+                valid = False
+
+            e = Extractor(name=name,active=True, valid=valid)
+            e.save()
+
+            if valid:
+                return Response(request.DATA, status=status.HTTP_201_CREATED)
+
+        return Response({'error': "Validation failed!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def validate_extractor_output(self, output):
+        """
+        Validation function for the extractor output.
+        """
         schema = v.Schema({
-            v.Required("description"): str,
             v.Required("title"): str,
-            v.Required("url"): str,
             v.Required("date"): self.Timestamp,
+            ("description"): str,
+            ("url"): str,
+            ("enddate"): self.Timestamp,
+            ("keywords"): str,
+            ("geolocation"): str,
+            ("language"): str,
+
         })
 
         try:
@@ -134,50 +220,3 @@ class HarvestEvents(APIView):
 
     def Timestamp(self, value):
         return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
-
-
-
-class ConfigExtractor(APIView):
-
-    def get(self, request, format=None):
-
-        name = request.QUERY_PARAMS.get('name', None)
-        active = request.QUERY_PARAMS.get('active', None)
-
-        if name!=None and name!="" and active!=None and active!="":
-            e = Extractor.objects.all().filter(name="Alan")[0]
-            if active == "true":
-                e.active = True
-            elif active == "false":
-                e.active = False
-            e.save()
-
-        output = []
-        e = Extractor.objects.all()
-        for extractor in e:
-            output.append({"name": extractor.name, "active": extractor.active})
-
-        return Response(output)
-
-class ConfigUpload(APIView):
-    """
-    A view that can accept POST requests with JSON content.
-    """
-    parser_classes = (JSONParser,)
-
-    def post(self, request, format=None):
-        name = request.DATA['name']
-        script_content = request.DATA['script']
-
-        if name != None and name !="" and script_content != None and script_content !="":
-
-            e = Extractor(name=name,active=True)
-            e.save()
-
-            if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
-                os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
-                with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
-                    f.write(script_content)
-
-        return Response({'received data': request.DATA})
-

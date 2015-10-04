@@ -1,6 +1,6 @@
 from django.db import models
 
-
+#model which represents an event
 class Event(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -19,6 +19,8 @@ class Event(models.Model):
     dateModified = models.DateTimeField(auto_now_add=True)
     viewsCount = models.IntegerField(blank=True)
 
+#model to store the status of data sources
 class Extractor(models.Model):
     name = models.CharField(max_length=100)
     active = models.BooleanField(default=True)
+    valid = models.BooleanField(default=True)
