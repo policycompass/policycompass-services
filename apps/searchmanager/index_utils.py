@@ -114,6 +114,8 @@ def update_index_item(itemtype,item_id):
     if itemtype == 'fuzzymap':
         data = data['model']
 
+    data['comment_count'] = get_adhocracy_comment_count(itemtype, item_id)
+
     #Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
     return response.text
