@@ -20,6 +20,24 @@ def rebuild_index():
     indexing_log = indexing_log + rebuild_index_fcm('fuzzymap')
     return indexing_log
 
+def normalize_api_url(item_type):
+    """
+    Get the api url by item type.
+    """
+    if item_type == 'fuzzymap':
+        return settings.PC_SERVICES['references']['fcm_base_url'] \
+            + '/api/v1/' + 'fcmmanager/models'
+    elif item_type == 'dataset':
+        return settings.PC_SERVICES['references']['base_url'] \
+            + '/api/v1/' + item_type + 'manager/' + item_type + 's'
+    elif item_type == 'indicator':
+        return settings.PC_SERVICES['references']['base_url'] \
+            + '/api/v1/indicatorservice/' + item_type + 's'
+    else:
+        return settings.PC_SERVICES['references']['base_url'] \
+            + '/api/v1/' + item_type + 'smanager/' + item_type + 's'
+
+
 def rebuild_index_itemtype(itemtype):
     """
     Rebuilds the index of the Elastic search for a specific itemtype entity:
@@ -31,24 +49,14 @@ def rebuild_index_itemtype(itemtype):
     #Init elastic search index mappings for the item type
     indexing_log = indexing_log + init_Index_Mappings(itemtype)
     #Begin indexing - Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
-    #...set the API url for the item type (e.g. metrics api url)
-    api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
-    if itemtype == "dataset":
-        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
-    if itemtype == "indicator":
-        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' + itemtype + 's'
+    api_url = normalize_api_url(itemtype)
 
     # Set a counter in order to iterate all the pages
     page = '?page=1'
     while page != 'None' :
        #...Make the api call to get the itemtype (e.g. metric) at current page
-       response = urllib.request.urlopen(api_url + page)
-       #...Read the itemtype json object returned by the api call
-       rawdataresponse = response.read()
-       #...Decode the response from bytes to str
-       decodeddataresponse = rawdataresponse.decode()
-       #...Convert from JSON to python dict
-       data = json.loads(decodeddataresponse)
+       r = requests.get(api_url + page)
+       data = r.json()
        #Index each item (TODO: use _bulk)
        for item_to_index in data["results"]:
          indexing_log = indexing_log + index_item(itemtype,item_to_index) + '\n'
@@ -92,32 +100,22 @@ def update_index_item(itemtype,item_id):
     """
     Creates or updates a document index based on its id.To be used by external apps when creating / updating an object
     """
-     #Set the API url for the item type (e.g. metrics api url)
-    if itemtype == 'fuzzymap':
-        api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
-    else:
-        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
-    if itemtype == "dataset":
-        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'manager/' + itemtype + 's'
-    if itemtype == "indicator":
-        api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' \
-                                                                   '' + itemtype + 's'
-    #Make the api call to get the itemtype (e.g. metric) with the specific id
-    response = urllib.request.urlopen(api_url + '/' + str(item_id))
-    #Read the itemtype json object returned by the api call
-    rawdataresponse = response.read()
-    #Decode the response from bytes to str
-    decodeddataresponse = rawdataresponse.decode()
-    #Convert from JSON to python dict
-    data = json.loads(decodeddataresponse)
-    #Remove the data container specifically of the metrics object that contains a lot of table information
+    #Set the API url for the item type (e.g. metrics api url)
+    api_url = normalize_api_url(itemtype)
+
+    # Get full dataset from api
+    r = requests.get(api_url + '/' + str(item_id))
+    data = r.json()
+
+    # Remove the data container specifically of the metrics object that contains a lot of table information
     data.pop("data", None)
 
-    #Call the Elastic API Index service (PUT command) to index current document
+    # Normalize response format
     if itemtype == 'fuzzymap':
-        response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["model"]["id"]), data=json.dumps(data["model"]))
-    else:
-        response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
+        data = data['model']
+
+    #Call the Elastic API Index service (PUT command) to index current document
+    response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
     return response.text
 
 def delete_index_item(itemtype,item_id):
@@ -157,13 +155,8 @@ def rebuild_index_fcm(itemtype):
     #...set the API url for the item type (e.g. fuzzy api url)
     api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
     #...Make the api call to get the itemtype (e.g. fuzzy) at current page
-    response = urllib.request.urlopen(api_url)
-    #...Read the itemtype json object returned by the api call
-    rawdataresponse = response.read()
-    #...Decode the response from bytes to str
-    decodeddataresponse = rawdataresponse.decode()
-    #...Convert from JSON to python dict
-    data = json.loads(decodeddataresponse)
+    r = requests.get(api_url)
+    data = r.json()
     #Index each item (TODO: use _bulk)
     for item_to_index in data:
       indexing_log = indexing_log + index_item(itemtype,item_to_index) + '\n'
