@@ -134,7 +134,7 @@ class MetriscOperationalize(APIView):
             language_id = 0,
             user_id = 0,
             unit_id = result_unit,
-            indicator_id = metric.indicator,
+            indicator_id = metric.indicator_id,
             class_id = 0)
 
         dataset_id = datasets.store(dataset)
