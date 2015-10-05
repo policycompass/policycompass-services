@@ -55,11 +55,35 @@ def rebuild_index_itemtype(itemtype):
        page = str(data["next"]).replace(api_url,"")
     return indexing_log
 
+def get_adhocracy_comment_count(item_type, item_id):
+    """
+    Fetch comment count for given item from adhocracy.
+    """
+    # fetch comment counter from adhocracy
+    count_url = ('%s/adhocracy/%s_%s' \
+                '?content_type=adhocracy_core.resources.comment.IComment' \
+                '&count=true' \
+                '&depth=all' \
+                '&elements=omit') % (
+                    settings.PC_SERVICES['references']['adhocracy_api_base_url'],
+                    item_type,
+                    item_id)
+
+    r = requests.get(count_url)
+    if r.status_code == 404:
+        return 0
+    elif r.status_code == 200:
+        return int(r.json()['data']['adhocracy_core.sheets.pool.IPool']['count'])
+    else:
+        raise Exception("Unable to read comment_count from adhocracy for %s/%s" \
+                        % (item_type, item_id))
+
 def index_item(itemtype,document):
     """
     Indexs a single document to the elastic search
     """
     item_id = str(document["id"])
+    document['comment_count'] = get_adhocracy_comment_count(itemtype, item_id)
     #Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + item_id, data=json.dumps(document))
     return response.text
