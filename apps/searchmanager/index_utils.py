@@ -88,8 +88,6 @@ def update_index_item(itemtype,item_id):
     data = json.loads(decodeddataresponse)
     #Remove the data container specifically of the metrics object that contains a lot of table information
     data.pop("data", None)
-        #Remove the data container specifically of the metrics object that contains a lot of table information
-    data.pop("data", None)  
     #Call the Elastic API Index service (PUT command) to index current document 
     if itemtype == 'fuzzymap':
         response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["model"]["id"]), data=json.dumps(data["model"]))
