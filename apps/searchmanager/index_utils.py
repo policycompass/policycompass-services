@@ -60,7 +60,7 @@ def index_item(itemtype,document):
     Indexs a single document to the elastic search
     """
     item_id = str(document["id"])
-    #Call the Elastic API Index service (PUT command) to index current document 
+    #Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + item_id, data=json.dumps(document))
     return response.text
 
@@ -69,7 +69,7 @@ def update_index_item(itemtype,item_id):
     Creates or updates a document index based on its id.To be used by external apps when creating / updating an object
     """
      #Set the API url for the item type (e.g. metrics api url)
-    if itemtype == 'fuzzymap': 
+    if itemtype == 'fuzzymap':
         api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
     else:
         api_url = settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + itemtype + 'smanager/' + itemtype + 's'
@@ -88,7 +88,8 @@ def update_index_item(itemtype,item_id):
     data = json.loads(decodeddataresponse)
     #Remove the data container specifically of the metrics object that contains a lot of table information
     data.pop("data", None)
-    #Call the Elastic API Index service (PUT command) to index current document 
+
+    #Call the Elastic API Index service (PUT command) to index current document
     if itemtype == 'fuzzymap':
         response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["model"]["id"]), data=json.dumps(data["model"]))
     else:
@@ -99,10 +100,10 @@ def delete_index_item(itemtype,item_id):
     """
     Delete the index of a document based on its id.To be used by external apps when deleting the actual object
     """
-    #Call the Elastic API Index service (PUT command) to index current document 
+    #Call the Elastic API Index service (PUT command) to index current document
     response = requests.delete(settings.ELASTICSEARCH_URL + itemtype +'/' + str(item_id))
     return response.text
-  
+
 def init_Index_Mappings(itemtype):
     """
     Init the elastic search mappings of the document of the index
@@ -114,7 +115,7 @@ def init_Index_Mappings(itemtype):
         response = requests.put(settings.ELASTICSEARCH_URL,data=mysettings)
     #Prepare the mapping instructions
     mapping = '{"' + itemtype + '": {"properties": {"title": {"type": "string", "fields": {"lower_case_sort": { "type":  "string", "analyzer": "case_insensitive_sort"} }	} }	}}'
-    #Call the Elastic API Index service (PUT command) to set the mappings of current document 
+    #Call the Elastic API Index service (PUT command) to set the mappings of current document
     response = requests.put(settings.ELASTICSEARCH_URL + '_mapping/' + itemtype,data = mapping)
     return '\n' + 'Init Index Mappings: ' + response.text + '\n'
 
@@ -129,7 +130,7 @@ def rebuild_index_fcm(itemtype):
     #Init elastic search index mappings for the item type
     indexing_log = indexing_log + init_Index_Mappings(itemtype)
     #Begin indexing - Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
-    #...set the API url for the item type (e.g. fuzzy api url) 
+    #...set the API url for the item type (e.g. fuzzy api url)
     api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
     #...Make the api call to get the itemtype (e.g. fuzzy) at current page
     response = urllib.request.urlopen(api_url)
