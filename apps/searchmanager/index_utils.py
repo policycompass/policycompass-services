@@ -86,7 +86,7 @@ def get_adhocracy_comment_count(item_type, item_id):
     try:
         r = requests.get(count_url)
     except:
-        log.warning('Unable to read comment_count from adhocracy for %s/%s. Is it running at %s?', item_type, item_id, settings.PC_SERVICES['references']['adhocracy_api_base_url'])
+        log.warning('Unable to read comments count from adhocracy for %s/%s. Is it running at %s?', item_type, item_id, settings.PC_SERVICES['references']['adhocracy_api_base_url'])
         return 0
 
     if r.status_code == 404:
@@ -94,7 +94,7 @@ def get_adhocracy_comment_count(item_type, item_id):
     elif r.status_code == 200:
         return int(r.json()['data']['adhocracy_core.sheets.pool.IPool']['count'])
     else:
-        log.error("Unable to read comment_count from adhocracy for %s/%s with server status code %s", item_type, item_id, r.status_code)
+        log.error("Unable to read comments count from adhocracy for %s/%s with server status code %s", item_type, item_id, r.status_code)
         return 0
 
 def index_item(itemtype,document):
@@ -102,7 +102,7 @@ def index_item(itemtype,document):
     Indexs a single document to the elastic search
     """
     item_id = str(document["id"])
-    document['comment_count'] = get_adhocracy_comment_count(itemtype, item_id)
+    document['commentsCount'] = get_adhocracy_comment_count(itemtype, item_id)
     #Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + item_id, data=json.dumps(document))
     return response.text
@@ -125,7 +125,7 @@ def update_index_item(itemtype,item_id):
     if itemtype == 'fuzzymap':
         data = data['model']
 
-    data['comment_count'] = get_adhocracy_comment_count(itemtype, item_id)
+    data['commentsCount'] = get_adhocracy_comment_count(itemtype, item_id)
 
     #Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(settings.ELASTICSEARCH_URL + itemtype +'/' + str(data["id"]), data=json.dumps(data))
