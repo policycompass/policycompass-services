@@ -6,6 +6,8 @@ from django.conf import settings
 import datetime
 import urllib
 import json,requests
+import logging
+log = logging.getLogger(__name__)
 
 def rebuild_index():
     """
@@ -68,23 +70,32 @@ def get_adhocracy_comment_count(item_type, item_id):
     Fetch comment count for given item from adhocracy.
     """
     # fetch comment counter from adhocracy
-    count_url = ('%s/adhocracy/%s_%s' \
-                '?content_type=adhocracy_core.resources.comment.IComment' \
-                '&count=true' \
-                '&depth=all' \
-                '&elements=omit') % (
-                    settings.PC_SERVICES['references']['adhocracy_api_base_url'],
-                    item_type,
-                    item_id)
+    try:
+        count_url = ('%s/adhocracy/%s_%s' \
+                    '?content_type=adhocracy_core.resources.comment.IComment' \
+                    '&count=true' \
+                    '&depth=all' \
+                    '&elements=omit') % (
+                        settings.PC_SERVICES['references']['adhocracy_api_base_url'],
+                        item_type,
+                        item_id)
+    except KeyError:
+        log.warning('adhocracy_api_base_url is missing from settings.py.')
+        return 0
 
-    r = requests.get(count_url)
+    try:
+        r = requests.get(count_url)
+    except:
+        log.warning('Unable to read comment_count from adhocracy for %s/%s. Is it running at %s?', item_type, item_id, settings.PC_SERVICES['references']['adhocracy_api_base_url'])
+        return 0
+
     if r.status_code == 404:
         return 0
     elif r.status_code == 200:
         return int(r.json()['data']['adhocracy_core.sheets.pool.IPool']['count'])
     else:
-        raise Exception("Unable to read comment_count from adhocracy for %s/%s" \
-                        % (item_type, item_id))
+        log.error("Unable to read comment_count from adhocracy for %s/%s with server status code %s", item_type, item_id, r.status_code)
+        return 0
 
 def index_item(itemtype,document):
     """
