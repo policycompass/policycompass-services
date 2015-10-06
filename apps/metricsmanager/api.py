@@ -26,7 +26,7 @@ class MetricsBase(APIView):
 
         return Response(result)
 
-class FormulaValidate(APIView):
+class FormulasValidate(APIView):
     def get(self, request):
         if "formula" not in request.QUERY_PARAMS:
             return Response({ "formula": "Can not be empty"}, status=status.HTTP_400_BAD_REQUEST)
