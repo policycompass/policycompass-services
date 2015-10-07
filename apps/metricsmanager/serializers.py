@@ -29,3 +29,9 @@ class OperationalizeSerializer(serializers.Serializer):
             "acronym": validated_data["acronym"],
             "datasets": dict(validated_data['datasets'])
         }
+
+class NormalizerSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    acronym  = serializers.CharField(max_length=20)
+    description = serializers.CharField(max_length=500)
+    arguments = serializers.Field(source="get_arguments")

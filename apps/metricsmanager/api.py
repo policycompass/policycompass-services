@@ -8,6 +8,7 @@ from apps.datasetmanager.models import Dataset
 from apps.datasetmanager.dataset_data import DatasetData
 from .models import *
 from .serializers import *
+from .normalization import get_normalizers
 from .formula import validate_formula, compute_formula
 import itertools
 from datetime import datetime
@@ -21,12 +22,13 @@ class MetricsBase(APIView):
         :return:
         """
         result = {
-            "Metrics": reverse('metrics-create', request=request)
+            "Metrics": reverse('metrics-create-list', request=request),
+            "Normalizer": reverse('normalizers-list', request=request),
         }
 
         return Response(result)
 
-class FormulaValidate(APIView):
+class FormulasValidate(APIView):
     def get(self, request):
         if "formula" not in request.QUERY_PARAMS:
             return Response({ "formula": "Can not be empty"}, status=status.HTTP_400_BAD_REQUEST)
@@ -35,6 +37,12 @@ class FormulaValidate(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValidationError as e:
             return Response({ "formula": e.message }, status=status.HTTP_400_BAD_REQUEST)
+
+class NormalizersList(APIView):
+    def get(self, request):
+        normalizers = get_normalizers().values()
+        serializer = NormalizerSerializer(normalizers, many=True)
+        return Response(serializer.data)
 
 class MetricsCreate(generics.ListCreateAPIView):
     model = Metric
