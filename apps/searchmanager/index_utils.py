@@ -166,7 +166,7 @@ def rebuild_index_fcm(itemtype):
     indexing_log = indexing_log + init_Index_Mappings(itemtype)
     #Begin indexing - Load the itemtype object (metric,visualization,etc) and index them on Elastic Search server
     #...set the API url for the item type (e.g. fuzzy api url)
-    api_url = settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
+    api_url = normalize_api_url(itemtype)
     #...Make the api call to get the itemtype (e.g. fuzzy) at current page
     r = requests.get(api_url)
     data = r.json()
