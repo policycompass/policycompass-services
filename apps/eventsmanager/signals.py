@@ -13,13 +13,10 @@ import time
 
 @receiver(post_save, sender=Event)
 def update_document_on_search_service(sender, **kwargs):
-     #Get current Event details
-     if kwargs.get('raw', False):
-        instance = sender.objects.get(pk=kwargs['instance'].pk)
-     else:
-        instance = kwargs['instance']
      #Start a new thread for indexing the individual document
-     indexDocumentThread(instance.id, 'event').start()
+     if not kwargs.get('raw', False):
+        instance = kwargs['instance']
+        indexDocumentThread(instance.id, 'event').start()
 
 
 @receiver(post_delete, sender=Event)

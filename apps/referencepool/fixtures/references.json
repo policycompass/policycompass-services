@@ -2207,6 +2207,24 @@
   },
   {
     "fields": {
+      "title": "Eurostat",
+      "url": "http://epp.eurostat.ec.europa.eu/",
+      "api_url": "http://epp.eurostat.ec.europa.eu/portal/page/portal/sdmx_web_services/getting_started/rest_sdmx_2.1"
+    },
+    "pk": 71,
+    "model": "referencepool.externalresource"
+  },
+  {
+    "fields": {
+      "title": "Cambridgeshire Insight",
+      "url": "http://opendata.cambridgeshireinsight.org.uk",
+      "api_url": "http://opendata.cambridgeshireinsight.org.uk/api/3/action/package_show"
+    },
+    "pk": 72,
+    "model": "referencepool.externalresource"
+  },
+  {
+    "fields": {
       "title": "Area",
       "identifier": "Area"
     },
@@ -2648,6 +2666,15 @@
       "description": "Custom"
     },
     "pk": 7,
+    "model": "referencepool.dataclass"
+  },
+  {
+    "fields": {
+      "code_type": "",
+      "title": "County",
+      "description": "County"
+    },
+    "pk": 8,
     "model": "referencepool.dataclass"
   },
   {
@@ -4908,5 +4935,264 @@
     },
     "pk": 251,
     "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Buckinghamshire",
+      "code": ""
+    },
+    "pk": 252,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Cambridgeshire",
+      "code": ""
+    },
+    "pk": 253,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Cumbria",
+      "code": ""
+    },
+    "pk": 254,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Derbyshire",
+      "code": ""
+    },
+    "pk": 255,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Dorset",
+      "code": ""
+    },
+    "pk": 256,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "East Sussex",
+      "code": ""
+    },
+    "pk": 257,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Essex",
+      "code": ""
+    },
+    "pk": 258,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Gloucestershire",
+      "code": ""
+    },
+    "pk": 259,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Hampshire",
+      "code": ""
+    },
+    "pk": 260,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Hertfordshire",
+      "code": ""
+    },
+    "pk": 261,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Kent",
+      "code": ""
+    },
+    "pk": 262,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Lancashire",
+      "code": ""
+    },
+    "pk": 263,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Leicestershire",
+      "code": ""
+    },
+    "pk": 264,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Lincolnshire",
+      "code": ""
+    },
+    "pk": 265,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Norfolk",
+      "code": ""
+    },
+    "pk": 266,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Northamptonshire",
+      "code": ""
+    },
+    "pk": 267,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "North Yorkshire",
+      "code": ""
+    },
+    "pk": 268,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Nottinghamshire",
+      "code": ""
+    },
+    "pk": 269,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Oxfordshire",
+      "code": ""
+    },
+    "pk": 270,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Somerset",
+      "code": ""
+    },
+    "pk": 271,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Staffordshire",
+      "code": ""
+    },
+    "pk": 272,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Suffolk",
+      "code": ""
+    },
+    "pk": 273,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Surrey",
+      "code": ""
+    },
+    "pk": 274,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Warwickshire",
+      "code": ""
+    },
+    "pk": 275,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "West Sussex ",
+      "code": ""
+    },
+    "pk": 276,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Worcestershire",
+      "code": ""
+    },
+    "pk": 277,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Greater London Authority",
+      "code": ""
+    },
+    "pk": 278,
+    "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "data_class": 8,
+      "title": "Devon",
+      "code": ""
+    },
+    "pk": 279,
+    "model": "referencepool.individual"
   }
 ]
+
+
+
+
+
+
+
