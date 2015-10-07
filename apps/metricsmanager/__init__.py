@@ -1,1 +1,1 @@
-default_app_config = 'apps.datasetmanager.apps.metricsmanagerConfig'
+default_app_config = 'apps.metricsmanager.apps.metricsmanagerConfig'
