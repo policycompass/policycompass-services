@@ -92,7 +92,11 @@ def get_adhocracy_comment_count(item_type, item_id):
     if r.status_code == 404:
         return 0
     elif r.status_code == 200:
-        return int(r.json()['data']['adhocracy_core.sheets.pool.IPool']['count'])
+        try:
+            return int(r.json()['data']['adhocracy_core.sheets.pool.IPool']['count'])
+        except:
+            log.error('Unexpected response from adhocracy while retriving comments count for %s/%s', item_type, item_id)
+            return 0
     else:
         log.error("Unable to read comments count from adhocracy for %s/%s with server status code %s", item_type, item_id, r.status_code)
         return 0
