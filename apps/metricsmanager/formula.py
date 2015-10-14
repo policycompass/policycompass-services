@@ -18,7 +18,7 @@ Throws Django Validation error if supplied word can't be constructed by out form
 """
 def validate_formula(expr):
     try:
-        get_parser().parse(expr, semantics = AstSemantics(get_normalizers()))
+        return get_parser().parse(expr, semantics = AstSemantics(get_normalizers()))
     except FailedParse as e:
         raise ValidationError('Error parsing formular:\n%s' % str(e))
     except SemanticError as e:
@@ -76,6 +76,8 @@ class AstSemantics():
         self.functions = functions.keys()
         self.indicator_variables = set()
 
+    def formula(self, ast):
+        return self.indicator_variables
 
     def application(self, ast):
         function_name = ast.get("name")
@@ -115,6 +117,9 @@ class ComputeSemantics():
 
     def _sum(self, summands):
         return reduce(operator.add, summands, 0)
+
+    def formula(self, ast):
+        return ast[0]
 
     def application(self, ast):
         function_name = ast.get("name")
