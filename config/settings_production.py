@@ -20,8 +20,10 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-with open('/etc/policycompass/secret_key') as f:
+
+with open(os.getenv('PC_SECRET_FILE', '/etc/policycompass/secret_key')) as f:
     SECRET_KEY = f.read().strip()
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
