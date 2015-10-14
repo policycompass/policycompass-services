@@ -8,24 +8,12 @@ from django.conf import settings
 
 import logging
 
-#class MetricsAdapter(BaseAdapter):
-#    """
-#    Adapter for metrics
-#    """
-#    def __init__(self):
-#        metric_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['metricsInvisualizations']               
-#        logging.warning(metric_url)
-#        self.url = metric_url
-#        self.url_entity = metric_url + '/%s'
-#        super(MetricsAdapter, self).__init__()
-
-
 class DatasetsAdapter(BaseAdapter):
     """
     Adapter for datasets
     """
     def __init__(self):
-        dataset_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['datasetsInvisualizations']               
+        dataset_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['datasetsInvisualizations']
         logging.warning(dataset_url)
         self.url = dataset_url
         self.url_entity = dataset_url + '/%s'
