@@ -22,3 +22,20 @@ ALLOWED_HOSTS = [
 
 with open('/etc/policycompass/secret_key') as f:
     SECRET_KEY = f.read().strip()
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': os.getenv('PC_LOG_LEVEL', 'INFO'),
+            'class': 'logging.StreamHandler'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': os.getenv('PC_LOG_LEVEL', 'INFO'),
+            'propagate': True,
+        },
+    },
+}
