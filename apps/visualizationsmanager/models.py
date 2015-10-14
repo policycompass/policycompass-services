@@ -96,7 +96,6 @@ class Visualization(models.Model):
                     vhe.save()
 
             if self._datasets_in_visualization:
-                logging.warning('--Exist Datasets--')
                 for d_datasets in self._datasets_in_visualization:
 
                     vi_me = DatasetsInVisualizations()

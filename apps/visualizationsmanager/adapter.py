@@ -14,7 +14,6 @@ class DatasetsAdapter(BaseAdapter):
     """
     def __init__(self):
         dataset_url = settings.PC_SERVICES['references']['base_url'] + settings.PC_SERVICES['references']['datasetsInvisualizations']
-        logging.warning(dataset_url)
         self.url = dataset_url
         self.url_entity = dataset_url + '/%s'
         super(DatasetsAdapter, self).__init__()
