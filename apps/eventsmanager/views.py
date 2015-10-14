@@ -10,6 +10,9 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from policycompass_services.permissions import IsAdhocracyGod
+from policycompass_services.auth import AdhocracyAuthentication
 import voluptuous as v
 import datetime
 
@@ -125,8 +128,7 @@ class HarvestEvents(APIView):
         return Response(output)
 
 
-#Creates new datasources and validates them. activaes and deactivates existing data sources
-class ConfigExtractor(APIView):
+class GetExtractor(APIView):
 
     def get(self, request, format=None):
         """
@@ -135,6 +137,13 @@ class ConfigExtractor(APIView):
         queryset = Extractor.objects.all()
         serializer = ExtractorSerializer(queryset, many=True)
         return Response(serializer.data)
+
+#Creates new datasources and validates them. activaes and deactivates existing data sources
+class ConfigExtractor(APIView):
+
+    authentication_classes = (AdhocracyAuthentication,)
+    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdhocracyGod,)
 
     def patch(self, request, format=None):
         """
