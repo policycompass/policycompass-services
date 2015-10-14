@@ -1,6 +1,9 @@
+import json
+
 from rest_framework import serializers
 from .models import *
 from .formula import validate_formula
+from .formula import ComputeSemantics
 from drf_compound_fields import fields as compound_fields
 
 class MetricSerializer(serializers.ModelSerializer):
@@ -10,6 +13,10 @@ class MetricSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Metric
+
+    def validate(self, data):
+        variables = validate_formula(data['formula'])
+        return data
 
 class OperationalizeMappingSerializer(serializers.Serializer):
     variable = serializers.RegexField("__[0-9]+__")
