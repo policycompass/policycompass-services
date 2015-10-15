@@ -1,13 +1,22 @@
 from rest_framework import serializers
 from .models import *
-from .formula import validate_formula
+from .formula import validate_variables, validate_formula
 from .formula import ComputeSemantics
 from drf_compound_fields import fields as compound_fields
 
+
 class MetricSerializer(serializers.ModelSerializer):
 
-    formula = serializers.CharField()
     creator_path = serializers.Field(source='creator_path')
+
+    def validate_variables(self, attrs, source):
+        """
+        Check if the structure of the variables map is as expected and remove
+        any additional keys provided.
+        """
+        attrs['variables'] = validate_variables(attrs['variables'])
+        return attrs
+
 
     def validate(self, attrs):
         """

@@ -6,6 +6,7 @@ import operator
 import inspect
 import grako
 import pkg_resources
+import re
 
 from .normalization import get_normalizers
 
@@ -14,6 +15,34 @@ model = grako.genmodel("formula", grammar_ebnf.decode("utf-8"))
 
 def get_parser():
     return model
+
+def validate_variables(variables):
+    """
+    Check the structure of variables mapping dict and drop extra values.
+    """
+    clean_variables = {}
+
+    for key, values in variables.items():
+
+        if not re.match('__[0-9]+__', key):
+            raise ValidationError({
+                'variables': 'Invalid variable name {}'.format(key) })
+
+        valid_defintion = 'type' in values \
+                          and values['type'] == 'indicator' \
+                          and 'id' in values \
+                          and isinstance(values['id'], int)
+
+        if not valid_defintion:
+            raise ValidationError({
+                'variables': 'Invalid variable definition {}'.format(key) })
+
+        clean_variables[key] = {
+            'id':  values['id'],
+            'type': values['type']
+        }
+
+    return clean_variables
 
 
 """ Validate a formula against our grammar
@@ -28,7 +57,6 @@ def validate_formula(expr, mapping):
         raise ValidationError({ 'formula': 'Error parsing formular:\n{}'.format(e) })
     except SemanticError as e:
         raise ValidationError({ 'formula': 'Error validating formular:\n{}'.format(e) })
-
 
 """ Compute value for a formula given a mapping
 
@@ -99,7 +127,6 @@ class AstSemantics():
         return Sum(ast.get("positive"), ast.get("negative", []))
 
     def variable(self, ast):
-        print("Encountered: ", ast)
         if ast in self.variables:
             self.used_variables.add(ast)
         else:

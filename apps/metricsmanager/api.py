@@ -9,7 +9,7 @@ from apps.datasetmanager.dataset_data import DatasetData
 from .models import *
 from .serializers import *
 from .normalization import get_normalizers
-from .formula import validate_formula, compute_formula
+from .formula import validate_variables, validate_formula, compute_formula
 import itertools
 import json
 from datetime import datetime
@@ -39,15 +39,16 @@ class FormulasValidate(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            validate_formula(request.QUERY_PARAMS["formula"],
-                             json.loads(request.QUERY_PARAMS["variables"]))
+            variables = validate_variables(
+                json.loads(request.QUERY_PARAMS["variables"]))
+            validate_formula(request.QUERY_PARAMS["formula"], variables)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValueError as e:
             return Response(
-                { "variables": "Unable to parse json: {}".format(e)})
+                { "variables": "Unable to parse json: {}".format(e) },
+                status=status.HTTP_400_BAD_REQUEST)
         except ValidationError as e:
-            return Response(
-                { "formula": str(e) }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(e.error_dict, status=status.HTTP_400_BAD_REQUEST)
 
 class NormalizersList(APIView):
     def get(self, request):
