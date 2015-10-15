@@ -6,7 +6,7 @@ def run(start, end, keyword):
     end = end.replace("-", "")
     print("GESIS Extractor: " + start + end + keyword)
 
-    r = requests.get('http://www.vizgr.org/historical-events/search.php?begin_date=' + start + '&end_date=' + end + '&query=' + keyword + '&language=en&limit=10')
+    r = requests.get('http://www.vizgr.org/historical-events/search.php?begin_date=' + start + '&end_date=' + end + '&query=' + keyword + '&language=en')
     #print(r.text)
     try:
         result = xmltodict.parse(r.text)

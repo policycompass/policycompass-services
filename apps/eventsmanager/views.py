@@ -141,9 +141,10 @@ class GetExtractor(APIView):
 #Creates new datasources and validates them. activaes and deactivates existing data sources
 class ConfigExtractor(APIView):
 
-    authentication_classes = (AdhocracyAuthentication,)
+    #Only authenticate admins for this APIView
+    #authentication_classes = (AdhocracyAuthentication,)
     #permission_classes = (IsAuthenticated,)
-    permission_classes = (IsAdhocracyGod,)
+    #permission_classes = (IsAdhocracyGod,)
 
     def patch(self, request, format=None):
         """
