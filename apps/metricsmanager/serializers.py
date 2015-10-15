@@ -1,5 +1,3 @@
-import json
-
 from rest_framework import serializers
 from .models import *
 from .formula import validate_formula
@@ -8,15 +6,20 @@ from drf_compound_fields import fields as compound_fields
 
 class MetricSerializer(serializers.ModelSerializer):
 
-    formula = serializers.CharField(validators=[ validate_formula ])
+    formula = serializers.CharField()
     creator_path = serializers.Field(source='creator_path')
+
+    def validate(self, attrs):
+        """
+        Check formula and that provided mappings cover all variables and filter
+        supplementary mappings.
+        """
+        validate_formula(attrs['formula'], attrs['variables'])
+        return attrs
 
     class Meta:
         model = Metric
 
-    def validate(self, data):
-        variables = validate_formula(data['formula'])
-        return data
 
 class OperationalizeMappingSerializer(serializers.Serializer):
     variable = serializers.RegexField("__[0-9]+__")
@@ -24,6 +27,7 @@ class OperationalizeMappingSerializer(serializers.Serializer):
 
     def restore_object(self, validated_data, instance=None):
         return (validated_data['variable'], validated_data['dataset'])
+
 
 class OperationalizeSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=100)
@@ -36,6 +40,7 @@ class OperationalizeSerializer(serializers.Serializer):
             "acronym": validated_data["acronym"],
             "datasets": dict(validated_data['datasets'])
         }
+
 
 class NormalizerSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)

@@ -11,6 +11,7 @@ from .serializers import *
 from .normalization import get_normalizers
 from .formula import validate_formula, compute_formula
 import itertools
+import json
 from datetime import datetime
 
 class MetricsBase(APIView):
@@ -31,12 +32,22 @@ class MetricsBase(APIView):
 class FormulasValidate(APIView):
     def get(self, request):
         if "formula" not in request.QUERY_PARAMS:
-            return Response({ "formula": "Can not be empty"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({ "formula": "Can not be empty"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if "variables" not in request.QUERY_PARAMS:
+            return Response({ "variables": "Can not be empty"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            validate_formula(request.QUERY_PARAMS["formula"])
+            validate_formula(request.QUERY_PARAMS["formula"],
+                             json.loads(request.QUERY_PARAMS["variables"]))
             return Response(status=status.HTTP_204_NO_CONTENT)
+        except ValueError as e:
+            return Response(
+                { "variables": "Unable to parse json: {}".format(e)})
         except ValidationError as e:
-            return Response({ "formula": e.message }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                { "formula": str(e) }, status=status.HTTP_400_BAD_REQUEST)
 
 class NormalizersList(APIView):
     def get(self, request):
