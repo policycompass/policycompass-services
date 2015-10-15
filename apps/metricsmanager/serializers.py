@@ -14,7 +14,12 @@ class MetricSerializer(serializers.ModelSerializer):
         Check formula and that provided mappings cover all variables and filter
         supplementary mappings.
         """
-        validate_formula(attrs['formula'], attrs['variables'])
+        variables_used = validate_formula(attrs['formula'], attrs['variables'])
+
+        # Accept if too many vars are provided and filter them here
+        attrs['variables'] = { var_name: value for var_name, value
+                               in attrs['variables'].items()
+                               if var_name in variables_used }
         return attrs
 
     class Meta:
