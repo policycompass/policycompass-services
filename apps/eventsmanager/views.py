@@ -142,9 +142,9 @@ class GetExtractor(APIView):
 class ConfigExtractor(APIView):
 
     #Only authenticate admins for this APIView
-    #authentication_classes = (AdhocracyAuthentication,)
+    authentication_classes = (AdhocracyAuthentication,)
     #permission_classes = (IsAuthenticated,)
-    #permission_classes = (IsAdhocracyGod,)
+    permission_classes = (IsAdhocracyGod,)
 
     def patch(self, request, format=None):
         """
