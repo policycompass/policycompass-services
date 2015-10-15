@@ -160,7 +160,7 @@ class ComputeSemantics():
         return reduce(operator.add, summands, 0)
 
     def formula(self, ast):
-        return ast[0]
+        return ast
 
     def application(self, ast):
         function_name = ast.get("name")
