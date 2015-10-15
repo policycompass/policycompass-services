@@ -1,9 +1,14 @@
 from django.core.exceptions import ValidationError
 from grako.exceptions import FailedParse, SemanticError
-from .normalization import get_normalizers
+from functools import reduce
+import math
+import operator
+import inspect
 import grako
 import pkg_resources
+import re
 
+from .normalization import get_normalizers
 
 grammar_ebnf = pkg_resources.resource_string(__name__, "formula.ebnf")
 model = grako.genmodel("formula", grammar_ebnf.decode("utf-8"))
@@ -11,26 +16,57 @@ model = grako.genmodel("formula", grammar_ebnf.decode("utf-8"))
 def get_parser():
     return model
 
+def validate_variables(variables):
+    """
+    Check the structure of variables mapping dict and drop extra values.
+    """
+    clean_variables = {}
 
-""" Validate a formula against our grammar
+    for key, values in variables.items():
 
-Throws Django Validation error if supplied word can't be constructed by out formula grammar.
-"""
-def validate_formula(expr):
+        if not re.match('__[0-9]+__', key):
+            raise ValidationError({
+                'variables': 'Invalid variable name {}'.format(key) })
+
+        valid_defintion = 'type' in values \
+                          and values['type'] == 'indicator' \
+                          and 'id' in values \
+                          and isinstance(values['id'], int)
+
+        if not valid_defintion:
+            raise ValidationError({
+                'variables': 'Invalid variable definition {}'.format(key) })
+
+        clean_variables[key] = {
+            'id':  values['id'],
+            'type': values['type']
+        }
+
+    return clean_variables
+
+
+
+def validate_formula(expr, mapping):
+    """ Validate a formula against our grammar
+
+    Throws Django Validation error if supplied word can't be constructed by
+    our formula grammar.
+    """
     try:
-        get_parser().parse(expr, semantics = AstSemantics(get_normalizers()))
+        return get_parser().parse(expr, semantics = AstSemantics(set(mapping.keys()),
+                                                                 set(get_normalizers().keys())))
     except FailedParse as e:
-        raise ValidationError('Error parsing formular:\n%s' % str(e))
+        raise ValidationError({ 'formula': 'Error parsing formular:\n{}'.format(e) })
     except SemanticError as e:
-        raise ValidationError('Error validating formular:\n%s' % e)
+        raise ValidationError({ 'formula': 'Error validating formular:\n{}'.format(e) })
 
-
-""" Compute value for a formula given a mapping
-
-Takes a mapping between variable names (as string) and Panda data frames. Those will be used to
-compute a new Panda data frame, which is the result of this formula.
-"""
 def compute_formula(expr, mapping):
+    """ Compute value for a formula given a mapping
+
+    Takes a mapping between variable names (as string) and Panda data frames.
+    Those will be used to compute a new Panda data frame, which is the result
+    of this formula.
+    """
     return get_parser().parse(expr, semantics = ComputeSemantics(mapping, get_normalizers()))
 
 class Sum:
@@ -68,20 +104,24 @@ class Application:
         return "%s(%s)" % (self.function_name, ", ".join([ repr(x) for x in self.arguments]))
 
 
-
 class AstSemantics():
     """ Semantic definiton to construct an ast of objects. """
 
-    def __init__(self, functions):
-        self.functions = functions.keys()
-        self.indicator_variables = set()
+    def __init__(self, variables, functions):
+        self.functions = functions
+        self.variables = variables
+        self.used_functions = set()
+        self.used_variables = set()
 
+    def formula(self, ast):
+        return self.used_variables
 
     def application(self, ast):
         function_name = ast.get("name")
         args = ast.get("arguments")
 
         if function_name in self.functions:
+            self.used_functions.add(function_name)
             return Application(function_name, args)
         else:
             raise SemanticError("Unkown function %s" % function_name)
@@ -90,7 +130,10 @@ class AstSemantics():
         return Sum(ast.get("positive"), ast.get("negative", []))
 
     def variable(self, ast):
-        self.indicator_variables.add(ast)
+        if ast in self.variables:
+            self.used_variables.add(ast)
+        else:
+            raise SemanticError("Unknown variable %s" % ast)
         return ast
 
     def term(self, ast):
@@ -99,12 +142,12 @@ class AstSemantics():
     def constant(self, ast):
         return float(ast)
 
-import math
-import operator
-import inspect
-from functools import reduce
 
 class ComputeSemantics():
+    """
+    Compute the value of a formula using the functions and mapping from
+    variables to datasets given.
+    """
 
     def __init__(self, mapping, functions):
         self.mapping = mapping
@@ -115,6 +158,9 @@ class ComputeSemantics():
 
     def _sum(self, summands):
         return reduce(operator.add, summands, 0)
+
+    def formula(self, ast):
+        return ast
 
     def application(self, ast):
         function_name = ast.get("name")

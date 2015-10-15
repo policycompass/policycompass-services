@@ -1,6 +1,6 @@
 (* EBNF definition of a formula used to compute a metric *)
 
-formula     = @:expression $ ;
+formula     = expression $ ;
 
 expression  = positive+:term { ("+" positive+:term | "-" negative+:term) } ;
 
