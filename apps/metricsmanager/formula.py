@@ -45,11 +45,13 @@ def validate_variables(variables):
     return clean_variables
 
 
-""" Validate a formula against our grammar
 
-Throws Django Validation error if supplied word can't be constructed by out formula grammar.
-"""
 def validate_formula(expr, mapping):
+    """ Validate a formula against our grammar
+
+    Throws Django Validation error if supplied word can't be constructed by
+    our formula grammar.
+    """
     try:
         return get_parser().parse(expr, semantics = AstSemantics(set(mapping.keys()),
                                                                  set(get_normalizers().keys())))
@@ -58,12 +60,13 @@ def validate_formula(expr, mapping):
     except SemanticError as e:
         raise ValidationError({ 'formula': 'Error validating formular:\n{}'.format(e) })
 
-""" Compute value for a formula given a mapping
-
-Takes a mapping between variable names (as string) and Panda data frames. Those will be used to
-compute a new Panda data frame, which is the result of this formula.
-"""
 def compute_formula(expr, mapping):
+    """ Compute value for a formula given a mapping
+
+    Takes a mapping between variable names (as string) and Panda data frames.
+    Those will be used to compute a new Panda data frame, which is the result
+    of this formula.
+    """
     return get_parser().parse(expr, semantics = ComputeSemantics(mapping, get_normalizers()))
 
 class Sum:
