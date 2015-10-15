@@ -114,7 +114,7 @@ class AstSemantics():
         self.used_variables = set()
 
     def formula(self, ast):
-        return self.used_variables,
+        return self.used_variables
 
     def application(self, ast):
         function_name = ast.get("name")

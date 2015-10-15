@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     def create_valid_json(apps, schema_editor):
         Metric = apps.get_model("metricsmanager", "Metric")
         db_alias = schema_editor.connection.alias
-        for metric in Metric.objects.using(db_alias).all:
+        for metric in Metric.objects.using(db_alias).all():
             metric.variables = metric.variables.replace('\'','"')
             metric.save()
 
