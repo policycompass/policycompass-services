@@ -92,8 +92,7 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'policycompass_services.auth.PolicyCompassAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'policycompass_services.auth.AdhocracyAuthentication',
     ),
     'ORDERING_PARAM': 'sort'
 }
