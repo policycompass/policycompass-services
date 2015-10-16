@@ -86,7 +86,7 @@ class AdhocracyUser:
 class AdhocracyAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
-        adhocracy_base_url = settings.ADHOCRACY_BASE_URL
+        adhocracy_base_url = settings.PC_SERVICES['references']['adhocracy_api_base_url']
         user_path = request.META.get('HTTP_X_USER_PATH')
         user_token = request.META.get('HTTP_X_USER_TOKEN')
         user_url = urljoin(adhocracy_base_url, user_path)
