@@ -71,27 +71,26 @@ class MetricsDetail(generics.RetrieveAPIView):
     model = Metric
     serializer_class = MetricSerializer
 
-
-"""
-Compute a new dataset from a given formula and mappings for variables.
-
-Example data:
-
-  {
-    "title" : "Some test",
-    "acronym": "acronym",
-    "datasets": [
-      {
-        "variable": "__1__",
-        "dataset": 1
-      }
-    ]
-  }
-
-"""
 class MetriscOperationalize(APIView):
 
     def post(self, request, metrics_id: int):
+        """
+        Compute a new dataset from a given formula and mappings for variables.
+
+        Example data:
+
+        {
+          "title" : "Some test",
+          "acronym": "acronym",
+          "datasets": [
+            {
+              "variable": "__1__",
+              "dataset": 1
+            }
+          ]
+        }
+        """
+
         # check if metric exists
         metric = Metric.objects.get(pk=metrics_id)
         if Metric.objects.get(pk=metrics_id) is None:
