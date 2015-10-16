@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import generics, status
 from django.core.exceptions import ValidationError
 from apps.datasetmanager import internal_api as datasets
@@ -61,9 +62,10 @@ class MetricsCreate(generics.ListCreateAPIView):
     serializer_class = MetricSerializer
     paginate_by = 10
     paginate_by_param = 'page_size'
+    permission_classes = IsAuthenticatedOrReadOnly,
 
     def pre_save(self, obj):
-        obj.creator_path = "/principals/users/000001"
+        obj.creator_path = self.request.user.resource_path
 
 class MetricsDetail(generics.RetrieveAPIView):
     model = Metric
