@@ -92,8 +92,7 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'policycompass_services.auth.PolicyCompassAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'policycompass_services.auth.AdhocracyAuthentication',
     ),
     'ORDERING_PARAM': 'sort'
 }
@@ -161,6 +160,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Path to adhocracy settings
-ADHOCRACY_BASE_URL = 'http://localhost:6541'
