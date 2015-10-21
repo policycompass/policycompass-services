@@ -1,25 +1,34 @@
-from .models import Event
-from .serializers import EventSerializer
+import os
+from django.core.exceptions import ValidationError
+from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
+from .models import Event, Extractor
+from .serializers import EventSerializer, ExtractorSerializer
 from rest_framework import generics
-from datetime import datetime
+from rest_framework import status
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from SPARQLWrapper import SPARQLWrapper, JSON
-from .plugin import getPlugins, loadPlugin
+from rest_framework.permissions import IsAuthenticated
+from policycompass_services.permissions import IsAdhocracyGod
+from policycompass_services.auth import AdhocracyAuthentication
+import voluptuous as v
+import datetime
 
-import json
+from .extractor_manager import getExtractors, loadExtractor
 
 class Base(APIView):
 
      def get(self, request, format=None):
         result = {
             "Events": reverse('author-list', request=request),
+            "Events Harvester": reverse('harvest-events', request=request),
+            "Harvester Configurator": reverse('config-extractor', request=request),
         }
         return Response(result)
 
+#Creates new events and returns a list of available event with filter options
 class EventView(generics.ListCreateAPIView):
     model = Event
     serializer_class = EventSerializer
@@ -72,47 +81,152 @@ class EventView(generics.ListCreateAPIView):
             queryset = queryset.filter(title__icontains=title)
         return queryset
 
-
+#returns a specific event
 class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
     model = Event
     serializer_class = EventSerializer
 
-@api_view(['GET'])
-def harvest_events(request):
-    for i in getPlugins():
-        print("Loading plugin " + i["name"])
-        plugin = loadPlugin(i)
-        plugin.run()
-    start = request.QUERY_PARAMS.get('start', None)
-    if start is None:
-        start = "0001-01-01"
-    end = request.QUERY_PARAMS.get('end', None)
-    if end is None:
-        end = "2099-12-31"
-    keyword = request.QUERY_PARAMS.get('keyword', None)
-    if keyword is None:
-        keyword = ""
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    sparql.setQuery("""
-        PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+#Searches in available data sources for events
+class HarvestEvents(APIView):
 
-        SELECT ?event ?date ?comment ?label ?startDate ?endDate {
-            ?event a dbpedia-owl:Event ;
-            rdfs:comment ?comment ;
-            rdfs:label ?label ;
-            dbpedia-owl:date ?date .
-            FILTER (?date > \"""" + start + """\"^^xsd:date &&
-            ?date < \"""" + end + """\"^^xsd:date &&
-            langMatches(lang(?label),"en") &&
-            langMatches(lang(?comment),"en") &&
-            (regex(?label, \"""" + keyword + """\", "i") || regex(?comment, \"""" + keyword + """\", "i"))) .
-        }
-        limit 10
-    """)
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    output = []
-    for key in results["results"]["bindings"]:
-        output.append({"title": key["label"]["value"], "description": key["comment"]["value"], "date": key["date"]["value"]+"T00:00:00Z", "url": key["event"]["value"]})
-    #Example Request: http://localhost:8000/api/v1/eventsmanager/harvestevents?start=1968-10-30&end=1980-12-31&keyword=war
-    return Response(output)
+    def get(self, request, format=None):
+        start = request.QUERY_PARAMS.get('start', None)
+        if start is None:
+            start = "0001-01-01"
+        end = request.QUERY_PARAMS.get('end', None)
+        if end is None:
+            end = "2099-12-31"
+        keyword = request.QUERY_PARAMS.get('keyword', None)
+        if keyword is None:
+            keyword = ""
+        selectedExtractors = []
+        extractors = request.QUERY_PARAMS.get('extractors', None)
+        if extractors != None:
+            extractors = extractors.split(",")
+            for extractor in extractors:
+                selectedExtractors.append(extractor)
+
+        output = []
+
+        for name in selectedExtractors:
+            for i in getExtractors():
+                if name == i["name"]:
+                    print("Loading extractor " + i["name"])
+                    e = Extractor.objects.filter(name=i["name"])
+                    if e and e[0].active and e[0].valid:
+                        extractor = loadExtractor(i)
+                        extractor_return = extractor.run(start, end, keyword)
+                        for dict in extractor_return:
+                            dict["source"] = i["name"]
+                        output.extend(extractor_return)
+                    else:
+                        print("Extractor " + i["name"] + " not activated!")
+
+        for idx,item in enumerate(output):
+            item["id"] = idx
+
+        return Response(output)
+
+
+class GetExtractor(APIView):
+
+    def get(self, request, format=None):
+        """
+        Returns a list of all extractors.
+        """
+        queryset = Extractor.objects.all()
+        serializer = ExtractorSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+#Creates new datasources and validates them. activaes and deactivates existing data sources
+class ConfigExtractor(APIView):
+
+    #Only authenticate admins for this APIView
+    authentication_classes = (AdhocracyAuthentication,)
+    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdhocracyGod,)
+
+    def patch(self, request, format=None):
+        """
+        Switches extractors on and off by changing the state in the Extractor Model.
+        """
+        name = request.DATA['name']
+        active = request.DATA['active']
+
+        if name!=None and name!="" and active!=None and active!="":
+            e = Extractor.objects.all().filter(name=name)
+            if e:
+                e = e[0]
+                if active == "true":
+                    e.active = True
+                elif active == "false":
+                    e.active = False
+                e.save()
+
+        queryset = Extractor.objects.all()
+        serializer = ExtractorSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    parser_classes = (JSONParser,)
+    def post(self, request, format=None):
+        """
+        Creates, validates and registers a new extractor and saves the uploaded script.
+        """
+        name = request.DATA['name']
+        script_content = request.DATA['script']
+        e=Extractor.objects.filter(name=name)
+
+        if name != None and name != "" and script_content != None and script_content != "" and not e:
+
+            valid = True
+
+            if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name):
+                os.makedirs(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name)
+                with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
+                    f.write(script_content)
+
+            try:
+                for i in getExtractors():
+                    if name == i["name"]:
+                        print("Loading extractor " + i["name"])
+
+                        extractor = loadExtractor(i)
+                        extractor_return = extractor.run("1927-05-03", "2015-09-09", "war")
+
+                        for dict in extractor_return:
+                            self.validate_extractor_output(dict)
+            except:
+                valid = False
+
+            e = Extractor(name=name,active=True, valid=valid)
+            e.save()
+
+            if valid:
+                return Response(request.DATA, status=status.HTTP_201_CREATED)
+
+        return Response({'error': "Validation failed!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def validate_extractor_output(self, output):
+        """
+        Validation function for the extractor output.
+        """
+        schema = v.Schema({
+            v.Required("title"): str,
+            v.Required("date"): self.Timestamp,
+            ("description"): str,
+            ("url"): str,
+            ("enddate"): self.Timestamp,
+            ("keywords"): str,
+            ("geolocation"): str,
+            ("language"): str,
+
+        })
+
+        try:
+            schema(output)
+        except v.Invalid as e:
+            raise ValidationError(e)
+
+    def Timestamp(self, value):
+        return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
