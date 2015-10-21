@@ -96,7 +96,7 @@ class DatasetData(object):
                 filter_inds.append(i)
 
         self.df = self.df[filter_inds]
-        log.info(self.df)
+        log.debug(self.df)
 
         pass
 

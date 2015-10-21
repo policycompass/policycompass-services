@@ -55,7 +55,7 @@ class FileEncoder(object):
         r = []
         reader = csv.reader(codecs.iterdecode(self.file, "utf-8"))
         for row in reader:
-            log.info(str(row))
+            log.debug(str(row))
             r.append(row)
         return r
 
@@ -71,7 +71,7 @@ class FileEncoder(object):
             for col in range(sheet.ncols):
                 cell = sheet.cell(row,col)
                 # Date cells have to be converted to return as string
-                log.info(cell.value)
+                log.debug(cell.value)
                 if cell.ctype == XL_CELL_DATE:
                     v = xldate_as_tuple(cell.value,wb.datemode)
                     v = datetime.datetime(*v)
