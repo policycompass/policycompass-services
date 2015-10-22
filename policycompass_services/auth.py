@@ -1,3 +1,4 @@
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from urllib.parse import urljoin
 from cgi import parse_header
@@ -100,13 +101,13 @@ class AdhocracyAuthentication(authentication.BaseAuthentication):
         request.add_header('X-User-Path', user_path)
         request.add_header('X-User-Token', user_token)
 
-        response = urlopen(request)
+        try:
+            response = urlopen(request)
 
-        if (response.status == 200):
             content_type, params = parse_header(response.getheader("content-type"))
             encoding = params['charset'].lower()
             if content_type != "application/json":
-                exceptions.AuthenticationFailed('Adhocracy authentification failed due wrong response.')
+                exceptions.AuthenticationFailed('Adhocracy authentication failed due to wrong response.')
             resource_as_string = response.read().decode(encoding)
             gods_group_resource = json.loads(resource_as_string)
             gods = gods_group_resource['data']['adhocracy_core.sheets.principal.IGroup']['users']
@@ -117,5 +118,9 @@ class AdhocracyAuthentication(authentication.BaseAuthentication):
                 is_god = False
 
             return AdhocracyUser(user_path, is_god), None
-        else:
-            raise exceptions.AuthenticationFailed('Adhocracy authentification failed due invalid credentials.')
+
+        except HTTPError as e:
+            if (e.code == 400):
+                raise exceptions.AuthenticationFailed('Adhocracy authentication failed due to invalid credentials.')
+            else:
+                raise
