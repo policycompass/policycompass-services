@@ -55,13 +55,7 @@ class Visualization(models.Model):
               
     def save(self, *args, **kwargs):       
         update = False
-
-        logging.warning('-------------saving!!!---------------');
-        logging.warning('self.user');
-        logging.warning(vars(self));
-      
-
-            
+               
         if self.pk is None:
             update = False
         else:
