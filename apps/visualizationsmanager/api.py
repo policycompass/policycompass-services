@@ -242,6 +242,10 @@ class VisualizationList(APIView):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
+        
+        logging.warning('---------------post post post-------------');
+        logging.warning(self.request.user.resource_path);
+        
         serializer = WriteVisualizationSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
