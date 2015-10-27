@@ -111,7 +111,6 @@ class VisualizationsLinkedByDatasetFilter(django_filters.FilterSet):
         model = DatasetsInVisualizations
         fields = ['dataset_id']
 
-
 class VisualizationsLinkedByEvent(APIView):
     """
     Serves the visualizations linked by an event. ?historical_event_id=#.

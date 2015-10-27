@@ -3,6 +3,7 @@ from django.db import models
 import datetime
 import logging
 from .managers import VisualizationManager
+from django.core.validators import RegexValidator
 
 log = logging.getLogger(__name__)
 
@@ -18,13 +19,14 @@ class Visualization(models.Model):
     description = models.TextField(blank=True)
     keywords = models.CharField(max_length=200, blank=True)
     #issued = models.DateTimeField()
-    publisher = models.CharField(max_length=200, blank=True)
-    user_id = models.IntegerField()
+    #publisher = models.CharField(max_length=200, blank=True)
+    #user_id = models.IntegerField()
     language_id = models.IntegerField()
     # Auto-Generated Meta Data
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    creator_path = models.CharField(max_length=1024, validators=[ RegexValidator("^(/[^/]*)+/?$") ])
+    
     views_count = models.IntegerField()
     visualization_type_id = models.IntegerField()
     status_flag_id = models.IntegerField()
@@ -50,9 +52,10 @@ class Visualization(models.Model):
     def datasets_in_visualization(self, value):
         self._datasets_in_visualization = value
 
-    def save(self, *args, **kwargs):
+              
+    def save(self, *args, **kwargs):       
         update = False
-
+               
         if self.pk is None:
             update = False
         else:

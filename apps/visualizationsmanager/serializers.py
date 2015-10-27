@@ -102,6 +102,7 @@ class BaseVisualizationSerializer(ModelSerializer):
     #unit = UnitField(source='unit_id')
     #language = LanguageField(source='language_id')
     
+    creator_path = serializers.Field(source='creator_path')
     
     #external_resource = ExternalResourceField(source='ext_resource_id', blank=True)
     ##resource_issued = serializers.DateField(source='publisher_issued', blank=True)
@@ -124,8 +125,8 @@ class BaseVisualizationSerializer(ModelSerializer):
 #        result = super(BaseVisualizationSerializer, self).to_native(obj)
 #        result['self'] = reverse('visualization-detail', args=[obj.pk], request=self.context['request'])
 #        return result
-
-    def to_native(self, obj):
+               
+    def to_native(self, obj):     
         result = SortedDictWithMetadata()
         result['self'] = reverse('visualization-detail', args=[obj.pk])
         result.update(super(BaseVisualizationSerializer, self).to_native(obj))
@@ -161,13 +162,12 @@ class PaginatedListDatasetSerializer(pagination.PaginationSerializer):
         object_serializer_class = ListVisualizationSerializer
         
         
-class ReadVisualizationSerializer(BaseVisualizationSerializer):
+class ReadVisualizationSerializer(BaseVisualizationSerializer):    
     pass
     #data = RawDataField()
 
 
-class WriteVisualizationSerializer(BaseVisualizationSerializer):
-
+class WriteVisualizationSerializer(BaseVisualizationSerializer):    
     historical_events_in_visualization = HistoricalEventsField(source='historical_events_in_visualization', required=False)
     #metrics_in_visualization = MetricsField(source='metrics_in_visualization', required=False)
     datasets_in_visualization = DatasetsField(source='datasets_in_visualization', required=False)
