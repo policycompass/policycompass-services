@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '6v!+maxc&d^ofd_0teo2-0264vd&0)5qplr+y3&vfc0^l#z6jp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '.policycompass.eu']
 #ALLOWED_HOSTS = ['localhost']
 
 
