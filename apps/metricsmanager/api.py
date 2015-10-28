@@ -123,6 +123,12 @@ class MetriscOperationalize(APIView):
         result_time_resolution = "year"
         result_time_start = "2001"
         result_time_end = "2009"
+        # ensure all datasets have the same class
+        first_dataset = next(iter(mapping.values()))
+        if not all([ dataset.class_id ==  first_dataset.class_id
+                     for dataset in mapping.values() ]):
+            return Response({ "datasets": "All datasets need to have the same class" })
+        result_class = first_dataset.class_id
 
         # compute result
         result = compute_formula(metric.formula, mapping)
@@ -158,7 +164,7 @@ class MetriscOperationalize(APIView):
             user_id = 0,
             unit_id = result_unit,
             indicator_id = metric.indicator_id,
-            class_id = 0)
+            class_id = result_class)
 
         dataset_id = datasets.store(dataset)
 
