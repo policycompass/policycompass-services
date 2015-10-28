@@ -87,7 +87,8 @@ class MetriscOperationalize(APIView):
               "variable": "__1__",
               "dataset": 1
             }
-          ]
+          ],
+          "unit_id": 0
         }
         """
 
@@ -112,6 +113,8 @@ class MetriscOperationalize(APIView):
         if len(error) != 0:
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
+        result_unit = serializer.object.get("unit_id")
+
         # load required data sets
         id_mapping = serializer.object.get("datasets")
         mapping = { variable: datasets.get(dataset_id) for (variable, dataset_id) in id_mapping.items() }
@@ -120,7 +123,6 @@ class MetriscOperationalize(APIView):
         result_time_resolution = "year"
         result_time_start = "2001"
         result_time_end = "2009"
-        result_unit = 0
 
         # compute result
         result = compute_formula(metric.formula, mapping)
