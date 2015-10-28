@@ -3,6 +3,7 @@ __author__ = 'fki'
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status
 from rest_framework import generics
 from .models import *
@@ -31,6 +32,7 @@ class DatasetList(generics.ListCreateAPIView):
     serializer_class = BaseDatasetSerializer
     paginate_by = 10
     paginate_by_param = 'page_size'
+    permission_classes = IsAuthenticatedOrReadOnly,
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = DetailDatasetSerializer
