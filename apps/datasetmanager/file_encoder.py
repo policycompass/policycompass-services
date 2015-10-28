@@ -71,7 +71,6 @@ class FileEncoder(object):
             for col in range(sheet.ncols):
                 cell = sheet.cell(row,col)
                 # Date cells have to be converted to return as string
-                log.debug(cell.value)
                 if cell.ctype == XL_CELL_DATE:
                     v = xldate_as_tuple(cell.value,wb.datemode)
                     v = datetime.datetime(*v)
