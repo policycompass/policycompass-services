@@ -2,6 +2,7 @@ __author__ = 'fki'
 
 import json
 import pandas as p
+import numpy
 import voluptuous as v
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
@@ -37,7 +38,7 @@ class DatasetData(object):
         result = {
             'unit': self.unit,
             'resolution': self.resolution,
-            'data_frame': self.df.to_json()
+            'data_frame': self.df.to_json(date_format='iso')
         }
         return json.dumps(result)
 
@@ -308,7 +309,11 @@ class DatasetDataToAPITransformer(object):
             new_dict['individual'] = int(index)
             new_dict['values'] = OrderedDict()
             for index2, j in i.iteritems():
-                new_dict['values'][time_obj.output_expr(index2)] = round(j, 2)
+                if numpy.isnan(j):
+                    new_dict['values'][time_obj.output_expr(index2)] = None
+                else:
+                    new_dict['values'][time_obj.output_expr(index2)] = round(j, 2)
+
             result.append(new_dict)
             row += 1
 
