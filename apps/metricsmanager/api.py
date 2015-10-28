@@ -119,10 +119,6 @@ class MetriscOperationalize(APIView):
         id_mapping = serializer.object.get("datasets")
         mapping = { variable: datasets.get(dataset_id) for (variable, dataset_id) in id_mapping.items() }
 
-        # normalize time resolution (and extract data frame)
-        result_time_resolution = "year"
-        result_time_start = "2001"
-        result_time_end = "2009"
         # ensure all datasets have the same class
         first_dataset = next(iter(mapping.values()))
         if not all([ dataset.class_id ==  first_dataset.class_id
@@ -130,14 +126,27 @@ class MetriscOperationalize(APIView):
             return Response({ "datasets": "All datasets need to have the same class" })
         result_class = first_dataset.class_id
 
+        # ensure all datasets have the same time_resolution
+        if not all([ dataset.data.resolution == first_dataset.data.resolution
+                     for dataset in mapping.values() ]):
+            return Response({ "datasets": "All datasets need to have the same time resolution"})
+        result_time_resolution = first_dataset.data.resolution
+
         # compute result
         result = compute_formula(metric.formula, mapping)
+
+        # collect remaining time slots
+        result = result.dropna('index', 'all')
+        result_time_slots = result.index.values
 
         # dataset
         data = DatasetData(
             data_frame = result,
             unit = result_unit,
             resolution = result_time_resolution)
+
+        result_time_start = data.get_time_start()
+        result_time_end = data.get_time_end()
 
         dataset = Dataset(
             title = title,
