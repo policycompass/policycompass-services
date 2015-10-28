@@ -10,6 +10,7 @@ from .models import Visualization, DatasetsInVisualizations, HistoricalEventsInV
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCanCreate
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 #from .utils import get_rawdata_for_visualization
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
@@ -189,7 +190,7 @@ class VisualizationList(APIView):
     """
     Serves the visualization list resource.
     """
-    #permission_classes = (IsAuthenticatedCanCreate,)
+    permission_classes = IsAuthenticatedOrReadOnly,
     parser_classes = (JSONParser,)
     # Sets the fields, which can be searched
     search_fields = ('title','keywords')
