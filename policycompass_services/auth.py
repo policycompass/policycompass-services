@@ -52,9 +52,9 @@ class PolicyCompassAuthentication(authentication.BaseAuthentication):
 
 class AdhocracyUser:
 
-    def __init__(self, user_ressource_path, is_god = False):
+    def __init__(self, user_ressource_path, is_god=False):
         self.resource_path = user_ressource_path
-        self.is_god = True
+        self.is_god = is_god
         self.is_staff = False
         self.is_superuser = is_god
         self.user_permissions = []

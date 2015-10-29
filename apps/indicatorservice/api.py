@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from policycompass_services import permissions
 
 
 class IndicatorViewSet(viewsets.ModelViewSet):
@@ -13,6 +15,10 @@ class IndicatorViewSet(viewsets.ModelViewSet):
     queryset = Indicator.objects.all()
     paginate_by = 10
     paginate_by_param = 'page_size'
+    permission_classes = IsAuthenticatedOrReadOnly,
+
+    def pre_save(self, obj):
+        obj.creator_path = self.request.user.resource_path
 
     def create(self, request, *args, **kwargs):
         self.serializer_class = CreateIndicatorSerializer
@@ -20,6 +26,7 @@ class IndicatorViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         self.serializer_class = CreateIndicatorSerializer
+        self.permission_classes = permissions.IsCreatorOrReadOnly,
         return super(IndicatorViewSet, self).update(request, args, kwargs)
 
 class Base(APIView):

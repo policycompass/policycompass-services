@@ -1,6 +1,6 @@
 __author__ = 'fki'
 
-from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata, WritableField, SlugRelatedField, RelatedField
+from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata, WritableField, SlugRelatedField, RelatedField, Field
 from .models import *
 from rest_framework.reverse import reverse
 from .fields import *
@@ -11,6 +11,7 @@ class BaseDatasetSerializer(ModelSerializer):
     time = TimeField()
     resource = ResourceField(required=False)
     policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')
+    creator_path = Field(source='creator_path')
 
     def to_native(self, obj):
         """
