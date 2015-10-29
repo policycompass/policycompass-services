@@ -73,6 +73,8 @@ class MetricsDetail(generics.RetrieveAPIView):
 
 class MetriscOperationalize(APIView):
 
+    permission_classes = IsAuthenticatedOrReadOnly,
+
     def post(self, request, metrics_id: int):
         """
         Compute a new dataset from a given formula and mappings for variables.
@@ -153,7 +155,7 @@ class MetriscOperationalize(APIView):
             # references to other services
             # TODO add useful values here
             language_id = 0,
-            user_id = 0,
+            creator_path = self.request.user.resource_path,
             unit_id = result_unit,
             indicator_id = metric.indicator_id,
             class_id = 0)
