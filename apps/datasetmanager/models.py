@@ -1,6 +1,7 @@
 __author__ = 'fki'
 
 from django.db import models
+from django.core.validators import RegexValidator
 
 import logging
 log = logging.getLogger(__name__)
@@ -41,7 +42,7 @@ class Dataset(models.Model):
     time_end = models.CharField(max_length=20)
 
     language_id = models.IntegerField()  # RP languages
-    user_id = models.IntegerField()  # UM reference
+    creator_path = models.CharField(max_length=1024, validators=[RegexValidator("^(/[^/]*)+/?$")])
     unit_id = models.IntegerField()  # RP unit
     indicator_id = models.IntegerField()  # IS indicator
     class_id = models.IntegerField()  # RP class

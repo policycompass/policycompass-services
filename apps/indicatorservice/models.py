@@ -1,6 +1,8 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -16,6 +18,8 @@ class Indicator(models.Model):
     # Auto-Generated Metadata
     issued = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    creator_path = models.CharField(max_length=1024, validators=[RegexValidator("^(/[^/]*)+/?$")])
 
     # Private property to handle the policy domains
     _policy_domains = None

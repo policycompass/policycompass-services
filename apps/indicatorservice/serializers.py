@@ -8,6 +8,7 @@ from .models import *
 
 class IndicatorSerializer(ModelSerializer):
     policy_domains = serializers.SlugRelatedField(many=True, slug_field='domain', source='domains')
+    creator_path = serializers.Field(source='creator_path')
 
     class Meta:
         model = Indicator

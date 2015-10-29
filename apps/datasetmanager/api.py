@@ -3,8 +3,10 @@ __author__ = 'fki'
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status
 from rest_framework import generics
+from policycompass_services import permissions
 from .models import *
 from .serializers import *
 from .file_encoder import FileEncoder
@@ -31,6 +33,10 @@ class DatasetList(generics.ListCreateAPIView):
     serializer_class = BaseDatasetSerializer
     paginate_by = 10
     paginate_by_param = 'page_size'
+    permission_classes = IsAuthenticatedOrReadOnly,
+
+    def pre_save(self, obj):
+        obj.creator_path = self.request.user.resource_path
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = DetailDatasetSerializer
@@ -51,6 +57,7 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
 
     model = Dataset
     serializer_class = DetailDatasetSerializer
+    permission_classes = permissions.IsCreatorOrReadOnly,
 
 
 class Converter(APIView):
