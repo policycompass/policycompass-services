@@ -15,6 +15,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db import IntegrityError, transaction
 from rest_framework.reverse import reverse
 from rest_framework.generics import strict_positive_int
+from policycompass_services import permissions
 
 import django_filters
 
@@ -244,6 +245,7 @@ class VisualizationList(APIView):
     def post(self, request, *args, **kwargs):
         serializer = WriteVisualizationSerializer(data=request.DATA)
         if serializer.is_valid():
+            serializer.object.creator_path = self.request.user.resource_path
             serializer.save()
             s = ReadVisualizationSerializer(serializer.object, context={'request': request})
             return Response(s.data, status=status.HTTP_201_CREATED)
@@ -253,3 +255,4 @@ class VisualizationList(APIView):
 class VisualizationDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Visualization
     serializer_class = ReadVisualizationSerializer
+    permission_classes = permissions.IsCreatorOrReadOnly,
