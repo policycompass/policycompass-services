@@ -171,6 +171,7 @@ class WriteVisualizationSerializer(BaseVisualizationSerializer):
     historical_events_in_visualization = HistoricalEventsField(source='historical_events_in_visualization', required=False)
     #metrics_in_visualization = MetricsField(source='metrics_in_visualization', required=False)
     datasets_in_visualization = DatasetsField(source='datasets_in_visualization', required=False)
+    creator_path = serializers.Field(source='creator_path')
     
     #data = RawDataField(required=True, write_only=True)
 
