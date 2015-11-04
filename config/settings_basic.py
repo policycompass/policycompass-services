@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'apps.visualizationsmanager',
     'apps.referencepool',
     'apps.datasetmanager',
+    'apps.ratingsmanager',
     'apps.indicatorservice',
     'rest_framework',
     'rest_framework_swagger',
