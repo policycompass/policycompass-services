@@ -22,6 +22,8 @@ class Visualization(models.Model):
     #publisher = models.CharField(max_length=200, blank=True)
     #user_id = models.IntegerField()
     language_id = models.IntegerField()
+    location = models.IntegerField(blank=True, null=True) 
+    
     # Auto-Generated Meta Data
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -33,6 +35,20 @@ class Visualization(models.Model):
     filter_configuration = models.CharField(max_length=800)
 
     _historical_events_in_visualization = None
+
+    # Private property to handle the policy domains
+    _policy_domains = None
+
+    # Get all Policy Domain IDs
+    @property
+    def policy_domains(self):
+        return self.domains.all()
+
+    # Set the list of policy domains
+    @policy_domains.setter
+    def policy_domains(self, value):
+        self._policy_domains = value
+    
 
     @property
     def historical_events_in_visualization(self):
@@ -64,6 +80,13 @@ class Visualization(models.Model):
         super(Visualization, self).save(*args, **kwargs)
 
         if update:
+            if self._policy_domains:
+                # Delete olf policy domain relations
+                self.domains.all().delete()
+                # Create new relations
+                for d in self._policy_domains:
+                    self.domains.create(domain=d)            
+            
             if (self.historical_events.count()>0):
                 self.historical_events.all().delete()
             if self._historical_events_in_visualization:
@@ -89,6 +112,12 @@ class Visualization(models.Model):
 
 
         else:
+        
+            if self._policy_domains:
+                # Create Policy Domain relations
+                for d in self._policy_domains:
+                    self.domains.create(domain=d)
+            
             if self._historical_events_in_visualization:
                 for d in self._historical_events_in_visualization:
                     vhe = HistoricalEventsInVisualizations()
@@ -136,3 +165,19 @@ class HistoricalEventsInVisualizations(models.Model):
 
     def __str__(self):
         return str(self.historical_event_id)
+    
+
+class VisualizationInDomain(models.Model):
+    """
+    Represents the 1:m relation between an Visualization and Policy Domains
+    """
+    domain = models.IntegerField()
+    # Set the relation
+    visualization = models.ForeignKey(Visualization, related_name='domains')
+
+    class Meta:
+        verbose_name = "Visualization in Domain"
+        verbose_name_plural = "Visualization in Domains"
+
+    def __str__(self):
+        return str(self.domain)
