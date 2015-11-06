@@ -1,5 +1,4 @@
 __author__ = 'miquel'
-#from .models import Visualization, MetricsInVisualizations, HistoricalEventsInVisualizations
 from rest_framework.serializers import ModelSerializer, WritableField, ValidationError, SlugRelatedField, RelatedField, Field
 from .models import *
 from rest_framework import serializers
@@ -7,13 +6,10 @@ from rest_framework.reverse import reverse
 from rest_framework import pagination
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from .fields import *
-#from apps.metricsmanager.models import Metric
-#from apps.eventsmanager.models import Event
 
 from apps.common.fields import *
 from rest_framework.serializers import SortedDictWithMetadata
 import datetime
-#from .fields import MetricsField, HistoricalEventsField, VisualizationTitleField
 from .fields import DatasetsField, HistoricalEventsField, VisualizationTitleField
 
 import logging
@@ -22,30 +18,11 @@ log = logging.getLogger(__name__)
 
 class HistoricalEventSerializer(ModelSerializer):
     class Meta:
-        #model = Event
         model = HistoricalEventsInVisualizations
 
-       
-#class MetricSerializer(ModelSerializer):
-#    class Meta:
-#        #model = Metric
-#        model = MetricsInVisualizations
-        
 class DatasetSerializer(ModelSerializer):
     class Meta:
         model = DatasetsInVisualizations        
-
-#class BaseVisualizationLinkedByMetricSerializer(ModelSerializer):
-#
-#    title =  VisualizationTitleField(source='visualization')
-#   
-#    class Meta:
-#        model = MetricsInVisualizations
-#            
-#        exclude = (
-#                   'id',
-#                   'visualization_query',
-#            )
 
 class BaseVisualizationLinkedByDatasetSerializer(ModelSerializer):
 
@@ -59,20 +36,14 @@ class BaseVisualizationLinkedByDatasetSerializer(ModelSerializer):
                    'visualization_query',
             )
 
-#class ListVisualizationLinkedByMetricSerializer(BaseVisualizationLinkedByMetricSerializer):
-#    pass
 
 class ListVisualizationLinkedByDatasetSerializer(BaseVisualizationLinkedByDatasetSerializer):
     pass
 
-#class PaginatedListVisualizationLinkedByMetricSerializer(pagination.PaginationSerializer):    
-#    class Meta:
-#        object_serializer_class = ListVisualizationLinkedByMetricSerializer
 
 class PaginatedListVisualizationLinkedByDatasetSerializer(pagination.PaginationSerializer):    
     class Meta:
         object_serializer_class = ListVisualizationLinkedByDatasetSerializer
-
 
 class BaseVisualizationLinkedByEventSerializer(ModelSerializer):
 
@@ -96,40 +67,22 @@ class PaginatedListVisualizationLinkedByEventSerializer(pagination.PaginationSer
         object_serializer_class = ListVisualizationLinkedByEventSerializer
         
 class BaseVisualizationSerializer(ModelSerializer):
-    #spatial = serializers.CharField(source='geo_location', blank=True)
-    #resource_url = serializers.URLField(source='details_url', blank=True)
-    #unit = UnitField(source='unit_id')
-    #language = LanguageField(source='language_id')
     
-    creator_path = serializers.Field(source='creator_path')
-    
-    #external_resource = ExternalResourceField(source='ext_resource_id', blank=True)
-    ##resource_issued = serializers.DateField(source='publisher_issued', blank=True)
+    creator_path = serializers.Field(source='creator_path')    
     created_at = serializers.DateField(source='created_at', read_only=True)
-    updated_at = serializers.DateField(source='updated_at', read_only=True)
-    
+    updated_at = serializers.DateField(source='updated_at', read_only=True)    
     views_count = serializers.IntegerField(source='views_count')
     visualization_type_id = serializers.IntegerField(source='visualization_type_id')
     status_flag_id = serializers.IntegerField(source='status_flag_id')
     
-    #historical_events_in_visualization = HistoricalEventsField(source='historical_events_in_visualization')
     historical_events_in_visualization = HistoricalEventsField(source='historical_events_in_visualization', required=False)
-    
-    #metrics_in_visualization = MetricsField(source='metrics_in_visualization')
     
     datasets_in_visualization = DatasetsField(source='datasets_in_visualization')
     visualization_type_id = serializers.IntegerField(source='visualization_type_id')
     
         
-    policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')
-    #policy_domains = SlugRelatedField(many=True, slug_field='visualization_id', source='domains')
-    #policy_domains = PolicyDominsField(source='policy_domains', required=False)
+    policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')    
     
-
-#    def to_native(self, obj):
-#        result = super(BaseVisualizationSerializer, self).to_native(obj)
-#        result['self'] = reverse('visualization-detail', args=[obj.pk], request=self.context['request'])
-#        return result
                
     def to_native(self, obj):     
         result = SortedDictWithMetadata()
@@ -141,13 +94,6 @@ class BaseVisualizationSerializer(ModelSerializer):
     class Meta:
         model = Visualization
 
-#        exclude = (
-#            'language_id',
-#            #'publisher_issued',
-#            #'created_at',
-#            'updated_at'
-#            #'historical_events_in_visualization'
-#        )
 
         fields = (
         )
@@ -156,10 +102,6 @@ class BaseVisualizationSerializer(ModelSerializer):
 class ListVisualizationSerializer(BaseVisualizationSerializer):
     pass
 
-#class PaginatedListMetricSerializer(pagination.PaginationSerializer):
-#
-#    class Meta:
-#        object_serializer_class = ListVisualizationSerializer
 
 class PaginatedListDatasetSerializer(pagination.PaginationSerializer):
 
@@ -169,38 +111,18 @@ class PaginatedListDatasetSerializer(pagination.PaginationSerializer):
         
 class ReadVisualizationSerializer(BaseVisualizationSerializer):    
     pass
-    #data = RawDataField()
 
 
 class WriteVisualizationSerializer(BaseVisualizationSerializer):    
     historical_events_in_visualization = HistoricalEventsField(source='historical_events_in_visualization', required=False)   
     datasets_in_visualization = DatasetsField(source='datasets_in_visualization', required=True)   
     
-    #policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')    
-    #policy_domains = PolicyDominsField(source='policy_domains', required=False)
-    
+   
     creator_path = serializers.Field(source='creator_path')
     
     policy_domains = WritableField(source='policy_domains')
-    #visualization_id = WritableField(source='id')
-    
-    #data = RawDataField(required=True, write_only=True)
 
     def restore_object(self, attrs, instance=None):
-        #raw_data = attrs['data']
-        #del attrs['data']
         visualization = super(WriteVisualizationSerializer, self).restore_object(attrs, instance)
-        #visualization.rawdata = raw_data
         return visualization
 
-
-#class DetailVisualizationSerializer(BaseVisualizationSerializer):
-#
-#    policy_domains = WritableField(source='policy_domains')
-#
-#    class Meta:
-#        exclude = (
-#            
-#        )
-#        fields = ()
-#        model = Visualization
