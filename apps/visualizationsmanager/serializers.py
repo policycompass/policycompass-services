@@ -122,6 +122,7 @@ class BaseVisualizationSerializer(ModelSerializer):
     
         
     policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')
+    #policy_domains = SlugRelatedField(many=True, slug_field='visualization_id', source='domains')
     #policy_domains = PolicyDominsField(source='policy_domains', required=False)
     
 
@@ -181,6 +182,7 @@ class WriteVisualizationSerializer(BaseVisualizationSerializer):
     creator_path = serializers.Field(source='creator_path')
     
     policy_domains = WritableField(source='policy_domains')
+    #visualization_id = WritableField(source='id')
     
     #data = RawDataField(required=True, write_only=True)
 
