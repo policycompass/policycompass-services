@@ -252,7 +252,16 @@ class VisualizationList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+#class VisualizationDetail(generics.RetrieveUpdateDestroyAPIView):
+#    model = Visualization
+#    serializer_class = ReadVisualizationSerializer
+#    permission_classes = permissions.IsCreatorOrReadOnly,
+    
 class VisualizationDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Visualization
     serializer_class = ReadVisualizationSerializer
     permission_classes = permissions.IsCreatorOrReadOnly,
+
+    def put(self, request, *args, **kwargs):
+        self.serializer_class = WriteVisualizationSerializer
+        return super(VisualizationDetail, self).put(request, args, kwargs)
