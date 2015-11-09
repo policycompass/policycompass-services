@@ -75,3 +75,6 @@ apps/searchmanager/elasticsearch
 apps/visualizationsmanager/phantomCapture/node_modules
 
 pip-selfcheck.json
+
+#Static Directory
+static/
