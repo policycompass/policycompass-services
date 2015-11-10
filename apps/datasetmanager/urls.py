@@ -3,7 +3,6 @@ Defines all routes of the Dataset Manager
 """
 
 from django.conf.urls import patterns, url, include
-
 from .api import *
 
 dataset_urls = patterns(
@@ -18,10 +17,16 @@ converter_urls = patterns(
 
 )
 
+ckan_urls = patterns(
+    '',
+    url(r'^/search$', CKANSearchProxy.as_view(), name='ckan-search'),
+    url(r'^/download$', CKANDownloadProxy.as_view(), name='ckan-download'),
+)
+
 urlpatterns = patterns(
     '',
     url(r'^datasets', include(dataset_urls)),
     url(r'^converter', include(converter_urls)),
+    url(r'^ckan', include(ckan_urls)),
     url(r'^', Base.as_view(), name="dataset-manager-base")
 )
-
