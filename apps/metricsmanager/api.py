@@ -153,7 +153,7 @@ class MetriscOperationalize(APIView):
         dataset = Dataset(
             title = title,
             acronym = acronym,
-            description = "Computed formular '%s' with %s" % (
+            description = "Computed formula '%s' with %s" % (
                 metric.formula,
                 ", ".join([ "'%s' as %s" % (dataset.title, variable) for variable, dataset in mapping.items()])),
             keywords = ", ".join(set(itertools.chain([ dataset.keywords for dataset in mapping.values()]))),
