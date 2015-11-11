@@ -86,7 +86,7 @@ class FileEncoder(object):
                     v = datetime.date(v.year, v.month, v.day)
                 elif isinstance(cell.value, float):
                     if cell.value == int(cell.value):
-                        v = int(cell.value)
+                        v = str(int(cell.value))
                     else:
                         v = str(cell.value)
                 else:
