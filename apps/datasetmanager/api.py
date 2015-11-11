@@ -1,8 +1,8 @@
-
-
 __author__ = 'fki'
 
 import requests
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.http.response import HttpResponse
 from policycompass_services import permissions
 from rest_framework import generics
 from rest_framework import status
@@ -10,7 +10,6 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.http.response import HttpResponse
 from .file_encoder import FileEncoder
 from .serializers import *
 
@@ -65,6 +64,28 @@ class Converter(APIView):
     Serves the converter resource.
     """
 
+    def process_file(file):
+        # File has to be named file
+        encoder = FileEncoder(file)
+
+        # Check if the file extension is supported
+        if not encoder.is_supported():
+            return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Encode the file
+        try:
+            encoding = encoder.encode()
+        except:
+            return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Build the result
+        result = {
+            'filename': file.name,
+            'filesize': file.size,
+            'result': encoding
+        }
+        return Response(result)
+
     def post(self, request, *args, **kwargs):
         """
         Processes a POST request
@@ -72,27 +93,7 @@ class Converter(APIView):
         files = request.FILES
 
         if 'file' in files:
-            # File has to be named file
-            file = files['file']
-            encoder = FileEncoder(file)
-
-            # Check if the file extension is supported
-            if not encoder.is_supported():
-                return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Encode the file
-            try:
-                encoding = encoder.encode()
-            except:
-                return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Build the result
-            result = {
-                'filename': file.name,
-                'filesize': file.size,
-                'result': encoding
-            }
-            return Response(result)
+            return Converter.process_file(files['file'])
 
         return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -122,6 +123,7 @@ class CKANDownloadProxy(APIView):
     def get(self, request, *args, **kwargs):
         apiBase = request.GET.get('api')
         resourceId = request.GET.get('id')
+        doConvert = request.GET.get('convert')
 
         if apiBase == None or resourceId == None:
             return Response({'error': 'Invalid parameters.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -141,5 +143,11 @@ class CKANDownloadProxy(APIView):
         if data.status_code is not 200:
             return Response({'error': 'Server error. Check the logs.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return HttpResponse(data.content, content_type='application/octet-stream',
-                            status=status.HTTP_200_OK)
+        if doConvert is None:
+            return HttpResponse(data.content, content_type='application/octet-stream',
+                                status=status.HTTP_200_OK)
+
+        file = SimpleUploadedFile(name='file.%s' % (json['result']['format'].lower()), content=data.content,
+                                  content_type='application/octet+stream')
+
+        return Converter.process_file(file)
