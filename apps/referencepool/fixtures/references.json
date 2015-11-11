@@ -393,7 +393,7 @@
   },
   {
     "fields": {
-      "title": "Greek, Modern (1453-)",
+      "title": "Greek",
       "code": "el"
     },
     "pk": 37,
@@ -2313,8 +2313,8 @@
   },
   {
     "fields": {
-      "title": "Dimensionless",
-      "identifier": "Dimensionless"
+      "title": "No Dimension",
+      "identifier": "No Dimension"
     },
     "pk": 12,
     "model": "referencepool.unitcategory"
@@ -2561,10 +2561,10 @@
   },
   {
     "fields": {
-      "title": "Unitless",
+      "title": "No Unit",
       "unit_category": 12,
       "identifier": "unitless",
-      "description": "Unitless"
+      "description": "No Unit"
     },
     "pk": 25,
     "model": "referencepool.unit"
