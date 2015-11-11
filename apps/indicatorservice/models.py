@@ -19,7 +19,7 @@ class Indicator(models.Model):
     issued = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    creator_path = models.CharField(max_length=1024, validators=[RegexValidator("^(/[^/]*)+/?$")])
+    creator_path = models.CharField(max_length=1024)
 
     # Private property to handle the policy domains
     _policy_domains = None

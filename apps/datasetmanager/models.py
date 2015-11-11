@@ -42,7 +42,7 @@ class Dataset(models.Model):
     time_end = models.CharField(max_length=20)
 
     language_id = models.IntegerField()  # RP languages
-    creator_path = models.CharField(max_length=1024, validators=[RegexValidator("^(/[^/]*)+/?$")])
+    creator_path = models.CharField(max_length=1024)
     unit_id = models.IntegerField()  # RP unit
     indicator_id = models.IntegerField()  # IS indicator
     class_id = models.IntegerField()  # RP class
