@@ -97,20 +97,22 @@ class Converter(APIView):
 
         return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
 
-
 class CKANSearchProxy(APIView):
     # FIXME Potential DDoS Source. Remove once EDP Auth is gone.
     def get(self, request, *args, **kwargs):
         apiBase = request.GET.get('api')
         term = request.GET.get('q')
+        start = request.GET.get('start')
+        if start == None:
+            start = "0"
 
         if apiBase == None or term == None:
             return Response({'error': 'Invalid parameters.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # FIXME remove Auth
         r = requests.get(
-            "%s/action/package_search?q=%s&fq=%%28res_format:CSV%%20OR%%20res_format:TSV%%20OR%%20res_format:XLS%%20OR%%20res_format:XLSX%%29" %
-            (apiBase, term),
+            "%s/action/package_search?start=%s&q=%s&fq=%%28res_format:CSV%%20OR%%20res_format:TSV%%20OR%%20res_format:XLS%%20OR%%20res_format:XLSX%%29" %
+            (apiBase, start, term),
             auth=('odportal', 'odp0rt4l$12'))
 
         if r.status_code == 200:
