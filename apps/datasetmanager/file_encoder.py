@@ -50,7 +50,7 @@ class FileEncoder(object):
         result = getattr(self, self.supported_extensions[self.file_ext])()
         return result
 
-    def _csv_encode(self, delimiter=' '):
+    def _csv_encode(self, delimiter=','):
         """
         Encodes a CSV file.
         """
