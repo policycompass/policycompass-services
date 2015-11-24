@@ -1,20 +1,20 @@
 from django.core.exceptions import ValidationError
 from grako.exceptions import FailedParse, SemanticError
 from functools import reduce
-import math
 import operator
 import inspect
 import grako
 import pkg_resources
 import re
-
 from .normalization import get_normalizers
 
 grammar_ebnf = pkg_resources.resource_string(__name__, "formula.ebnf")
 model = grako.genmodel("formula", grammar_ebnf.decode("utf-8"))
 
+
 def get_parser():
     return model
+
 
 def validate_variables(variables):
     """
@@ -26,7 +26,7 @@ def validate_variables(variables):
 
         if not re.match('__[0-9]+__', key):
             raise ValidationError({
-                'variables': 'Invalid variable name {}'.format(key) })
+                'variables': 'Invalid variable name {}'.format(key)})
 
         valid_defintion = 'type' in values \
                           and values['type'] == 'indicator' \
@@ -35,15 +35,14 @@ def validate_variables(variables):
 
         if not valid_defintion:
             raise ValidationError({
-                'variables': 'Invalid variable definition {}'.format(key) })
+                'variables': 'Invalid variable definition {}'.format(key)})
 
         clean_variables[key] = {
-            'id':  values['id'],
+            'id': values['id'],
             'type': values['type']
         }
 
     return clean_variables
-
 
 
 def validate_formula(expr, mapping):
@@ -53,12 +52,17 @@ def validate_formula(expr, mapping):
     our formula grammar.
     """
     try:
-        return get_parser().parse(expr, semantics = AstSemantics(set(mapping.keys()),
-                                                                 set(get_normalizers().keys())))
+        return get_parser().parse(expr,
+                                  semantics=AstSemantics(set(mapping.keys()),
+                                                         set(
+                                                             get_normalizers().keys())))
     except FailedParse as e:
-        raise ValidationError({ 'formula': 'Error parsing formular:\n{}'.format(e) })
+        raise ValidationError(
+            {'formula': 'Error parsing formular:\n{}'.format(e)})
     except SemanticError as e:
-        raise ValidationError({ 'formula': 'Error validating formular:\n{}'.format(e) })
+        raise ValidationError(
+            {'formula': 'Error validating formular:\n{}'.format(e)})
+
 
 def compute_formula(expr, mapping):
     """ Compute value for a formula given a mapping
@@ -67,7 +71,9 @@ def compute_formula(expr, mapping):
     Those will be used to compute a new Panda data frame, which is the result
     of this formula.
     """
-    return get_parser().parse(expr, semantics = ComputeSemantics(mapping, get_normalizers()))
+    return get_parser().parse(expr, semantics=ComputeSemantics(mapping,
+                                                               get_normalizers()))
+
 
 class Sum:
     def __init__(self, positive, negative):
@@ -76,10 +82,10 @@ class Sum:
 
     def __repr__(self):
         if len(self.negative) != 0:
-            s = " - %s " % " - ".join([ repr(x) for x in self.negative ])
+            s = " - %s " % " - ".join([repr(x) for x in self.negative])
         else:
             s = ""
-        return "%s%s" % (" + ".join([ repr(x) for x in self.positive ]), s)
+        return "%s%s" % (" + ".join([repr(x) for x in self.positive]), s)
 
 
 class Product:
@@ -89,10 +95,10 @@ class Product:
 
     def __repr__(self):
         if len(self.denominator) != 0:
-            s = " / %s " % " / ".join([ repr(x) for x in self.denominator ])
+            s = " / %s " % " / ".join([repr(x) for x in self.denominator])
         else:
             s = ""
-        return "%s%s" % (" * ".join([ repr(x) for x in self.numerator ]), s)
+        return "%s%s" % (" * ".join([repr(x) for x in self.numerator]), s)
 
 
 class Application:
@@ -101,7 +107,8 @@ class Application:
         self.arguments = arguments
 
     def __repr__(self):
-        return "%s(%s)" % (self.function_name, ", ".join([ repr(x) for x in self.arguments]))
+        return "%s(%s)" % (
+        self.function_name, ", ".join([repr(x) for x in self.arguments]))
 
 
 class AstSemantics():
@@ -171,13 +178,16 @@ class ComputeSemantics():
 
         function = self.functions[function_name]
         spec = inspect.getfullargspec(function.__call__)
-        if not len(spec.args) ==  len(args) + 1:
-            raise SemanticError("Invalid number of arguments for function %s (expected %s and got %s)" % (function_name, len(spec.args) - 1,  len(args)))
+        if not len(spec.args) == len(args) + 1:
+            raise SemanticError(
+                "Invalid number of arguments for function %s (expected %s and got %s)" % (
+                function_name, len(spec.args) - 1, len(args)))
 
         return function(*args)
 
     def expression(self, ast):
-        return self._sum(ast.get("positive")) - self._sum(ast.get("negative", []))
+        return self._sum(ast.get("positive")) - self._sum(
+            ast.get("negative", []))
 
     def variable(self, name):
         if name not in self.mapping.keys():
@@ -185,7 +195,8 @@ class ComputeSemantics():
         return self.mapping.get(name).data.df
 
     def term(self, ast):
-        return self._product(ast.get("numerator")) / self._product(ast.get("denominator", []))
+        return self._product(ast.get("numerator")) / self._product(
+            ast.get("denominator", []))
 
     def constant(self, ast):
         return float(ast)

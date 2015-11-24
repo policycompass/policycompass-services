@@ -7,5 +7,3 @@ from .models import Dataset, DatasetInDomain
 
 admin.site.register(Dataset)
 admin.site.register(DatasetInDomain)
-
-

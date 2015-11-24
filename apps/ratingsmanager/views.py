@@ -36,11 +36,14 @@ class RatingDetailView(generics.GenericAPIView):
             except:
                 rating = Rating(identifier=identifier)
                 rating.save()
-            user_identifier = "/principals/users/" + str(random.randrange(1, 999999)).zfill(6)
+            user_identifier = "/principals/users/" + str(
+                random.randrange(1, 999999)).zfill(6)
             try:
-                ratingVote = RatingVote.objects.get(rating=rating, user_identifier=user_identifier)
+                ratingVote = RatingVote.objects.get(rating=rating,
+                                                    user_identifier=user_identifier)
             except:
-                ratingVote = RatingVote(rating=rating, user_identifier=user_identifier)
+                ratingVote = RatingVote(rating=rating,
+                                        user_identifier=user_identifier)
             ratingVote.score = vote.data.get('score')
             ratingVote.save()
             rating.calculate()

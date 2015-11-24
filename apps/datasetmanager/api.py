@@ -1,5 +1,3 @@
-__author__ = 'fki'
-
 import requests
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http.response import HttpResponse
@@ -12,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .file_encoder import FileEncoder
 from .serializers import *
+
+__author__ = 'fki'
 
 
 class Base(APIView):
@@ -70,14 +70,14 @@ class Converter(APIView):
 
         # Check if the file extension is supported
         if not encoder.is_supported():
-            return Response({'error': 'File Extension is not supported'}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({'error': 'File Extension is not supported'},
+                            status=status.HTTP_400_BAD_REQUEST)
         # Encode the file
         try:
             encoding = encoder.encode()
         except:
-            return Response({'error': "Invalid File"}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({'error': "Invalid File"},
+                            status=status.HTTP_400_BAD_REQUEST)
         # Build the result
         result = {
             'filename': file.name,
@@ -95,7 +95,9 @@ class Converter(APIView):
         if 'file' in files:
             return Converter.process_file(files['file'])
 
-        return Response({'error': "No Form field 'file'"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': "No Form field 'file'"},
+                        status=status.HTTP_400_BAD_REQUEST)
+
 
 class CKANSearchProxy(APIView):
     # FIXME Potential DDoS Source. Remove once EDP Auth is gone.
@@ -107,7 +109,8 @@ class CKANSearchProxy(APIView):
             start = "0"
 
         if apiBase == None or term == None:
-            return Response({'error': 'Invalid parameters.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid parameters.'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         # FIXME remove Auth
         r = requests.get(
@@ -118,7 +121,8 @@ class CKANSearchProxy(APIView):
         if r.status_code == 200:
             return Response(r.json(), status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Server error. Check the logs.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'Server error. Check the logs.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CKANDownloadProxy(APIView):
@@ -128,7 +132,8 @@ class CKANDownloadProxy(APIView):
         doConvert = request.GET.get('convert')
 
         if apiBase == None or resourceId == None:
-            return Response({'error': 'Invalid parameters.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid parameters.'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         # FIXME remove Auth
         r = requests.get(
@@ -136,20 +141,25 @@ class CKANDownloadProxy(APIView):
             auth=('odportal', 'odp0rt4l$12'))
 
         if r.status_code is not 200:
-            return Response({'error': 'Server error. Check the logs.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'Server error. Check the logs.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         json = r.json()
 
         data = requests.get(json['result']['url'])
 
         if data.status_code is not 200:
-            return Response({'error': 'Server error. Check the logs.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': 'Server error. Check the logs.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         if doConvert is None:
-            return HttpResponse(data.content, content_type='application/octet-stream',
+            return HttpResponse(data.content,
+                                content_type='application/octet-stream',
                                 status=status.HTTP_200_OK)
 
-        file = SimpleUploadedFile(name='file.%s' % (json['result']['format'].lower()), content=data.content,
-                                  content_type='application/octet+stream')
+        file = SimpleUploadedFile(
+            name='file.%s' % (json['result']['format'].lower()),
+            content=data.content,
+            content_type='application/octet+stream')
 
         return Converter.process_file(file)

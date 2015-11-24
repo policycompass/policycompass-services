@@ -1,10 +1,10 @@
-__author__ = 'fki'
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
+
+__author__ = 'fki'
 
 
 class PolicyDomainViewSet(viewsets.ReadOnlyModelViewSet):
@@ -31,8 +31,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
             except ValueError:
                 queryset = queryset.filter(unit_category__title=category)
         return queryset
-
-
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
@@ -72,14 +70,14 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ReferencePool(APIView):
-
     def get(self, request, format=None):
         result = {
             "Units": reverse('unit-list', request=request),
             "Unit Categories": reverse('unitcategory-list', request=request),
             "Languages": reverse('language-list', request=request),
             "Policy Domains": reverse('policydomain-list', request=request),
-            "External Resources": reverse('externalresource-list', request=request),
+            "External Resources": reverse('externalresource-list',
+                                          request=request),
             "Date Formats": reverse('dateformat-list', request=request),
             "Classes": reverse('class-list', request=request),
             "Individuals": reverse('individual-list', request=request)

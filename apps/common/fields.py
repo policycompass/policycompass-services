@@ -1,15 +1,11 @@
 """
 Custom Fields for resolving references to Reference Pool
 """
+from rest_framework import serializers
+from .serviceadapters import references, base_adapter
+import logging
 
 __author__ = 'fki'
-
-from rest_framework import serializers
-from django.conf import settings
-from .serviceadapters import references, base_adapter
-import requests
-
-import logging
 log = logging.getLogger(__name__)
 
 

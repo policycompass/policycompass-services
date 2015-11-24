@@ -1,12 +1,8 @@
-import logging as log
-
-from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-import unittest
+
 
 class ApiTests(APITestCase):
-
     # Load the test data
     fixtures = ['visualisation.json']
 
@@ -38,9 +34,3 @@ class ApiTests(APITestCase):
 
         response2 = self.client.get(self.build_url('/visualizations/3'))
         self.assertEqual(response2.status_code, status.HTTP_200_OK)
-
-
-
-
-
-

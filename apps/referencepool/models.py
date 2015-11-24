@@ -100,7 +100,6 @@ class DataClass(models.Model):
 
 
 class Individual(models.Model):
-
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=30, blank=True)
     data_class = models.ForeignKey(DataClass)

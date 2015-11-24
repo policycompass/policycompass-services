@@ -1,16 +1,16 @@
-__author__ = 'fki'
-
-from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata, WritableField, SlugRelatedField, RelatedField, Field
-from .models import *
+from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata, \
+    SlugRelatedField, Field
 from rest_framework.reverse import reverse
 from .fields import *
 
+__author__ = 'fki'
+
 
 class BaseDatasetSerializer(ModelSerializer):
-
     time = TimeField()
     resource = ResourceField(required=False)
-    policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')
+    policy_domains = SlugRelatedField(many=True, slug_field='domain',
+                                      source='domains')
     creator_path = Field(source='creator_path')
 
     def to_native(self, obj):
@@ -31,7 +31,8 @@ class BaseDatasetSerializer(ModelSerializer):
         return attrs
 
     def restore_object(self, attrs, instance=None):
-        return super(BaseDatasetSerializer, self).restore_object(attrs, instance)
+        return super(BaseDatasetSerializer, self).restore_object(attrs,
+                                                                 instance)
 
     class Meta:
         exclude = (
@@ -49,7 +50,6 @@ class BaseDatasetSerializer(ModelSerializer):
 
 
 class DetailDatasetSerializer(BaseDatasetSerializer):
-
     data = DataField(source='data')
     policy_domains = WritableField(source='policy_domains')
 

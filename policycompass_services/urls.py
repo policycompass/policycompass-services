@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from .api import Base, ExampleAuthenticated, ExampleAdmin
-#from config import settings
 from django.conf import settings
 
 admin.autodiscover()
@@ -15,7 +14,6 @@ urlpatterns = patterns('',
     url(r'^api/v1/visualizationsmanager/', include('apps.visualizationsmanager.urls')),
     url(r'^api/v1/ratingsmanager/', include('apps.ratingsmanager.urls')),
     url(r'^api/v1/indicatorservice/', include('apps.indicatorservice.urls')),
-    url(r'^api/v1/auth/', include('apps.common.urls')),
     url(r'^api/v1/references/', include('apps.referencepool.urls')),
     url(r'^api/v1/$', Base.as_view()),
     url(r'^admin/', include(admin.site.urls)),
@@ -25,5 +23,4 @@ urlpatterns = patterns('',
     url(r'^example/auth/adminuser$', ExampleAdmin.as_view()),
     # For the time being redirect to swagger
     url(r'^$', lambda x: HttpResponseRedirect('/api/v1'))
-
 )

@@ -6,11 +6,13 @@ A normaliser is a function which takes all values of a data set and mapps to int
 interval. They are use to combine otherwise incompatible metrics.
 """
 
+
 def get_normalizers():
     normalizers = [
         LinearBoundsNormalizer()
     ]
-    return { normalizer.acronym : normalizer for normalizer in normalizers }
+    return {normalizer.acronym: normalizer for normalizer in normalizers}
+
 
 class LinearBoundsNormalizer():
     """ Normalize data set by distributing linear between upper and lower bound.
@@ -30,10 +32,11 @@ class LinearBoundsNormalizer():
                   "distributed linearly"
 
     def __call__(self, dataset: Dataset, lower_bound: int, upper_bound: int):
-        return dataset.applymap(lambda x: min(1, max(0, (x - lower_bound) / (upper_bound - lower_bound))))
+        return dataset.applymap(lambda x: min(1, max(0, (x - lower_bound) / (
+        upper_bound - lower_bound))))
 
     def get_arguments(self):
         """ Get arguments that can be used in the formula. """
-        return [{ "name": "indicator", "type": "indicator" },
-                { "name": "lower bound", "type": "int" },
-                { "name": "upper bound", "type": "int" }]
+        return [{"name": "indicator", "type": "indicator"},
+                {"name": "lower bound", "type": "int"},
+                {"name": "upper bound", "type": "int"}]

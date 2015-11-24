@@ -1,5 +1,3 @@
-__author__ = 'fki'
-
 import json
 import pandas as p
 import numpy
@@ -9,14 +7,18 @@ from django.core.exceptions import ValidationError
 from apps.referencepool.models import Individual, DataClass
 from rest_framework import exceptions
 from .time_resolutions import TimeResolutions
-
 import logging
+
 log = logging.getLogger(__name__)
+
+__author__ = 'fki'
 
 trl = TimeResolutions()
 
+
 class TransformationException(exceptions.APIException):
     status_code = 400
+
 
 class DatasetData(object):
     """
@@ -59,13 +61,16 @@ class DatasetData(object):
         resolution
         """
         if not trl.is_supported(time_resolution):
-            raise TransformationException("Time Resolution not supported. Options: " + str(trl.get_supported_names()))
+            raise TransformationException(
+                "Time Resolution not supported. Options: " + str(
+                    trl.get_supported_names()))
 
         time_obj = trl.get(time_resolution)
         orig_time_obj = trl.get(self.resolution)
 
         if time_obj.level < orig_time_obj.level:
-            raise TransformationException("Upscaling of the time resolution is not supported.")
+            raise TransformationException(
+                "Upscaling of the time resolution is not supported.")
 
         if time_obj != orig_time_obj:
             self.df = self.df.resample(time_obj.offset, how='mean')
@@ -80,7 +85,9 @@ class DatasetData(object):
             self.df = self.df.ix[start_time:end_time]
             self.time_filtered = True
         except p.datetools.DateParseError:
-            raise TransformationException("The time parameters are malformed. Please provide a valid date string")
+            raise TransformationException(
+                "The time parameters are malformed. "
+                "Please provide a valid date string")
 
     def filter_by_individuals(self, individuals: list):
         """
@@ -92,7 +99,8 @@ class DatasetData(object):
         for individual in individuals:
             i = int(individual)
             if i not in available_individuals:
-                raise TransformationException("The selected individuals or not valid.")
+                raise TransformationException(
+                    "The selected individuals or not valid.")
             else:
                 filter_inds.append(i)
 
@@ -135,7 +143,9 @@ class DatasetDataTransformer(object):
                  time_resolution: str,
                  class_id: int,
                  unit_id: int) -> DatasetData:
-        trf = DatasetDataFromAPITransformer(data_dict, time_resolution, time_start, time_end, class_id, unit_id)
+        trf = DatasetDataFromAPITransformer(data_dict, time_resolution,
+                                            time_start, time_end, class_id,
+                                            unit_id)
         return trf.get_dataset_data()
 
     @staticmethod
@@ -144,14 +154,13 @@ class DatasetDataTransformer(object):
         return trf.get_api_data()
 
 
-
 class DatasetDataFromAPITransformer(object):
     """
     Generates a DatasetData Object from the datastructure
     used within the API
     """
-
-    def __init__(self, data: dict, time_resolution: str, time_start: str, time_end: str, class_id: int, unit_id: int):
+    def __init__(self, data: dict, time_resolution: str, time_start: str,
+                 time_end: str, class_id: int, unit_id: int):
         self.data = data
         self.time_resolution = time_resolution
         self.time_start = time_start
@@ -192,22 +201,25 @@ class DatasetDataFromAPITransformer(object):
         """
         Defines the validation schema
         """
+
         def validate_individual(value):
             if self.class_id != 7:
                 if not isinstance(value, int):
-                    raise v.Invalid("Individual of Element %d of data.table is not an integer."
-                                    " Please use class 'custom' to provide strings.")
+                    raise v.Invalid(
+                        "Individual of Element %d of data.table is not an integer."
+                        " Please use class 'custom' to provide strings.")
 
         schema = v.Schema({
-            v.Required('table', msg="Data dict needs a 'table' field."): v.All([
-                {
-                    v.Required('row'): int,
-                    v.Required('individual'): validate_individual,
-                    v.Required('values'): v.All(
-                        dict
-                    ),
-                }
-            ], v.Length(min=1))
+            v.Required('table', msg="Data dict needs a 'table' field."): v.All(
+                [
+                    {
+                        v.Required('row'): int,
+                        v.Required('individual'): validate_individual,
+                        v.Required('values'): v.All(
+                            dict
+                        ),
+                    }
+                ], v.Length(min=1))
         })
 
         return schema
@@ -237,7 +249,8 @@ class DatasetDataFromAPITransformer(object):
         is needed to init the DatasetData
         """
         if not trl.is_supported(self.time_resolution):
-            raise ValidationError("The Specified time_resolution is not supported.")
+            raise ValidationError(
+                "The Specified time_resolution is not supported.")
 
         time_obj = trl.get(self.time_resolution)
         time_range = self._create_time_range()
@@ -249,7 +262,8 @@ class DatasetDataFromAPITransformer(object):
                 try:
                     values.append(row['values'][time_obj.output_expr(time)])
                 except KeyError:
-                    raise ValidationError("Please provide a value for every date within the range and resolution.")
+                    raise ValidationError(
+                        "Please provide a value for every date within the range and resolution.")
             f[row['individual']] = values
         return f
 
@@ -267,6 +281,7 @@ class DatasetDataToAPITransformer(object):
     """
     Generates the API datastructure from a DatasetData object
     """
+
     def __init__(self, dataset_data: DatasetData):
         self._dataset_data = dataset_data
         self._view_data = self._transform()

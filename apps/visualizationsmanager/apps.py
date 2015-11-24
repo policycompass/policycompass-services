@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
+
 class visualizationsmanagerConfig(AppConfig):
     name = 'apps.visualizationsmanager'
     verbose_name = "Visualizations Manager"

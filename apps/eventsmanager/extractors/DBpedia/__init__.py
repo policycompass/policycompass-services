@@ -1,5 +1,6 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
+
 def run(start, end, keyword):
     print("DBpedia Extractor: " + start + end + keyword)
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")

@@ -1,14 +1,12 @@
+import logging
+from django.db import models
+
 __author__ = 'fki'
 
-from django.db import models
-from django.core.validators import RegexValidator
-
-import logging
 log = logging.getLogger(__name__)
 
 
 class Dataset(models.Model):
-
     RESOLUTIONS = (
         ('year', 'Year'),
         ('month', 'Month'),
@@ -26,7 +24,8 @@ class Dataset(models.Model):
 
     resource_url = models.URLField(max_length=500, blank=True)
     resource_issued = models.DateField(blank=True)
-    resource_id = models.IntegerField(blank=True, null=True)  # RP external_resource
+    # RP external_resource
+    resource_id = models.IntegerField(blank=True, null=True)
     resource_publisher = models.CharField(max_length=100, blank=True)
 
     is_applied = models.BooleanField(blank=True, default=False)

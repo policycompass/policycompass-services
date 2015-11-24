@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from . import index_utils
+
 
 @api_view(['POST'])
 def rebuildindex_service(request):
@@ -13,6 +12,7 @@ def rebuildindex_service(request):
         res = index_utils.rebuild_index()
         return Response(res)
 
+
 @api_view(['POST'])
 def rebuildindex_metric_service(request):
     """
@@ -21,6 +21,7 @@ def rebuildindex_metric_service(request):
     if request.method == 'POST':
         res = index_utils.rebuild_index_itemtype('metric')
         return Response(res)
+
 
 @api_view(['POST'])
 def rebuildindex_visualization_service(request):
@@ -31,6 +32,7 @@ def rebuildindex_visualization_service(request):
         res = index_utils.rebuild_index_itemtype('visualization')
         return Response(res)
 
+
 @api_view(['POST'])
 def rebuildindex_event_service(request):
     """
@@ -39,6 +41,7 @@ def rebuildindex_event_service(request):
     if request.method == 'POST':
         res = index_utils.rebuild_index_itemtype('event')
         return Response(res)
+
 
 @api_view(['POST'])
 def rebuildindex_dataset_service(request):
@@ -49,6 +52,7 @@ def rebuildindex_dataset_service(request):
         res = index_utils.rebuild_index_itemtype('dataset')
         return Response(res)
 
+
 @api_view(['POST'])
 def rebuildindex_indicator_service(request):
     """
@@ -57,6 +61,7 @@ def rebuildindex_indicator_service(request):
     if request.method == 'POST':
         res = index_utils.rebuild_index_itemtype('indicator')
         return Response(res)
+
 
 @api_view(['POST'])
 def rebuildindex_fuzzymap_service(request):
@@ -67,20 +72,24 @@ def rebuildindex_fuzzymap_service(request):
         res = index_utils.rebuild_index_fcm('fuzzymap')
         return Response(res)
 
+
 @api_view(['POST'])
-def update_index_item_service(request,**kwargs):
+def update_index_item_service(request, **kwargs):
     """
     Creates or updates a document index based on the id of the physical object.(Example to update 'metric' with id 26)
     """
     if request.method == 'POST':
-        res = index_utils.update_index_item(kwargs.get('itemtype'),kwargs.get('itemid'))
+        res = index_utils.update_index_item(kwargs.get('itemtype'),
+                                            kwargs.get('itemid'))
         return Response(res)
 
+
 @api_view(['POST'])
-def delete_index_item_service(request,**kwargs):
+def delete_index_item_service(request, **kwargs):
     """
     Deletes a document index based on the id.(Example to delete index of type 'metric' with id 26)
     """
     if request.method == 'POST':
-        res = index_utils.delete_index_item(kwargs.get('itemtype'),kwargs.get('itemid'))
+        res = index_utils.delete_index_item(kwargs.get('itemtype'),
+                                            kwargs.get('itemid'))
         return Response(res)

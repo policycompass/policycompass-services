@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url, include
-
 from .api import *
 from rest_framework import routers
 

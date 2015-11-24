@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
+
 class eventsmanagerConfig(AppConfig):
     name = 'apps.eventsmanager'
     verbose_name = "Events Manager"
