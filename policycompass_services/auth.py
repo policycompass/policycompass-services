@@ -79,8 +79,7 @@ class AdhocracyUser:
         raise NotImplementedError
 
     def __repr__(self):
-        return "AdhocracyUser('%s', is_god=%r)" % (
-        self.resource_path, self.is_god)
+        return "AdhocracyUser('%s', is_god=%r)" % (self.resource_path, self.is_god)
 
 
 class AdhocracyAuthentication(authentication.BaseAuthentication):

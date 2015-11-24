@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer, SortedDictWithMetadata, \
     SlugRelatedField, Field
 from rest_framework.reverse import reverse
+from .models import Dataset
 from .fields import *
 
 __author__ = 'fki'
