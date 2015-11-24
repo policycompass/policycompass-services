@@ -76,7 +76,7 @@ class Visualization(models.Model):
 
         if update:
             if self._policy_domains:
-                # Delete olf policy domain relations                                
+                # Delete olf policy domain relations
                 self.domains.all().delete()
                 # Create new relations
                 for d in self._policy_domains:
@@ -104,8 +104,6 @@ class Visualization(models.Model):
                             visualization_query=d_datasets[
                                 'visualization_query']
                         )
-
-
         else:
 
             if self._policy_domains:

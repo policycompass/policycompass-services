@@ -109,7 +109,7 @@ class HarvestEvents(APIView):
             keyword = ""
         selectedExtractors = []
         extractors = request.QUERY_PARAMS.get('extractors', None)
-        if extractors != None:
+        if extractors is not None:
             extractors = extractors.split(",")
             for extractor in extractors:
                 selectedExtractors.append(extractor)
@@ -162,7 +162,7 @@ class ConfigExtractor(APIView):
         name = request.DATA['name']
         active = request.DATA['active']
 
-        if name != None and name != "" and active != None and active != "":
+        if name is not None and name != "" and active is not None and active != "":
             e = Extractor.objects.all().filter(name=name)
             if e:
                 e = e[0]
@@ -186,7 +186,7 @@ class ConfigExtractor(APIView):
         script_content = request.DATA['script']
         e = Extractor.objects.filter(name=name)
 
-        if name != None and name != "" and script_content != None and script_content != "" and not e:
+        if name is not None and name != "" and script_content is not None and script_content != "" and not e:
 
             valid = True
 
@@ -194,9 +194,7 @@ class ConfigExtractor(APIView):
                     os.path.abspath(__file__)) + "/extractors/" + name):
                 os.makedirs(os.path.dirname(
                     os.path.abspath(__file__)) + "/extractors/" + name)
-                with open(os.path.dirname(os.path.abspath(
-                        __file__)) + "/extractors/" + name + "/__init__.py",
-                          "w") as f:
+                with open(os.path.dirname(os.path.abspath(__file__)) + "/extractors/" + name + "/__init__.py", "w") as f:
                     f.write(script_content)
 
             try:

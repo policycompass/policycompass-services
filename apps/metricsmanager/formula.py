@@ -107,8 +107,7 @@ class Application:
         self.arguments = arguments
 
     def __repr__(self):
-        return "%s(%s)" % (
-        self.function_name, ", ".join([repr(x) for x in self.arguments]))
+        return "%s(%s)" % (self.function_name, ", ".join([repr(x) for x in self.arguments]))
 
 
 class AstSemantics():
@@ -179,9 +178,8 @@ class ComputeSemantics():
         function = self.functions[function_name]
         spec = inspect.getfullargspec(function.__call__)
         if not len(spec.args) == len(args) + 1:
-            raise SemanticError(
-                "Invalid number of arguments for function %s (expected %s and got %s)" % (
-                function_name, len(spec.args) - 1, len(args)))
+            raise SemanticError("Invalid number of arguments for function %s (expected %s and got %s)"
+                                % (function_name, len(spec.args) - 1, len(args)))
 
         return function(*args)
 

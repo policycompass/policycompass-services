@@ -5,7 +5,6 @@ from policycompass_services import permissions
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .file_encoder import FileEncoder
@@ -17,7 +16,7 @@ __author__ = 'fki'
 class Base(APIView):
     def get(self, request):
         """
-        :type request: Request
+        :type request
         :param request:
         :return:
         """
@@ -105,10 +104,10 @@ class CKANSearchProxy(APIView):
         apiBase = request.GET.get('api')
         term = request.GET.get('q')
         start = request.GET.get('start')
-        if start == None:
+        if start is None:
             start = "0"
 
-        if apiBase == None or term == None:
+        if apiBase is None or term is None:
             return Response({'error': 'Invalid parameters.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -131,7 +130,7 @@ class CKANDownloadProxy(APIView):
         resourceId = request.GET.get('id')
         doConvert = request.GET.get('convert')
 
-        if apiBase == None or resourceId == None:
+        if apiBase is None or resourceId is None:
             return Response({'error': 'Invalid parameters.'},
                             status=status.HTTP_400_BAD_REQUEST)
 

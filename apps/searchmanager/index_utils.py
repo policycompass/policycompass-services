@@ -4,7 +4,8 @@ This is the library with all the required indexing utilities for the Elastic Sea
 
 from django.conf import settings
 import datetime
-import json, requests
+import json
+import requests
 import logging
 
 log = logging.getLogger(__name__)
@@ -29,17 +30,13 @@ def normalize_api_url(item_type):
     Get the api url by item type.
     """
     if item_type == 'fuzzymap':
-        return settings.PC_SERVICES['references']['fcm_base_url'] \
-               + '/api/v1/' + 'fcmmanager/models'
+        return settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
     elif item_type == 'dataset':
-        return settings.PC_SERVICES['references']['base_url'] \
-               + '/api/v1/' + item_type + 'manager/' + item_type + 's'
+        return settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + item_type + 'manager/' + item_type + 's'
     elif item_type == 'indicator':
-        return settings.PC_SERVICES['references']['base_url'] \
-               + '/api/v1/indicatorservice/' + item_type + 's'
+        return settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' + item_type + 's'
     else:
-        return settings.PC_SERVICES['references']['base_url'] \
-               + '/api/v1/' + item_type + 'smanager/' + item_type + 's'
+        return settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + item_type + 'smanager/' + item_type + 's'
 
 
 def rebuild_index_itemtype(itemtype):
@@ -77,15 +74,12 @@ def get_adhocracy_comment_count(item_type, item_id):
     """
     # fetch comment counter from adhocracy
     try:
-        count_url = ('%s/adhocracy/%s_%s' \
-                     '?content_type=adhocracy_core.resources.comment.IComment' \
-                     '&count=true' \
-                     '&depth=all' \
+        count_url = ('%s/adhocracy/%s_%s'
+                     '?content_type=adhocracy_core.resources.comment.IComment'
+                     '&count=true'
+                     '&depth=all'
                      '&elements=omit') % (
-                        settings.PC_SERVICES['references'][
-                            'adhocracy_api_base_url'],
-                        item_type,
-                        item_id)
+            settings.PC_SERVICES['references']['adhocracy_api_base_url'], item_type, item_id)
     except KeyError:
         log.warning('adhocracy_api_base_url is missing from settings.py.')
         return 0

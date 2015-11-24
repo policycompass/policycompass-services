@@ -1,7 +1,6 @@
 from rest_framework.serializers import WritableField
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
-from .models import Dataset
 from .dataset_data import DatasetData, DatasetDataTransformer
 import logging
 
@@ -63,7 +62,7 @@ class DataField(WritableField):
 class TimeField(WritableField):
     def field_to_native(self, obj, field):
         """
-        :type obj: Dataset
+        :type obj:
         :type field: str
         :rtype: str
         :param obj:
@@ -96,7 +95,7 @@ class TimeField(WritableField):
 class ResourceField(WritableField):
     def field_to_native(self, obj, field):
         """
-        :type obj: Dataset
+        :type obj:
         :type field: str
         :rtype: str
         :param obj:

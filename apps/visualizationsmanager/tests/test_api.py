@@ -16,7 +16,7 @@ class ApiTests(APITestCase):
         response = self.client.get(self.build_url('/visualizations'))
         self.assertEqual(len(response.data), 2)
 
-    def test_get_visualizations(self):
+    def test_get_visualizations2(self):
         response = self.client.get(self.build_url('/visualizations/1'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content, '{"id": 1, '

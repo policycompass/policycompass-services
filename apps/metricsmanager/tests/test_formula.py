@@ -1,10 +1,9 @@
 from django.test import TestCase
-from ..formula import get_parser
 
 
 class FormulaTest(TestCase):
     def assert_parse(self, expr, expected_ast=None, **kwargs):
-        parser = get_parser()
+        #  parser = get_parser()
         # ast = parser.parse(expr, semantics = FormularSemantics(**kwargs))
         ast = None
         print(ast)

@@ -6,5 +6,3 @@ from .models import Visualization, VisualizationInDomain
 
 admin.site.register(Visualization)
 admin.site.register(VisualizationInDomain)
-
-

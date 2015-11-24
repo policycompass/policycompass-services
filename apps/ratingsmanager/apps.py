@@ -6,4 +6,4 @@ class RatingsManagerConfig(AppConfig):
     verbose_name = 'Ratings Manager'
 
     def ready(self):
-        import apps.ratingsmanager.signals
+        import apps.ratingsmanager.signals  # noqa

@@ -139,8 +139,7 @@ class MetriscOperationalize(APIView):
         # ensure all datasets have the same time_resolution
         if not all([dataset.data.resolution == first_dataset.data.resolution
                     for dataset in mapping.values()]):
-            return Response({
-                                "datasets": "All datasets need to have the same time resolution"})
+            return Response({"datasets": "All datasets need to have the same time resolution"})
         result_time_resolution = first_dataset.data.resolution
 
         # compute result
@@ -148,7 +147,7 @@ class MetriscOperationalize(APIView):
 
         # collect remaining time slots
         result = result.dropna('index', 'all')
-        result_time_slots = result.index.values
+        # result_time_slots = result.index.values
 
         # dataset
         data = DatasetData(

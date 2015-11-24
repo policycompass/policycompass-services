@@ -28,8 +28,7 @@ def delete_document_on_search_service(sender, **kwargs):
     curIndicator = kwargs['instance']
     # set the Search - Delete Index Item API url for the current indicator.
     api_url = settings.PC_SERVICES['references']['base_url'] + \
-              settings.PC_SERVICES['references'][
-                  'deleteindexitem'] + '/indicator/' + str(curIndicator.id)
+        settings.PC_SERVICES['references']['deleteindexitem'] + '/indicator/' + str(curIndicator.id)
     # Execute the API call
     response = requests.post(api_url)
     # Print the response of the API call to console
@@ -54,8 +53,7 @@ class indexDocumentThread(threading.Thread):
         time.sleep(5)
         # set the Search - Update Index Item API url for the current item.
         api_url = settings.PC_SERVICES['references']['base_url'] + \
-                  settings.PC_SERVICES['references'][
-                      'updateindexitem'] + '/indicator/' + str(self.itemid)
+            settings.PC_SERVICES['references']['updateindexitem'] + '/indicator/' + str(self.itemid)
         # Execute the API call
         response = requests.post(api_url)
         # Print the response of the API call to console

@@ -6,5 +6,4 @@ class indicatorserviceConfig(AppConfig):
     verbose_name = "Indicator Service"
 
     def ready(self):
-        import apps.indicatorservice.signals
-
+        import apps.indicatorservice.signals  # noqa

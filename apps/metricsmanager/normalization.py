@@ -32,8 +32,7 @@ class LinearBoundsNormalizer():
                   "distributed linearly"
 
     def __call__(self, dataset: Dataset, lower_bound: int, upper_bound: int):
-        return dataset.applymap(lambda x: min(1, max(0, (x - lower_bound) / (
-        upper_bound - lower_bound))))
+        return dataset.applymap(lambda x: min(1, max(0, (x - lower_bound) / (upper_bound - lower_bound))))
 
     def get_arguments(self):
         """ Get arguments that can be used in the formula. """

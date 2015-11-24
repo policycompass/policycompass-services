@@ -44,7 +44,6 @@ class ExternalResourceField(ReferenceField):
     """
     adapter = references.ExternalResource
 
-
     def field_to_native(self, obj, field_name):
         """
         Customization of the serialization, because the external resource can be None.
@@ -55,4 +54,3 @@ class ExternalResourceField(ReferenceField):
             return None
         else:
             return super(ExternalResourceField, self).field_to_native(obj, field_name)
-

@@ -8,7 +8,7 @@ def run(start, end, keyword):
     print("GESIS Extractor: " + start + end + keyword)
 
     r = requests.get('http://www.vizgr.org/historical-events/search.php?begin_date=' + start + '&end_date=' + end + '&query=' + keyword + '&language=en')
-    #print(r.text)
+    # print(r.text)
     try:
         result = xmltodict.parse(r.text)
     except:
@@ -16,5 +16,5 @@ def run(start, end, keyword):
     output = []
     if result:
         for key in result['result']['event']:
-            output.append({"title": key["description"], "description": key["description"], "date": key["date"].replace("/", "-")+"T00:00:00Z", "url": 'https://en.wikipedia.org/wiki/'+key["date"][:4]})
+            output.append({"title": key["description"], "description": key["description"], "date": key["date"].replace("/", "-") + "T00:00:00Z", "url": 'https://en.wikipedia.org/wiki/' + key["date"][:4]})
     return output

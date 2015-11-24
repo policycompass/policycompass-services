@@ -28,8 +28,7 @@ def delete_document_on_search_service(sender, **kwargs):
     curEvent = kwargs['instance']
     # set the Search - Delete Index Item API url for the current event.
     api_url = settings.PC_SERVICES['references']['base_url'] + \
-              settings.PC_SERVICES['references'][
-                  'deleteindexitem'] + '/event/' + str(curEvent.id)
+        settings.PC_SERVICES['references']['deleteindexitem'] + '/event/' + str(curEvent.id)
     # Execute the API call
     response = requests.post(api_url)
     # Print the response of the API call to console
@@ -54,8 +53,7 @@ class indexDocumentThread(threading.Thread):
         time.sleep(5)
         # set the Search - Update Index Item API url for the current item.
         api_url = settings.PC_SERVICES['references']['base_url'] + \
-                  settings.PC_SERVICES['references'][
-                      'updateindexitem'] + '/event/' + str(self.itemid)
+            settings.PC_SERVICES['references']['updateindexitem'] + '/event/' + str(self.itemid)
         # Execute the API call
         response = requests.post(api_url)
         # Print the response of the API call to console

@@ -4,7 +4,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'policydomains', PolicyDomainViewSet)
-router.register(r'units', UnitViewSet,  base_name='unit')
+router.register(r'units', UnitViewSet, base_name='unit')
 router.register(r'unitcategories', UnitCategoryViewSet)
 router.register(r'languages', LanguageViewSet)
 router.register(r'externalresources', ExternalResourceViewSet)

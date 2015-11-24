@@ -6,4 +6,4 @@ class metricsmanagerConfig(AppConfig):
     verbose_name = 'Metricsmanager Manager'
 
     def ready(self):
-        import apps.metricsmanager.signals
+        import apps.metricsmanager.signals  # noqa

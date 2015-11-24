@@ -36,13 +36,11 @@ class BaseVisualizationLinkedByDatasetSerializer(ModelSerializer):
         )
 
 
-class ListVisualizationLinkedByDatasetSerializer(
-    BaseVisualizationLinkedByDatasetSerializer):
+class ListVisualizationLinkedByDatasetSerializer(BaseVisualizationLinkedByDatasetSerializer):
     pass
 
 
-class PaginatedListVisualizationLinkedByDatasetSerializer(
-    pagination.PaginationSerializer):
+class PaginatedListVisualizationLinkedByDatasetSerializer(pagination.PaginationSerializer):
     class Meta:
         object_serializer_class = ListVisualizationLinkedByDatasetSerializer
 
@@ -60,13 +58,11 @@ class BaseVisualizationLinkedByEventSerializer(ModelSerializer):
         )
 
 
-class ListVisualizationLinkedByEventSerializer(
-    BaseVisualizationLinkedByEventSerializer):
+class ListVisualizationLinkedByEventSerializer(BaseVisualizationLinkedByEventSerializer):
     pass
 
 
-class PaginatedListVisualizationLinkedByEventSerializer(
-    pagination.PaginationSerializer):
+class PaginatedListVisualizationLinkedByEventSerializer(pagination.PaginationSerializer):
     class Meta:
         object_serializer_class = ListVisualizationLinkedByEventSerializer
 

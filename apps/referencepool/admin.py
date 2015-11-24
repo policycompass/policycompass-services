@@ -10,4 +10,3 @@ admin.site.register(Unit)
 admin.site.register(DateFormat)
 admin.site.register(DataClass)
 admin.site.register(Individual)
-

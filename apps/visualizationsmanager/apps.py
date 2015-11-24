@@ -6,5 +6,4 @@ class visualizationsmanagerConfig(AppConfig):
     verbose_name = "Visualizations Manager"
 
     def ready(self):
-        import apps.visualizationsmanager.signals
-
+        import apps.visualizationsmanager.signals  # noqa

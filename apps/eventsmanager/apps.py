@@ -6,5 +6,4 @@ class eventsmanagerConfig(AppConfig):
     verbose_name = "Events Manager"
 
     def ready(self):
-        import apps.eventsmanager.signals
-
+        import apps.eventsmanager.signals  # noqa
