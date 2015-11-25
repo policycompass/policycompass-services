@@ -1,11 +1,12 @@
 """
 URLS for the search manager
 """
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 from apps.searchmanager import views
 from .api import *
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^rebuildindex$', views.rebuildindex_service, name='rebuildindex'),
     url(r'^rebuildindex_metric$', views.rebuildindex_metric_service, name='rebuildindex_metric'),
     url(r'^rebuildindex_event$', views.rebuildindex_event_service, name='rebuildindex_event'),
@@ -17,4 +18,3 @@ urlpatterns = patterns('',
     url(r'^deleteindexitem/(?P<itemtype>\w+)/(?P<itemid>\d+)$', views.delete_index_item_service, name='delete_index_item'),
     url(r'^', Base.as_view(), name="searchmanager-base")
 )
-

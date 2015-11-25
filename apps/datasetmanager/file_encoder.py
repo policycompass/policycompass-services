@@ -1,16 +1,16 @@
 """
 Converts uploaded files into a tabular data structure
 """
-__author__ = 'fki'
 import codecs
 import csv
 import datetime
 import logging
 import os
-
 from xlrd import open_workbook, XL_CELL_DATE, xldate_as_tuple
 
 log = logging.getLogger(__name__)
+
+__author__ = 'fki'
 
 
 class FileEncoder(object):
@@ -55,7 +55,8 @@ class FileEncoder(object):
         Encodes a CSV file.
         """
         r = []
-        reader = csv.reader(codecs.iterdecode(self.file, "utf-8"), delimiter=delimiter)
+        reader = csv.reader(codecs.iterdecode(self.file, "utf-8"),
+                            delimiter=delimiter)
         for row in reader:
             log.debug(str(row))
             r.append(row)

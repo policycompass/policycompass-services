@@ -1,11 +1,12 @@
-__author__ = 'fki'
-
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from apps.referencepool.models import *
 import requests
 import json
 import os
+
+__author__ = 'fki'
+
 
 class Command(BaseCommand):
     help = 'Harvest external resources to fill the Reference Pool'
@@ -44,7 +45,8 @@ class Command(BaseCommand):
 
         for country in result:
             try:
-                c = Individual(data_class=country_class, title=country['name'], code=country['ISO3166-1-Alpha-3'])
+                c = Individual(data_class=country_class, title=country['name'],
+                               code=country['ISO3166-1-Alpha-3'])
                 c.save()
             except IntegrityError:
                 pass
@@ -54,7 +56,8 @@ class Command(BaseCommand):
         result = self._file_to_json('../../resources/open-data-monitor.json')
         for resource in result:
             try:
-                name = result[resource]['col_1'].replace('_','.').replace('-', '.')
+                name = result[resource]['col_1'].replace('_', '.').replace('-',
+                                                                           '.')
                 url = 'http://' + name
                 r = ExternalResource(title=name, url=url, api_url=url)
                 r.save()
@@ -67,8 +70,3 @@ class Command(BaseCommand):
         with open(abs_path, "r") as file:
             data = json.load(file)
         return data
-
-
-
-
-

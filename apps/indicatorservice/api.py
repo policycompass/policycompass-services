@@ -1,5 +1,3 @@
-__author__ = 'fki'
-
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -7,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from policycompass_services import permissions
+
+__author__ = 'fki'
 
 
 class IndicatorViewSet(viewsets.ModelViewSet):
@@ -29,15 +29,17 @@ class IndicatorViewSet(viewsets.ModelViewSet):
         self.permission_classes = permissions.IsCreatorOrReadOnly,
         return super(IndicatorViewSet, self).update(request, args, kwargs)
 
+
 class Base(APIView):
     """
     Serves the base resource.
     """
+
     def get(self, request):
         """
         Builds the representation for the GET method.
         """
         result = {
             "Indicators": reverse('indicator-list', request=request),
-            }
+        }
         return Response(result)

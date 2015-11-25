@@ -1,17 +1,15 @@
-__author__ = 'fki'
-
-from rest_framework.serializers import  WritableField, SlugRelatedField
+from rest_framework.serializers import WritableField
 from collections import OrderedDict
 from django.core.exceptions import ValidationError
-from .models import Dataset
-import json
-from .dataset_data import DatasetData, TimeResolutions, DatasetDataTransformer
-
+from .dataset_data import DatasetData, DatasetDataTransformer
 import logging
+
 log = logging.getLogger(__name__)
 
-class DataField(WritableField):
+__author__ = 'fki'
 
+
+class DataField(WritableField):
     def field_to_native(self, obj, field):
         params = self.context['request'].QUERY_PARAMS
         dataset_data = DatasetData.from_json(obj.data)
@@ -60,11 +58,11 @@ class DataField(WritableField):
 
         into.update(result)
 
-class TimeField(WritableField):
 
+class TimeField(WritableField):
     def field_to_native(self, obj, field):
         """
-        :type obj: Dataset
+        :type obj:
         :type field: str
         :rtype: str
         :param obj:
@@ -95,10 +93,9 @@ class TimeField(WritableField):
 
 
 class ResourceField(WritableField):
-
     def field_to_native(self, obj, field):
         """
-        :type obj: Dataset
+        :type obj:
         :type field: str
         :rtype: str
         :param obj:
@@ -135,7 +132,8 @@ class ResourceField(WritableField):
                 raise ValidationError('Field ' + str(e) + ' is missing')
             resource = data['resource']
             if 'external_resource' not in resource and 'custom' not in resource:
-                raise ValidationError('Either provide external_resource or custom field.')
+                raise ValidationError(
+                    'Either provide external_resource or custom field.')
             else:
                 if 'external_resource' in resource:
                     result['resource_id'] = resource['external_resource']
@@ -148,10 +146,3 @@ class ResourceField(WritableField):
                 return
             else:
                 raise ValidationError('Field resource is missing')
-
-
-class PolicyDomainSlugRelatedField(SlugRelatedField):
-
-    def to_internal_value(self, data):
-        i = 5
-        pass

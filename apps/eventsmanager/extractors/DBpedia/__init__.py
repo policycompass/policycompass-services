@@ -1,5 +1,6 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 
+
 def run(start, end, keyword):
     print("DBpedia Extractor: " + start + end + keyword)
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
@@ -23,5 +24,5 @@ def run(start, end, keyword):
     results = sparql.query().convert()
     output = []
     for key in results["results"]["bindings"]:
-        output.append({"title": key["label"]["value"], "description": key["comment"]["value"], "date": key["date"]["value"]+"T00:00:00Z", "url": key["event"]["value"]})
+        output.append({"title": key["label"]["value"], "description": key["comment"]["value"], "date": key["date"]["value"] + "T00:00:00Z", "url": key["event"]["value"]})
     return output

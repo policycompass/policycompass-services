@@ -1,17 +1,19 @@
-"""
-Basis for implementing adapters to simple RESTful service.
-WORK IN PROGRESS: Just GET method is supported for now.
-Derive specific adapters from this class and set the url and url_entity properties.
-e.g.
-self.url = 'http://domain"
-self.url_entity = self.url + '/%s'
-"""
+import requests
 
 __author__ = 'fki'
 
-import requests
 
 class BaseAdapter(object):
+    """
+    Basis for implementing adapters to simple RESTful service.
+    WORK IN PROGRESS: Just GET method is supported for now.
+    Derive specific adapters from this class and set the url and url_entity
+    properties.
+
+    e.g.
+    self.url = 'http://domain"
+    self.url_entity = self.url + '/%s'
+    """
 
     url = None
     url_entity = None

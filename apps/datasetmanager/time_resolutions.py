@@ -1,8 +1,9 @@
-__author__ = 'fki'
-
 import abc
 import datetime
 from pandas import offsets
+
+__author__ = 'fki'
+
 
 class TimeResolutionBase(metaclass=abc.ABCMeta):
     """
@@ -37,8 +38,8 @@ class TimeResolutionBase(metaclass=abc.ABCMeta):
     def output_expr(self, date: datetime.date) -> str:
         return
 
-class Day(TimeResolutionBase):
 
+class Day(TimeResolutionBase):
     @property
     def name(self):
         return "day"
@@ -61,8 +62,8 @@ class Day(TimeResolutionBase):
     def offset(self):
         return offsets.Day()
 
-class Month(TimeResolutionBase):
 
+class Month(TimeResolutionBase):
     @property
     def name(self):
         return "month"
@@ -85,8 +86,8 @@ class Month(TimeResolutionBase):
     def offset(self):
         return offsets.MonthBegin()
 
-class Quarter(TimeResolutionBase):
 
+class Quarter(TimeResolutionBase):
     @property
     def name(self):
         return "quarter"
@@ -124,8 +125,8 @@ class Quarter(TimeResolutionBase):
     def offset(self):
         return offsets.QuarterBegin(startingMonth=1)
 
-class Year(TimeResolutionBase):
 
+class Year(TimeResolutionBase):
     @property
     def name(self):
         return "year"
@@ -153,6 +154,7 @@ class TimeResolutions(object):
     """
     Manages all available time resolution objects
     """
+
     def __init__(self):
         self.resolutions = [
             Day(),
@@ -175,5 +177,3 @@ class TimeResolutions(object):
 
     def get_supported_names(self):
         return [r.name for r in self.resolutions]
-
-

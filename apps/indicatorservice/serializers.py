@@ -1,9 +1,9 @@
-__author__ = 'fki'
-
 from rest_framework.serializers import ModelSerializer, WritableField
 from rest_framework import serializers
 from rest_framework import pagination
 from .models import *
+
+__author__ = 'fki'
 
 
 class IndicatorSerializer(ModelSerializer):

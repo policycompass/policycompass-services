@@ -1,19 +1,14 @@
 """
 Provides custom serializer fields
 """
-__author__ = 'mmilaprat'
-
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
-
-from django.core.exceptions import ObjectDoesNotExist
-
 from .adapter import *
 
-import datetime
+__author__ = 'mmilaprat'
+
 
 class DatasetsField(serializers.WritableField):
-
     def field_to_native(self, obj, field_name):
         ids = getattr(obj, self.source).all()
         result = []
@@ -33,7 +28,6 @@ class DatasetsField(serializers.WritableField):
 
 
 class HistoricalEventsField(serializers.WritableField):
-
     def field_to_native(self, obj, field_name):
         ids = getattr(obj, self.source).all()
         result = []
@@ -51,7 +45,6 @@ class HistoricalEventsField(serializers.WritableField):
 
 
 class VisualizationTitleField(serializers.WritableField):
-
     def field_to_native(self, obj, field_name):
         result = obj.visualization.title
         return result
