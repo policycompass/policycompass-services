@@ -85,6 +85,27 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 	python manage.py rebuild_index
 ```
 
+## Coding style
+
+All python code in this repository shall be compliant with the rules of pep8
+and pyflakes except E501 (forbid long lines) and F403 (forbid `from xx import
+*`) and they don't have to be applied to the django migration files.
+
+Read the [flake8 docs](https://flake8.readthedocs.org) for a list of all rules.
+
+The rules can be checked with the following command:
+
+    bin/flake8 apps policycompass_services --ignore E501,F403 --exclude migrations
+
+If the `Makefile` from the main policycompass repository is used, a pre commit
+hook is installed, which checks for flake8 compliance as defined above. If this
+repository is checked out manually and not as a submodule of the main
+repository, you can create a pre commit hook manually by creating a file
+`.git/hooks/pre-commit` with the following content:
+
+    #!/bin/sh
+    bin/flake8 apps policycompass_services --ignore E501,F403 --exclude migrations
+
 
 ## Policy Compass is Free Software
 
