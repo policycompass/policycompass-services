@@ -1,0 +1,9 @@
+sudo: false
+language: python
+python:
+  - "3.4"
+install:
+  - pyvenv .
+  - bin/pip install flake8
+script:
+  - bin/flake8 apps policycompass_services --ignore E501,F403 --exclude migrations
