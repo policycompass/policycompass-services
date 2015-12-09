@@ -3,8 +3,8 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializers import *
-import random
 
 
 class RatingsListView(generics.ListAPIView):
@@ -16,6 +16,7 @@ class RatingsListView(generics.ListAPIView):
 
 class RatingDetailView(generics.GenericAPIView):
     serializer_class = VoteSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_rating(self, identifier):
         try:
@@ -36,8 +37,7 @@ class RatingDetailView(generics.GenericAPIView):
             except:
                 rating = Rating(identifier=identifier)
                 rating.save()
-            user_identifier = "/principals/users/" + str(
-                random.randrange(1, 999999)).zfill(6)
+            user_identifier = self.request.user.resource_path
             try:
                 ratingVote = RatingVote.objects.get(rating=rating,
                                                     user_identifier=user_identifier)
