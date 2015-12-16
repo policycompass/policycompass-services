@@ -17,6 +17,12 @@ class IndicatorViewSet(viewsets.ModelViewSet):
     paginate_by_param = 'page_size'
     permission_classes = IsAuthenticatedOrReadOnly,
 
+    def list(self, request, *args, **kwargs):
+        params = request.QUERY_PARAMS
+        if 'paginate' in params and params['paginate'] == 'false':
+            self.paginate_by = None
+        return super(IndicatorViewSet, self).list(request, args, kwargs)
+
     def pre_save(self, obj):
         obj.creator_path = self.request.user.resource_path
 
