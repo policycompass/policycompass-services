@@ -81,13 +81,34 @@ class DatasetData(object):
         """
         Filters the data by the given time interval.
         """
+
+        real_start_time = self.get_time_start()
+        real_end_time = self.get_time_end()
+
+        if end_time and end_time < real_start_time:
+            raise TransformationException(
+                "The given end time is less than the start time"
+            )
+
+        if start_time and start_time > real_end_time:
+            raise TransformationException(
+                "The given start time is greater than the end time"
+            )
+
+        if start_time and end_time:
+            if start_time > end_time:
+                raise TransformationException(
+                    "The start time cannot be greater than the end time."
+                )
+
         try:
             self.df = self.df.ix[start_time:end_time]
             self.time_filtered = True
         except p.datetools.DateParseError:
             raise TransformationException(
                 "The time parameters are malformed. "
-                "Please provide a valid date string")
+                "Please provide a valid date string"
+            )
 
     def filter_by_individuals(self, individuals: list):
         """
