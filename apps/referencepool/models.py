@@ -21,6 +21,7 @@ class Language(models.Model):
     class Meta:
         verbose_name = "Language"
         verbose_name_plural = "Languages"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -34,6 +35,7 @@ class ExternalResource(models.Model):
     class Meta:
         verbose_name = "External Resource"
         verbose_name_plural = "External Resources"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -46,6 +48,7 @@ class UnitCategory(models.Model):
     class Meta:
         verbose_name = "Unit Category"
         verbose_name_plural = "Unit Categories"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -60,6 +63,7 @@ class Unit(models.Model):
     class Meta:
         verbose_name = "Unit"
         verbose_name_plural = "Units"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -94,6 +98,7 @@ class DataClass(models.Model):
     class Meta:
         verbose_name = "Class"
         verbose_name_plural = "Classes"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -107,6 +112,7 @@ class Individual(models.Model):
     class Meta:
         verbose_name = "Individual"
         verbose_name_plural = "Individuals"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
