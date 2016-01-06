@@ -3,10 +3,9 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import Feedback
 from .serializers import *
-from django.http import Http404
+
 
 def index(request):
     return HttpResponse("Feedbacks!")
@@ -30,6 +29,3 @@ class Base(APIView):
             "Feedbacks": reverse('feedback-list', request=request)
         }
         return Response(result)
-      #return HttpResponse("Feedbacks!")
-
-
