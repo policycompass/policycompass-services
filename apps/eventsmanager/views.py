@@ -9,9 +9,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from policycompass_services.permissions import IsAdhocracyGod
 from policycompass_services.auth import AdhocracyAuthentication
 import voluptuous as v
 import datetime
@@ -159,7 +157,7 @@ class ConfigExtractor(APIView):
     """
     # Only authenticate admins for this APIView
     authentication_classes = (AdhocracyAuthentication,)
-    #permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     # permission_classes = (IsAdhocracyGod,)
 

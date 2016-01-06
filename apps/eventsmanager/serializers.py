@@ -10,7 +10,6 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
 
 
-
 class ExtractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extractor

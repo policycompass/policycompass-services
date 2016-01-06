@@ -18,11 +18,6 @@ class Event(models.Model):
     dateModified = models.DateTimeField(auto_now_add=True)
     viewsCount = models.IntegerField(blank=True)
 
-
-    #Auto-Generated Metadata
-    #issued = models.DateTimeField(auto_now_add=True)
-    #modified = models.DateTimeField(auto_now=True)
-
     creator_path = models.CharField(max_length=1024, default='https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/')
 
     # Private property to handle the policy domains
