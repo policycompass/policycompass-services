@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import generics, status
 from django.core.exceptions import ValidationError
+from policycompass_services import permissions
 from apps.datasetmanager import internal_api as datasets
 from apps.datasetmanager.models import Dataset
 from apps.datasetmanager.dataset_data import DatasetData
@@ -70,9 +71,10 @@ class MetricsCreate(generics.ListCreateAPIView):
         obj.creator_path = self.request.user.resource_path
 
 
-class MetricsDetail(generics.RetrieveAPIView):
+class MetricsDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Metric
     serializer_class = MetricSerializer
+    permission_classes = permissions.IsCreatorOrReadOnly,
 
 
 class MetriscOperationalize(APIView):
