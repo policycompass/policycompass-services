@@ -18,6 +18,8 @@ class Event(models.Model):
     dateModified = models.DateTimeField(auto_now_add=True)
     viewsCount = models.IntegerField(blank=True)
 
+    creator_path = models.CharField(max_length=1024, default='https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/')
+
 
 class Extractor(models.Model):
     name = models.CharField(max_length=1000)

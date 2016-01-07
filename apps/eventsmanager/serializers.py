@@ -1,16 +1,13 @@
 from rest_framework import serializers
 from .models import Extractor
-from apps.eventsmanager.models import Event
+from .models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
+    creator_path = serializers.Field(source='creator_path')
+
     class Meta:
         model = Event
-        fields = ('id', 'title', 'description', 'keywords', 'startEventDate',
-                  'endEventDate', 'detailsURL', 'detailsURL', 'geoLocation',
-                  'relatedVisualisation', 'languageID', 'userID',
-                  'externalResourceID', 'dateAddedToPC',
-                  'dateIssuedByExternalResource', 'dateModified', 'viewsCount')
 
 
 class ExtractorSerializer(serializers.ModelSerializer):

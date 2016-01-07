@@ -9,7 +9,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from policycompass_services.permissions import IsAdhocracyGod
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from policycompass_services.auth import AdhocracyAuthentication
 import voluptuous as v
 import datetime
@@ -36,6 +36,10 @@ class EventView(generics.ListCreateAPIView):
     paginate_by = 10
     paginate_by_param = 'page_size'
     max_paginate_by = 100
+    permission_classes = IsAuthenticatedOrReadOnly,
+
+    def pre_save(self, obj):
+        obj.creator_path = self.request.user.resource_path
 
     def get_queryset(self):
         def validate_date(d):
@@ -51,6 +55,7 @@ class EventView(generics.ListCreateAPIView):
         end = self.request.QUERY_PARAMS.get('end', None)
         time_resolution = self.request.QUERY_PARAMS.get('time_resolution',
                                                         None)
+
         if start and end is not None:
             if time_resolution is not None:
                 if time_resolution == 'year':
@@ -153,7 +158,8 @@ class ConfigExtractor(APIView):
     # Only authenticate admins for this APIView
     authentication_classes = (AdhocracyAuthentication,)
     # permission_classes = (IsAuthenticated,)
-    permission_classes = (IsAdhocracyGod,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAdhocracyGod,)
 
     def patch(self, request, format=None):
         """
