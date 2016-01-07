@@ -20,6 +20,7 @@ class Base(APIView):
             "Ratings Manager": reverse('ratingsmanager-base', request=request),
             "Search Services": reverse('searchmanager-base', request=request),
             "Indicator Services": reverse('indicator-base', request=request),
+            "Feedback Manager": reverse('feedbackmanager-base', request=request),
         }
 
         return Response(result)

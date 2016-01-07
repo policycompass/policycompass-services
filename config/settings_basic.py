@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'apps.datasetmanager',
     'apps.ratingsmanager',
     'apps.indicatorservice',
+    'apps.feedbackmanager',
     'rest_framework',
     'rest_framework_swagger',
 )
