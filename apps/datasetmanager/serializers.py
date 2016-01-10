@@ -52,7 +52,7 @@ class BaseDatasetSerializer(ModelSerializer):
 
 class DetailDatasetSerializer(BaseDatasetSerializer):
     data = DataField(source='data')
-    policy_domains = WritableField(source='policy_domains')
+    policy_domains = SlugRelatedField(many=True, slug_field='domain', source='domains')
 
     class Meta:
         exclude = (
@@ -66,3 +66,7 @@ class DetailDatasetSerializer(BaseDatasetSerializer):
         )
         fields = ()
         model = Dataset
+
+
+class UpdateDatasetSerializer(DetailDatasetSerializer):
+    policy_domains = WritableField(source='policy_domains')

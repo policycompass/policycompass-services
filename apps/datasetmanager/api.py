@@ -38,7 +38,7 @@ class DatasetList(generics.ListCreateAPIView):
         obj.creator_path = self.request.user.resource_path
 
     def post(self, request, *args, **kwargs):
-        self.serializer_class = DetailDatasetSerializer
+        self.serializer_class = UpdateDatasetSerializer
 
         return super(DatasetList, self).post(request, args, kwargs)
 
@@ -56,6 +56,10 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Dataset
     serializer_class = DetailDatasetSerializer
     permission_classes = permissions.IsCreatorOrReadOnly,
+
+    def put(self, request, *args, **kwargs):
+        self.serializer_class = UpdateDatasetSerializer
+        return super(DatasetDetail, self).put(request, args, kwargs)
 
 
 class Converter(APIView):
