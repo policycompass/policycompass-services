@@ -9,5 +9,8 @@ class Feedback(models.Model):
     message = models.TextField()
     comment = models.TextField(default=" ")
 
+    # Auto-Generated Metadata
+    date_created = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.subject
