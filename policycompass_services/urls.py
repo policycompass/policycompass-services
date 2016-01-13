@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from .api import Base, ExampleAuthenticated, ExampleAdmin
 from django.conf import settings
-from apps.feedbackmanager.admin import feedback_admin_site
+from apps.feedbackmanager.admin import feedback_admin
 
 admin.autodiscover()
 
@@ -20,7 +20,8 @@ urlpatterns = patterns(
     url(r'^api/v1/feedbackmanager/', include('apps.feedbackmanager.urls')),
     url(r'^api/v1/$', Base.as_view()),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^feedbackadmin/', include(feedback_admin_site.urls)),
+    url(r'^feedbackadmin/', include(feedback_admin.urls)),
+    url(r'^feedback/', lambda x: HttpResponseRedirect('/feedbackadmin/feedbackmanager/feedback')),
     url(r'^docs/', include('rest_framework_swagger.urls'), name='swagger'),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.PC_SERVICES['references']['MEDIA_URL'], }),
     url(r'^example/auth/anyuser$', ExampleAuthenticated.as_view()),
