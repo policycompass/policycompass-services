@@ -7,8 +7,6 @@ from .models import Feedback
 from .serializers import *
 
 
-
-
 class FeedbackListView(generics.ListCreateAPIView):
     # permission_classes = IsAuthenticatedOrReadOnly,
     queryset = Feedback.objects.all()
