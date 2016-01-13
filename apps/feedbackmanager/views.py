@@ -7,14 +7,6 @@ from .models import Feedback
 from .serializers import *
 
 
-def index(request):
-    return HttpResponse("Feedbacks!")
-
-
-def detail(request, feedback_id):
-    return HttpResponse("You're looking at feedback %s. " % feedback_id)
-
-
 class FeedbackListView(generics.ListCreateAPIView):
     # permission_classes = IsAuthenticatedOrReadOnly,
     queryset = Feedback.objects.all()
