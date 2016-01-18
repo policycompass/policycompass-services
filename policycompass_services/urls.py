@@ -18,6 +18,7 @@ urlpatterns = patterns(
     url(r'^api/v1/indicatorservice/', include('apps.indicatorservice.urls')),
     url(r'^api/v1/references/', include('apps.referencepool.urls')),
     url(r'^api/v1/feedbackmanager/', include('apps.feedbackmanager.urls')),
+    url(r'^api/v1/agmanager/', include('apps.agmanager.urls')),
     url(r'^api/v1/$', Base.as_view()),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^feedbackadmin/', include(feedback_admin_site.urls)),

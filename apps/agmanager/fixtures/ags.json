@@ -1,0 +1,21 @@
+[{
+    "fields": {
+        "name": "Deaths from Drug Dependence and Toxicomania",
+        "description": "Deaths from Drug Dependence and Toxicomania",
+        "data": "{}",
+        "issued": "2015-07-02T11:21:16.615Z",
+        "modified": "2015-07-02T11:21:16.615Z"
+    },
+    "pk": 1,
+    "model": "agmanager.argumentationgraph"
+}, {
+    "fields": {
+        "name": "Deaths from Drug Dependence and Toxicomania",
+        "description": "Deaths from Drug Dependence and Toxicomania",
+        "data": "{}",
+        "issued": "2015-07-02T11:21:16.615Z",
+        "modified": "2015-07-02T11:21:16.615Z"
+    },
+    "pk": 2,
+    "model": "agmanager.argumentationgraph"
+}]

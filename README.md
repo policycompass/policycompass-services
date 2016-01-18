@@ -66,7 +66,7 @@ If you chose PostgreSQL, you want to create a postgres user and a database:
 ```shell
 	python manage.py migrate
     python manage.py syncdb
-	python manage.py loaddata metrics events common references visualizations
+	python manage.py loaddata metrics events common references visualizations indicators ag
 ```
 
 * Start the application
