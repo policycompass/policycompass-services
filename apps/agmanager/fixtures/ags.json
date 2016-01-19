@@ -1,8 +1,8 @@
 [{
     "fields": {
-        "name": "Deaths from Drug Dependence and Toxicomania",
-        "description": "Deaths from Drug Dependence and Toxicomania",
-        "data": "{}",
+        "name": "Porsche Example",
+        "description": "Illustrates support for Issue-Based Information Systems (IBIS) and cumulative arguments. Needs to be revised to used weighed sums.",
+        "data": "{\"meta\":{\"title\":\"Porsche Example\",\"notes\":\"Illustrates support for Issue-Based Information Systems (IBIS)  and cumulative arguments. Needs to be revised to used weighed sums.\\n\",\"source\":\"Brewka, Gerhard, and Thomas F. Gordon. \\\"How to Buy a Porsche: An Approach to Defeasible Decision Making .\\\" Working Notes of the AAAI-94 Workshop on Computational Dialectics. Seattle, Washington, 1994. 28-38.\\n\"},\"statements\":{\"Porsche\":\"Buy a Porsche.\",\"Volvo\":\"Buy a Volvo.\",\"price(Volvo)=med\":\"Volvos have a medium price.\",\"type(Volvo)=family\":\"Volvos are family cars.\",\"speed(Volvo)=med\":\"Volvos have a medium maximum speed.\",\"safety(Volvo)=high\":\"Volvos are very safe.\",\"safety(Volvo)=med\":\"Volve are fairly safe.\",\"type(Porsche)=sports\":\"Porsches are sports cars.\",\"price(Porsche)=high\":\"Porsches are expensive.\",\"safety(Porsche)=med\":\"Porsches are fairly safe.\",\"speed(Porsche)=fast\":\"Porsches are fast.\",\"advertising\":\"Volvo advertising claims Volvos are safe.\",\"gov-stats\":\"Government statistics show Volvos to be fairly safe.\"},\"issues\":{\"i1\":{\"positions\":[\"Porsche\",\"Volvo\"]},\"i2\":{\"positions\":[\"safety(Volvo)=med\",\"safety(Volvo)=high\"]}},\"arguments\":{\"a1\":{\"scheme\":\"cumulative\",\"conclusion\":\"Porsche\",\"premises\":[\"type(Porsche)=sports\",\"price(Porsche)=high\",\"safety(Porsche)=med\",\"speed(Porsche)=fast\"]},\"a2\":{\"scheme\":\"cumulative\",\"conclusion\":\"Volvo\",\"premises\":[\"type(Volvo)=family\",\"price(Volvo)=med\",\"speed(Volvo)=med\",\"safety(Volvo)=high\"]},\"a3\":{\"conclusion\":\"safety(Volvo)=high\",\"premises\":[\"advertising\"]},\"a4\":{\"conclusion\":\"safety(Volvo)=med\",\"premises\":[\"gov-stats\"]}},\"assumptions\":[\"advertising\",\"gov-stats\",\"price(Volvo)=med\",\"speed(Volvo)=med\",\"type(Volvo)=family\",\"type(Porsche)=sports\",\"price(Porsche)=high\",\"safety(Porsche)=med\",\"speed(Porsche)=fast\"],\"labels\":{\"in\":[\"advertising\",\"gov-stats\",\"price(Volvo)=med\",\"speed(Volvo)=med\",\"type(Volvo)=family\",\"type(Porsche)=sports\",\"price(Porsche)=high\",\"safety(Porsche)=med\",\"speed(Porsche)=fast\",\"Porsche\"],\"out\":[\"safety(Volvo)=high\",\"safety(Volvo)=med\",\"Volvo\"]}}",
         "issued": "2015-07-02T11:21:16.615Z",
         "modified": "2015-07-02T11:21:16.615Z"
     },
@@ -10,9 +10,9 @@
     "model": "agmanager.argumentationgraph"
 }, {
     "fields": {
-        "name": "Alt-Deaths from Drug Dependence and Toxicomania",
-        "description": "Deaths from Drug Dependence and Toxicomania",
-        "data": "{}",
+        "name": "The Frisian Example",
+        "description": "none provided",
+        "data": "{\"meta\":{\"title\":\"The Frisian Example\",\"source\":\"Prakken, H. An abstract framework for argumentation with  structured arguments. Argument & Computation 1, (2010), 93-124.\\n\"},\"statements\":{\"dutch\":{\"text\":\"Wiebe is Dutch.\",\"label\":\"in\"},\"tall\":{\"text\":\"Wiebe is tall.\",\"label\":\"in\"},\"frisian\":{\"text\":\"Wiebe is Frisian.\",\"label\":\"in\"},\"¬app(a1)\":{\"text\":\"a1 is not applicable.\",\"label\":\"out\"}},\"assumptions\":[\"frisian\"],\"arguments\":{\"a1\":{\"conclusion\":\"dutch\",\"premises\":[\"frisian\"],\"undercutter\":\"¬app(a1)\"},\"a2\":{\"conclusion\":\"tall\",\"premises\":[\"dutch\"]}}}\n",
         "issued": "2015-07-02T11:21:16.615Z",
         "modified": "2015-07-02T11:21:16.615Z"
     },
