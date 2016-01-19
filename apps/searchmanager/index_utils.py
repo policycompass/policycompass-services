@@ -21,6 +21,7 @@ def rebuild_index():
     indexing_log = indexing_log + rebuild_index_itemtype('event')
     indexing_log = indexing_log + rebuild_index_itemtype('dataset')
     indexing_log = indexing_log + rebuild_index_itemtype('indicator')
+    indexing_log = indexing_log + rebuild_index_itemtype('ag')
     indexing_log = indexing_log + rebuild_index_fcm('fuzzymap')
     return indexing_log
 
@@ -30,8 +31,8 @@ def normalize_api_url(item_type):
     Get the api url by item type.
     """
     if item_type == 'fuzzymap':
-        return settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/' + 'fcmmanager/models'
-    elif item_type == 'dataset':
+        return settings.PC_SERVICES['references']['fcm_base_url'] + '/api/v1/fcmmanager/models'
+    elif item_type == 'dataset' or item_type == 'ag':
         return settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + item_type + 'manager/' + item_type + 's'
     elif item_type == 'indicator':
         return settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' + item_type + 's'

@@ -10,7 +10,7 @@
     "model": "agmanager.argumentationgraph"
 }, {
     "fields": {
-        "name": "Deaths from Drug Dependence and Toxicomania",
+        "name": "Alt-Deaths from Drug Dependence and Toxicomania",
         "description": "Deaths from Drug Dependence and Toxicomania",
         "data": "{}",
         "issued": "2015-07-02T11:21:16.615Z",
