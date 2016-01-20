@@ -3,6 +3,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 class ArgumentationGraph(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
@@ -24,4 +25,3 @@ class ArgumentationGraph(models.Model):
 
     def __str__(self):
         return self.name
-

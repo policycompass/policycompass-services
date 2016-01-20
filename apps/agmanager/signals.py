@@ -8,7 +8,7 @@ This way the Policy compass database and Elastic search index remains synced.
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
-from .models import ArgumentationGraph 
+from .models import ArgumentationGraph
 import requests
 import threading
 import time
@@ -24,11 +24,11 @@ def update_document_on_search_service(sender, **kwargs):
 
 @receiver(post_delete, sender=ArgumentationGraph)
 def delete_document_on_search_service(sender, **kwargs):
-    # Get current Argumentation Graph details 
+    # Get current Argumentation Graph details
     curAG = kwargs['instance']
     # set the Search - Delete Index Item API url for the current argumentation graph.
     api_url = settings.PC_SERVICES['references']['base_url'] + \
-        settings.PC_SERVICES['references']['deleteindexitem'] + '/ag/' + str(ag.id)
+        settings.PC_SERVICES['references']['deleteindexitem'] + '/ag/' + str(curAG.id)
     # Execute the API call
     response = requests.post(api_url)
     # Print the response of the API call to console
