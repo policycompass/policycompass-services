@@ -6,4 +6,4 @@ class AGManagerConfig(AppConfig):
     verbose_name = "Argumentation Graph Manager"
 
     def ready(self):
-        import apps.agmanager.signals
+        import apps.agmanager.signals  # noqa
