@@ -1,0 +1,21 @@
+[{
+    "fields": {
+        "name": "Porsche Example",
+        "description": "Illustrates support for Issue-Based Information Systems (IBIS) and cumulative arguments. Needs to be revised to used weighed sums.",
+        "data": "meta:\n  title: Porsche Example\n  notes: > \n    Illustrates support for Issue-Based Information Systems (IBIS) \n    and cumulative arguments. Needs to be revised to used weighed sums.\n  source: > \n      Brewka, Gerhard, and Thomas F. Gordon. \"How to Buy a Porsche: An Approach to Defeasible Decision Making .\" Working Notes of the AAAI-94 Workshop on Computational Dialectics. Seattle, Washington, 1994. 28-38. \n\n\nstatements:\n  Porsche: Buy a Porsche.\n  Volvo: Buy a Volvo.\n  price(Volvo)=med: Volvos have a medium price.\n  type(Volvo)=family: Volvos are family cars.\n  speed(Volvo)=med: Volvos have a medium maximum speed.\n  safety(Volvo)=high: Volvos are very safe.\n  safety(Volvo)=med:  Volve are fairly safe.\n  type(Porsche)=sports: Porsches are sports cars.\n  price(Porsche)=high: Porsches are expensive.\n  safety(Porsche)=med: Porsches are fairly safe.\n  speed(Porsche)=fast: Porsches are fast.\n  advertising: Volvo advertising claims Volvos are safe.\n  gov-stats: Government statistics show Volvos to be fairly safe.\n\nissues:\n  i1:\n    positions: [Porsche, Volvo]\n  i2:\n    positions: [safety(Volvo)=med, safety(Volvo)=high]\n\narguments:\n  a1: \n    scheme: cumulative\n    conclusion: Porsche\n    premises: \n      - type(Porsche)=sports\n      - price(Porsche)=high\n      - safety(Porsche)=med\n      - speed(Porsche)=fast\n  a2:\n    scheme: cumulative\n    conclusion: Volvo\n    premises:\n      - type(Volvo)=family\n      - price(Volvo)=med\n      - speed(Volvo)=med\n      - safety(Volvo)=high\n  a3:\n    conclusion: safety(Volvo)=high\n    premises:\n      - advertising\n  a4:\n    conclusion: safety(Volvo)=med\n    premises:\n      - gov-stats\n\nassumptions:\n  - advertising\n  - gov-stats\n  - price(Volvo)=med\n  - speed(Volvo)=med\n  - type(Volvo)=family\n  - type(Porsche)=sports\n  - price(Porsche)=high\n  - safety(Porsche)=med\n  - speed(Porsche)=fast\n\nlabels:\n  in:\n    - advertising\n    - gov-stats\n    - price(Volvo)=med\n    - speed(Volvo)=med\n    - type(Volvo)=family\n    - type(Porsche)=sports\n    - price(Porsche)=high\n    - safety(Porsche)=med\n    - speed(Porsche)=fast\n    - Porsche\n  out:\n    - safety(Volvo)=high\n    - safety(Volvo)=med\n    - Volvo",
+        "issued": "2015-07-02T11:21:16.615Z",
+        "modified": "2015-07-02T11:21:16.615Z"
+    },
+    "pk": 1,
+    "model": "agmanager.argumentationgraph"
+}, {
+    "fields": {
+        "name": "The Frisian Example",
+        "description": "none provided",
+        "data": "meta:\r\n  title: The Frisian Example\r\n  source: > \r\n    Prakken, H. An abstract framework for argumentation with \r\n    structured arguments. Argument & Computation 1, (2010), 93-124.\r\n\r\nstatements: \r\n  dutch: \r\n    text: Wiebe is Dutch.\r\n    label: in\r\n  tall: \r\n    text: Wiebe is tall.\r\n    label: in\r\n  frisian: \r\n    text: Wiebe is Frisian.\r\n    label: in\r\n  ¬app(a1): \r\n    text: a1 is not applicable.\r\n    label: out\r\n\r\nassumptions: [frisian]\r\n\r\narguments:\r\n  a1: \r\n    conclusion: dutch\r\n    premises: [frisian]\r\n    undercutter: ¬app(a1)\r\n  a2:\r\n    conclusion: tall\r\n    premises: [dutch]",
+        "issued": "2015-07-02T11:21:16.615Z",
+        "modified": "2015-07-02T11:21:16.615Z"
+    },
+    "pk": 2,
+    "model": "agmanager.argumentationgraph"
+}]
