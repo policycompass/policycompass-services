@@ -254,7 +254,7 @@ class DatasetDataFromAPITransformer(object):
                 # Does it exist already
                 # Todo Make this better
                 try:
-                    saved_ind = Individual.objects.get(title=individual)
+                    saved_ind = Individual.objects.get(title=individual, data_class=self.class_id)
                     row['individual'] = saved_ind.id
                 except Individual.DoesNotExist:
                     ind = Individual(
