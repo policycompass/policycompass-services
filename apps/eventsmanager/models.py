@@ -60,6 +60,7 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+
 class EventInDomain(models.Model):
     """
     Represents the 1:m relation between an Event and Policy Domains
