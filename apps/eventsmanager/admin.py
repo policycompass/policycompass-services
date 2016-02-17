@@ -1,13 +1,8 @@
 from django.contrib import admin
-from .models import Event, Extractor
+from .models import *
 
 
-class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'keywords', 'startEventDate', 'endEventDate', 'detailsURL', 'detailsURL', 'geoLocation', 'relatedVisualisation', 'languageID', 'userID', 'externalResourceID', 'dateAddedToPC', 'dateIssuedByExternalResource', 'dateModified', 'viewsCount', 'creator_path')
+admin.site.register(Event)
+admin.site.register(EventInDomain)
+admin.site.register(Extractor)
 
-
-class ExtractorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'active', 'valid')
-
-admin.site.register(Event, EventAdmin)
-admin.site.register(Extractor, ExtractorAdmin)
