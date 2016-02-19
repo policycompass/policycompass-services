@@ -18,7 +18,7 @@ def run(start, end, keyword):
             langMatches(lang(?comment),"en") &&
             (regex(?label, \"""" + keyword + """\", "i") || regex(?comment, \"""" + keyword + """\", "i"))) .
         }
-        limit 10
+        limit 100
     """)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
