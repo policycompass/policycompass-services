@@ -1,11 +1,10 @@
 from rest_framework import serializers
 from .models import Extractor
 from .models import Event
-from rest_framework.serializers import WritableField
 
 
 class EventSerializer(serializers.ModelSerializer):
-    policy_domains = WritableField(source='policy_domains', required=True)
+    policy_domains = serializers.SlugRelatedField(many=True, slug_field='domain', source='domains')
     creator_path = serializers.Field(source='creator_path')
 
     class Meta:
@@ -23,7 +22,7 @@ class ExternalEventSerializer(serializers.Serializer):
     url = serializers.CharField()
     start = serializers.DateTimeField()
     finish = serializers.DateTimeField()
-    policy_domains = WritableField(source='policy_domains', required=True)
+    policy_domains = serializers.SlugRelatedField(many=True, slug_field='domain', source='domains')
 
     class Meta:
         model = Event
