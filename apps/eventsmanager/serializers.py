@@ -11,6 +11,13 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
 
 
+class CreateEventSerializer(EventSerializer):
+    policy_domains = serializers.WritableField(source='policy_domains', required=True)
+
+    class Meta:
+        model = Event
+
+
 class ExtractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extractor
