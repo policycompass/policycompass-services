@@ -2,7 +2,7 @@ import os
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import JSONParser
 from .models import Event, Extractor
-from .serializers import EventSerializer, ExtractorSerializer
+from .serializers import EventSerializer, CreateEventSerializer, ExtractorSerializer
 from rest_framework import generics
 from rest_framework import status
 from django.db.models import Q
@@ -40,6 +40,10 @@ class EventView(generics.ListCreateAPIView):
 
     def pre_save(self, obj):
         obj.creator_path = self.request.user.resource_path
+
+    def create(self, request, *args, **kwargs):
+        self.serializer_class = CreateEventSerializer
+        return super(EventView, self).create(request, args, kwargs)
 
     def get_queryset(self):
         def validate_date(d):
@@ -96,6 +100,10 @@ class EventView(generics.ListCreateAPIView):
 class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
     model = Event
     serializer_class = EventSerializer
+
+    def update(self, request, *args, **kwargs):
+        self.serializer_class = CreateEventSerializer
+        return super(EventInstanceView, self).update(request, args, kwargs)
 
 
 class HarvestEvents(APIView):
