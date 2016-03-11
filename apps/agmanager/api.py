@@ -28,12 +28,12 @@ class ArgumentationGraphViewSet(viewsets.ModelViewSet):
         obj.creator_path = self.request.user.resource_path
 
     def create(self, request, *args, **kwargs):
-        self.serializer_class = CreateArgumentationGraphSerializer
+        self.serializer_class = ArgumentationGraphSerializer
         return super(ArgumentationGraphViewSet, self).create(request, args,
                                                              kwargs)
 
     def update(self, request, *args, **kwargs):
-        self.serializer_class = CreateArgumentationGraphSerializer
+        self.serializer_class = ArgumentationGraphSerializer
         self.permission_classes = permissions.IsCreatorOrReadOnly,
         return super(ArgumentationGraphViewSet, self).update(request, args,
                                                              kwargs)
