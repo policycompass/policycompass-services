@@ -9,9 +9,11 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
 from .models import Dataset
+from apps.searchmanager.signalhandlers import IndexDocumentThread
 import requests
-import threading
-import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @receiver(post_save, sender=Dataset)
@@ -19,7 +21,7 @@ def update_document_on_search_service(sender, **kwargs):
     # Start a new thread for indexing the individual document
     if not kwargs.get('raw', False):
         instance = kwargs['instance']
-        indexDocumentThread(instance.id, 'dataset').start()
+        IndexDocumentThread(instance.id, 'dataset').start()
 
 
 @receiver(post_delete, sender=Dataset)
@@ -32,28 +34,7 @@ def delete_document_on_search_service(sender, **kwargs):
     # Execute the API call
     response = requests.post(api_url)
     # Print the response of the API call to console
-    print(response.text)
-
-
-class indexDocumentThread(threading.Thread):
-    """
-    The indexing process is wrapped in a thread. This is because within the post_save signal the save transaction is not yet committed.
-    Therefore when you would call the search index API the database would be locked and the specific item would not yet exist in database
-    By using a thread, django commits the transaction and the signal gets asynchronous. Therefore the database is updated when Search Index API is called
-    Another solution would be the django-transaction-hooks, but it is experimental and requires a custom database backend to be used.
-    """
-    def __init__(self, itemid, itemtype, **kwargs):
-        self.itemid = itemid
-        self.itemtype = itemtype
-        super(indexDocumentThread, self).__init__(**kwargs)
-
-    def run(self):
-        # Set sleep time to allow database unlocking and the commit of the save transaction
-        time.sleep(5)
-        # set the Search - Update Index Item API url for the current item.
-        api_url = settings.PC_SERVICES['references']['base_url'] + \
-            settings.PC_SERVICES['references']['updateindexitem'] + '/dataset/' + str(self.itemid)
-        # Execute the API call
-        response = requests.post(api_url)
-        # Print the response of the API call to console
-        print(response.text)
+    if response.status_code < 200 or response.status_code >= 300:
+        logger.error("Failed while deleting dataset {} from search index".format(curDataset.id))
+    else:
+        logger.info("Successfully delted dataset {} from search index".format(curDataset.id))
