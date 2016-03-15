@@ -17,7 +17,6 @@ class Dataset(models.Model):
 
     # Basic Metadata Fields
     title = models.CharField(max_length=100, unique=True)
-    acronym = models.CharField(max_length=20, unique=True)
     description = models.TextField()
     # ToDo Use RP and Foreign Key here
     keywords = models.CharField(max_length=400)

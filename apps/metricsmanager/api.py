@@ -88,7 +88,6 @@ class MetriscOperationalize(APIView):
 
         {
           "title" : "Some test",
-          "acronym": "acronym",
           "datasets": [
             {
               "variable": "__1__",
@@ -112,16 +111,12 @@ class MetriscOperationalize(APIView):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-        # check if dateset with that title and acronym already existed
+        # check if dateset with that title already existed
         title = serializer.object.get("title")
-        acronym = serializer.object.get("acronym")
-        error = {}
         if len(datasets.filter(title=title)) != 0:
-            error["title"] = "Dataset name is not unique."
-        if len(datasets.filter(acronym=acronym)) != 0:
-            error["acronym"] = "Dataset acronym is not unique."
-        if len(error) != 0:
-            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "title": "Dataset name is not unique."},
+                status=status.HTTP_400_BAD_REQUEST)
 
         result_unit = serializer.object.get("unit_id")
 
@@ -162,7 +157,6 @@ class MetriscOperationalize(APIView):
 
         dataset = Dataset(
             title=title,
-            acronym=acronym,
             description="Computed formula '%s' with %s" % (
                 metric.formula,
                 ", ".join(["'%s' as %s" % (dataset.title, variable) for
