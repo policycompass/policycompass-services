@@ -42,7 +42,6 @@ class OperationalizeMappingSerializer(serializers.Serializer):
 
 class OperationalizeSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=100)
-    acronym = serializers.CharField(max_length=20)
     unit_id = serializers.IntegerField()
     datasets = compound_fields.ListField(OperationalizeMappingSerializer())
 

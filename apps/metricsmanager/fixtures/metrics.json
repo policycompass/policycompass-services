@@ -7,7 +7,6 @@
       "creator_path": "/principals/users/000001",
       "title": "Fixture metric",
       "description": "A example metric shipped with policycompass",
-      "acronym": "EXAMPLE",
       "keywords": "Example, Metric",
       "indicator_id": 1,
       "formula": "0.5 * norm(__1__, 0, 100) + 0.5 * norm(__2__, 0, 200)",
