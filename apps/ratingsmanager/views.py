@@ -25,8 +25,11 @@ class RatingDetailView(generics.GenericAPIView):
             raise Http404
 
     def get(self, request, identifier, format=None):
-        rating = self.get_rating(identifier)
-        serializer = RatingSerializer(rating)
+        try:
+            rating = self.get_rating(identifier)
+            serializer = RatingSerializer(rating)
+        except Http404:
+            serializer = RatingSerializer()
         return Response(serializer.data)
 
     def post(self, request, identifier, format=None):
