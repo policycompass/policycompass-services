@@ -3,7 +3,6 @@
     "fields": {
       "name": "Deaths from Drug Dependence and Toxicomania",
       "unit_category": 12,
-      "acronym": "DfT",
       "description": "Deaths from Drug Dependence and Toxicomania",
       "language": 38,
       "issued": "2015-07-02T11:21:16.615Z",
@@ -16,7 +15,6 @@
     "fields": {
       "name": "Drug Law Offences Related to Drug Use or Possession for Use",
       "unit_category": 12,
-      "acronym": "LoD",
       "description": "Drug Law Offences Related to Drug Use or Possession for Use",
       "language": 38,
       "issued": "2015-07-02T11:21:16.615Z",
