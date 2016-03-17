@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .file_encoder import FileEncoder
 from .serializers import *
+from collections import OrderedDict
+import json
 
 __author__ = 'fki'
 
@@ -87,6 +89,7 @@ class Converter(APIView):
             'filesize': file.size,
             'result': encoding
         }
+
         return Response(result)
 
     def post(self, request, *args, **kwargs):
@@ -102,10 +105,153 @@ class Converter(APIView):
                         status=status.HTTP_400_BAD_REQUEST)
 
 
+class EurostatSearchProxy(APIView):
+    def get(self, request, *args, **kwargs):
+        apiBase = request.GET.get('api')
+        term = request.GET.get('q')
+        start = request.GET.get('start')
+        if start is None:
+            start = "0"
+
+        if apiBase is None or term is None:
+            return Response({'error': 'Invalid parameters.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        request = "http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(term) + "?precision=1"
+
+        data = requests.get(request)
+
+        if data.status_code == 400:
+            return Response({'error': 'Could not find Database'}, status=status.HTTP_400_BAD_REQUEST)
+        elif data.status_code == 416:
+            return Response({'error': 'Too many categories have been requested. Maximum is 50'}, status=status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+
+        array = data.json(object_pairs_hook=OrderedDict)
+
+        dimensions = array['dimension']
+        dimensionsList = list(dimensions)
+
+        filtersList = dimensionsList
+
+        filtersDetailList = {}
+
+        filtersDetailList.update({'label': array['label']})
+
+        for f in range(0, len(filtersList)):
+            filter = array['dimension'][filtersList[f]]['category']['label']
+            filterList = list(filter)
+            filterKeys = list(filter.keys())
+            filterValues = list(filter.values())
+
+            newFilterList = []
+
+            for i in range(0, len(filterList)):
+                newFilter = [filterKeys[i], filterValues[i]]
+                newFilterList.append(newFilter)
+
+            filtersDetailList.update({filtersList[f]: newFilterList})
+
+        filters = {"result": filtersDetailList}
+        filtersString = str(filters).replace("'", '"')
+        filterJson = json.loads(filtersString)
+
+        if data.status_code == 200:
+            return Response(filterJson, status=status.HTTP_200_OK)
+        elif data.status_code == 400:
+            return Response({'error': 'Could not find Database'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'Server error. Check the logs.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class EurostatDownloadProxy(APIView):
+    def get(self, request, *args, **kwargs):
+        dataset = request.GET.get('dataset')
+        filtersString = request.GET.get('filters')
+        filters = {}
+        query = " "
+
+        if filtersString is None:
+            filtersString = {'result': ''}
+
+        else:
+            filters = json.loads(filtersString)
+
+        filters = filters.get('result')
+        if(filters):
+            for key in range(0, len(filters)):
+                for value in range(0, len(filters[key][1])):
+                    query += '&' + filters[key][0] + '=' + filters[key][1][value]
+
+        data = requests.get("http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(dataset) + "?precision=1" + query.strip())
+
+        if data.status_code == 400:
+            return Response({'error': 'Could not find Database'}, status=status.HTTP_400_BAD_REQUEST)
+        elif data.status_code == 416:
+            return Response({'error': 'Too many categories have been requested. Maximum is 50'}, status=status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+
+        array = data.json(object_pairs_hook=OrderedDict)
+
+        rowHeaders = array['dimension']['geo']['category']['label']
+
+        rowHeadersValues = list(rowHeaders.values())
+
+        rowLen = len(rowHeadersValues)
+
+        colHeaders = array['dimension']['time']['category']['label']
+
+        colHeadersVals = list(colHeaders.values())
+
+        colLen = len(colHeadersVals) + 1
+
+        colHeadersValues = []
+
+        colHeadersValues.append("")
+
+        for q in range(0, colLen - 1):
+            colHeadersValues.append(colHeadersVals[q])
+
+        val = array['value']
+
+        values = list(val.values())
+
+        rowArrays = []
+
+        index = 0
+        for row in range(0, rowLen):
+            colArray = []
+            position = row * (colLen - 1)
+            colArray.append(rowHeadersValues[row])
+            for col in range(0, colLen - 1):
+                if val.get(str(position + col)) is None:
+                    colArray.append("")
+                else:
+                    colArray.append(values[index])
+                    index += 1
+
+            rowArrays.append(colArray)
+
+        resultArray = []
+        resultArray.append(colHeadersValues)
+
+        for y in range(0, len(rowArrays)):
+            resultArray.append(rowArrays[y])
+
+        result = {
+            'filename': 'file.xls',
+            'filesize': 500000,
+            'result': resultArray
+        }
+
+        return Response(result)
+
+
 class CKANSearchProxy(APIView):
     # FIXME Potential DDoS Source. Remove once EDP Auth is gone.
     def get(self, request, *args, **kwargs):
         apiBase = request.GET.get('api')
+        print("APIBASE " + apiBase)
+        print("q " + request.GET.get('q'))
         term = request.GET.get('q')
         start = request.GET.get('start')
         if start is None:
@@ -146,7 +292,6 @@ class CKANDownloadProxy(APIView):
         if r.status_code is not 200:
             return Response({'error': 'Server error. Check the logs.'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
         json = r.json()
 
         data = requests.get(json['result']['url'])

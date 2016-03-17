@@ -23,10 +23,17 @@ ckan_urls = patterns(
     url(r'^/download$', CKANDownloadProxy.as_view(), name='ckan-download'),
 )
 
+eurostat_urls = patterns(
+    '',
+    url(r'^/search$', EurostatSearchProxy.as_view(), name='eurostat-search'),
+    url(r'^/download$', EurostatDownloadProxy.as_view(), name='eurostat-download'),
+)
+
 urlpatterns = patterns(
     '',
     url(r'^datasets', include(dataset_urls)),
     url(r'^converter', include(converter_urls)),
     url(r'^ckan', include(ckan_urls)),
+    url(r'^eurostat', include(eurostat_urls)),
     url(r'^', Base.as_view(), name="dataset-manager-base")
 )
