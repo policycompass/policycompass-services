@@ -6,7 +6,6 @@ log = logging.getLogger(__name__)
 
 class Indicator(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    acronym = models.CharField(max_length=20, unique=True)
     description = models.TextField()
     language = models.IntegerField()
     unit_category = models.IntegerField()
