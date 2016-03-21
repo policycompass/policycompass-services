@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .file_encoder import FileEncoder
 from .serializers import *
+from collections import OrderedDict
+import json
 
 __author__ = 'fki'
 
@@ -87,6 +89,7 @@ class Converter(APIView):
             'filesize': file.size,
             'result': encoding
         }
+
         return Response(result)
 
     def post(self, request, *args, **kwargs):
@@ -102,10 +105,181 @@ class Converter(APIView):
                         status=status.HTTP_400_BAD_REQUEST)
 
 
+class EurostatSearchStep1Proxy(APIView):
+    def get(self, request, *args, **kwargs):
+        start = request.GET.get('start')
+        term = request.GET.get('q')
+
+        if start is None:
+            start = "0"
+
+        if term is None:
+            return Response({'error': 'Invalid parameters.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        estat = Request("ESTAT")
+
+        dataflows = estat.get(resource_type='dataflow').msg.dataflows
+
+        searchResults = dataflows.find(term)
+
+        searchResultsKeys = list(dataflows.find(term))
+
+        resultList = []
+
+        for key in searchResultsKeys:
+            resultList.append([key, searchResults[key].name["en"]])
+
+        results = {"result": resultList}
+
+        return Response(results)
+
+
+class EurostatSearchStep2Proxy(APIView):
+    def get(self, request, *args, **kwargs):
+
+        term = request.GET.get('q')
+
+        if term is None:
+            return Response({'error': 'Invalid parameters.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        estat = Request("ESTAT")
+
+        dataflow = estat.get(resource_type='dataflow')
+
+        dataflows = dataflow.msg.dataflows
+
+        dsd_id = dataflows[term].structure.id
+
+        dsd_resp = estat.get(resource_type='datastructure', resource_id=dsd_id)
+
+        dsd = dsd_resp.msg.datastructures[dsd_id]
+
+        dimensionsList = list(dsd.dimensions)
+
+        dimensionsWithValues = {}
+
+        for f in range(0, len(dimensionsList)):
+            if(dimensionsList[f] != "TIME_PERIOD"):
+                dimensionsValuesList = list(dsd.dimensions[dimensionsList[f]].local_repr.enum.values())
+                valuesList = []
+                for value in range(0, len(dimensionsValuesList)):
+                    valuesList.append([dimensionsValuesList[value].id, dimensionsValuesList[value].name.en])
+                dimensionsWithValues.update({dimensionsList[f]: valuesList})
+            elif(dimensionsList[f] == "TIME_PERIOD"):
+                print("TIME ", dsd.dimensions[dimensionsList[f]].concept.name)
+
+        filters = {"result": dimensionsWithValues}
+        filtersString = str(filters).replace("{'", '{"')
+        filtersString = str(filtersString).replace("':", '":')
+        filtersString = str(filtersString).replace("['", '["')
+        filtersString = str(filtersString).replace("]'", ']"')
+        filtersString = str(filtersString).replace("']", '"]')
+        filtersString = str(filtersString).replace("',", '",')
+        filtersString = str(filtersString).replace(", '", ', "')
+
+        filterJson = json.loads(filtersString)
+
+        return Response(filterJson)
+
+
+class EurostatDownloadProxy(APIView):
+    def get(self, request, *args, **kwargs):
+        dataset = request.GET.get('dataset')
+        filtersString = request.GET.get('filters')
+        filters = {}
+        query = " "
+
+        if filtersString is None:
+            filtersString = {'result': ''}
+
+        else:
+            filters = json.loads(filtersString)
+
+        filters = filters.get('result')
+        if(filters):
+            for key in range(0, len(filters)):
+                for value in range(0, len(filters[key][1])):
+                    query += '&' + filters[key][0].lower() + '=' + filters[key][1][value]
+
+        print("QUERY ", "http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(dataset) + "?precision=1" + query.strip())
+
+        data = requests.get("http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(dataset) + "?precision=1" + query.strip())
+
+        if data.status_code == 400:
+            errorDict = {"result": 400}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
+        elif data.status_code == 416:
+            errorDict = {"result": 416}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
+
+        array = data.json(object_pairs_hook=OrderedDict)
+
+        rowHeaders = array['dimension']['geo']['category']['label']
+
+        rowHeadersValues = list(rowHeaders.values())
+
+        rowLen = len(rowHeadersValues)
+
+        colHeaders = array['dimension']['time']['category']['label']
+
+        colHeadersVals = list(colHeaders.values())
+
+        colLen = len(colHeadersVals) + 1
+
+        colHeadersValues = []
+
+        colHeadersValues.append("")
+
+        for q in range(0, colLen - 1):
+            colHeadersValues.append(colHeadersVals[q])
+
+        val = array['value']
+
+        values = list(val.values())
+
+        rowArrays = []
+
+        index = 0
+        for row in range(0, rowLen):
+            colArray = []
+            position = row * (colLen - 1)
+            colArray.append(rowHeadersValues[row])
+            for col in range(0, colLen - 1):
+                if val.get(str(position + col)) is None:
+                    colArray.append("")
+                else:
+                    colArray.append(values[index])
+                    index += 1
+
+            rowArrays.append(colArray)
+
+        resultArray = []
+        resultArray.append(colHeadersValues)
+
+        for y in range(0, len(rowArrays)):
+            resultArray.append(rowArrays[y])
+
+        result = {
+            'filename': 'file.xls',
+            'filesize': 500000,
+            'result': resultArray
+        }
+
+        return Response(result)
+
+
 class CKANSearchProxy(APIView):
     # FIXME Potential DDoS Source. Remove once EDP Auth is gone.
     def get(self, request, *args, **kwargs):
         apiBase = request.GET.get('api')
+        print("APIBASE " + apiBase)
+        print("q " + request.GET.get('q'))
         term = request.GET.get('q')
         start = request.GET.get('start')
         if start is None:
@@ -146,7 +320,6 @@ class CKANDownloadProxy(APIView):
         if r.status_code is not 200:
             return Response({'error': 'Server error. Check the logs.'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
         json = r.json()
 
         data = requests.get(json['result']['url'])
