@@ -22,3 +22,4 @@ def update_document_on_search_service(sender, **kwargs):
 def delete_document_on_search_service(sender, **kwargs):
     instance = kwargs['instance']
     search_index_delete('dataset', instance.id)
+    
