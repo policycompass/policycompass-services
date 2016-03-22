@@ -11,6 +11,7 @@ from .file_encoder import FileEncoder
 from .serializers import *
 from collections import OrderedDict
 import json
+from pandasdmx import Request
 
 __author__ = 'fki'
 
