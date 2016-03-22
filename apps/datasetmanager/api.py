@@ -204,8 +204,6 @@ class EurostatDownloadProxy(APIView):
                 for value in range(0, len(filters[key][1])):
                     query += '&' + filters[key][0].lower() + '=' + filters[key][1][value]
 
-        print("QUERY ", "http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(dataset) + "?precision=1" + query.strip())
-
         data = requests.get("http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/" + str(dataset) + "?precision=1" + query.strip())
 
         if data.status_code == 400:
