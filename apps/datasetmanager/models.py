@@ -27,10 +27,11 @@ class Dataset(models.Model):
     resource_id = models.IntegerField(blank=True, null=True)
     resource_publisher = models.CharField(max_length=100, blank=True)
 
+    spatial = models.IntegerField(blank=True, null=True)  # RP individuals
+
     is_applied = models.BooleanField(blank=True, default=False)
     metric_id = models.IntegerField(blank=True, null=True)  # MM metric
 
-    spatial = models.IntegerField(blank=True, null=True)  # RP individuals
     license = models.CharField(max_length=100, blank=True)
 
     version = models.IntegerField(editable=False)
@@ -58,6 +59,18 @@ class Dataset(models.Model):
 
     # Private property to handle the policy domains
     _policy_domains = None
+
+    # Private property to handle the spatials
+    _spatials = None
+
+    # Get all Spatial IDs
+    @property
+    def spatials(self):
+        return self.dataset_spatials.all()
+
+    @spatials.setter
+    def spatials(self, value):
+        self._spatials = value
 
     # Get all Policy Domain IDs
     @property
@@ -91,11 +104,21 @@ class Dataset(models.Model):
                 # Create new relations
                 for d in self._policy_domains:
                     self.domains.create(domain=d)
+            if self._spatials:
+                # Delete olf policy domain relations
+                self.dataset_spatials.all().delete()
+                # Create new relations
+                for s in self._spatials:
+                    self.dataset_spatials.create(spatial=s)
         else:
             if self._policy_domains:
                 # Create Policy Domain relations
                 for d in self._policy_domains:
                     self.domains.create(domain=d)
+            if self._spatials:
+                # Create Spatial relations
+                for s in self._spatials:
+                    self.dataset_spatials.create(spatial=s)
 
     class Meta:
         # Standard sorting by date
@@ -119,3 +142,19 @@ class DatasetInDomain(models.Model):
 
     def __str__(self):
         return str(self.domain)
+
+
+class DatasetInSpatial(models.Model):
+    """
+    Represents the 1:m relation between a Dataset and Spatials
+    """
+    spatial = models.IntegerField()
+    # Set the relation
+    dataset = models.ForeignKey(Dataset, related_name='dataset_spatials')
+
+    class Meta:
+        verbose_name = "Dataset in Spatial"
+        verbose_name_plural = "Dataset in Spatials"
+
+    def __str__(self):
+        return str(self.spatial)
