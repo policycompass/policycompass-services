@@ -55,7 +55,10 @@ class Event(models.Model):
         if self.pk is None:
             self.version = 1
         else:
-            self.version += 1
+            if hasattr(Event, 'self.version'):
+                self.version += 1
+            else :
+                self.version = 2
             update = True
 
         super(Event, self).save(*args, **kwargs)
