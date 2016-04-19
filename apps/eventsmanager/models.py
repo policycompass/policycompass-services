@@ -57,7 +57,7 @@ class Event(models.Model):
         else:
             if hasattr(Event, 'self.version'):
                 self.version += 1
-            else :
+            else:
                 self.version = 2
             update = True
 
