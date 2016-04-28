@@ -1,4 +1,5 @@
 import requests
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http.response import HttpResponse
 from policycompass_services import permissions
 from rest_framework import generics
@@ -70,28 +71,36 @@ class Converter(APIView):
     Serves the converter resource.
     """
 
-    def process_file(file):
+    def process_file(file, jsonData):
         # File has to be named file
-        encoder = FileEncoder(file)
-
-        # Check if the file extension is supported
-        if not encoder.is_supported():
-            return Response({'error': 'File Extension is not supported'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        # Encode the file
         try:
-            encoding = encoder.encode()
-        except:
-            return Response({'error': "Invalid File"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        # Build the result
-        result = {
-            'filename': file.name,
-            'filesize': file.size,
-            'result': encoding
-        }
+            encoder = FileEncoder(file, jsonData)
 
-        return Response(result)
+            # Check if the file extension is supported
+            if not encoder.is_supported():
+                return Response({'error': 'File Extension is not supported'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            # Encode the file
+            try:
+                encoding = encoder.encode()
+            except:
+                errorDict = {"result": 500}
+                errorString = str(errorDict).replace("'", '"')
+                errorJson = json.loads(errorString)
+                return Response(errorJson)
+            # Build the result
+            result = {
+                'filename': file.name,
+                'filesize': file.size,
+                'result': encoding
+            }
+            return Response(result)
+
+        except:
+            errorDict = {"result": 500}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
 
     def post(self, request, *args, **kwargs):
         """
@@ -303,28 +312,28 @@ class CKANSearchProxy(APIView):
 
 class CKANDownloadProxy(APIView):
     def get(self, request, *args, **kwargs):
-        apiBase = request.GET.get('api')
-        resourceId = request.GET.get('id')
-        doConvert = request.GET.get('convert')
-
-        if apiBase is None or resourceId is None:
-            return Response({'error': 'Invalid parameters.'},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        # FIXME remove Auth
-        r = requests.get(
-            "%s/action/resource_show?id=%s" % (apiBase, resourceId),
-            auth=('odportal', 'odp0rt4l$12'))
-
-        if r.status_code is not 200:
-            errorDict = {"result": 500}
-            errorString = str(errorDict).replace("'", '"')
-            errorJson = json.loads(errorString)
-            return Response(errorJson)
-
-        jsonData = r.json()
-
         try:
+            apiBase = request.GET.get('api')
+            resourceId = request.GET.get('id')
+            doConvert = request.GET.get('convert')
+
+            if apiBase is None or resourceId is None:
+                return Response({'error': 'Invalid parameters.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            # FIXME remove Auth
+            r = requests.get(
+                "%s/action/resource_show?id=%s" % (apiBase, resourceId),
+                auth=('odportal', 'odp0rt4l$12'))
+
+            if r.status_code is not 200:
+                errorDict = {"result": 500}
+                errorString = str(errorDict).replace("'", '"')
+                errorJson = json.loads(errorString)
+                return Response(errorJson)
+
+            jsonData = r.json()
+
             data = requests.get(jsonData['result']['url'])
 
             if data.status_code is not 200:
@@ -338,44 +347,12 @@ class CKANDownloadProxy(APIView):
                                     content_type='application/octet-stream',
                                     status=status.HTTP_200_OK)
 
-            if jsonData['result']['format'] == 'CSV':
-                csvdata = pandas.read_csv(jsonData['result']['url'])
-            elif jsonData['result']['format'] == 'TSV':
-                csvdata = pandas.read_csv(jsonData['result']['url'], sep='\t')
-            elif jsonData['result']['format'] == 'XLS':
-                csvdata = pandas.read_excel(jsonData['result']['url'])
-            else:
-                csvdata = pandas.read_csv(jsonData['result']['url'])
+            file = SimpleUploadedFile(
+                name='file.%s' % (jsonData['result']['format'].lower()),
+                content=data.content,
+                content_type='application/octet+stream')
 
-            if ';' in csvdata.values[len(csvdata.values) / 2][0]:
-                csvdata = pandas.read_csv(jsonData['result']['url'], sep=';')
-
-            colHeadersValues = []
-
-            for q in range(0, len(csvdata.axes[1])):
-                colHeadersValues.append(csvdata.axes[1][q])
-
-            completeArray = []
-            completeArray.append(colHeadersValues)
-
-            rowIndex = 0
-            for x in range(0, len(csvdata.values)):
-                rowArray = []
-                rowIndex = rowIndex + 1
-                for y in range(0, len(csvdata.values[x])):
-                    if pandas.isnull(csvdata.values[x][y]):
-                        rowArray.append("")
-                    else:
-                        rowArray.append(csvdata.values[x][y])
-                completeArray.append(rowArray)
-
-            result = {
-                'filename': 'file.csv',
-                'filesize': 500000,
-                'result': completeArray
-            }
-
-            return Response(result)
+            return Converter.process_file(file, jsonData)
 
         except:
             errorDict = {"result": 500}

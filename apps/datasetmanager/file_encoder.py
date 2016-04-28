@@ -6,6 +6,9 @@ import csv
 import datetime
 import logging
 import os
+import json
+import pandas
+from rest_framework.response import Response
 from xlrd import open_workbook, XL_CELL_DATE, xldate_as_tuple
 
 log = logging.getLogger(__name__)
@@ -26,12 +29,13 @@ class FileEncoder(object):
     }
 
     # file: InMemoryUploadedFile
-    def __init__(self, file):
+    def __init__(self, file, jsonData):
         """
         Initialize file and file_name
         """
         self.file = file
         self.file_name, self.file_ext = os.path.splitext(file.name)
+        self.jsonData = jsonData
 
     def is_supported(self):
         """
@@ -50,24 +54,65 @@ class FileEncoder(object):
         result = getattr(self, self.supported_extensions[self.file_ext])()
         return result
 
-    def _csv_encode(self, delimiter=','):
+    def _csv_encode(self):
         """
         Encodes a CSV file.
         """
-        r = []
-        reader = csv.reader(codecs.iterdecode(self.file, "utf-8"),
-                            delimiter=delimiter)
-        for row in reader:
-            log.debug(str(row))
-            r.append(row)
-        return r
+        csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting = 3)
+
+        if ';' in csvdata.values[len(csvdata.values) / 2][0]:
+            csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';', quoting = 3)
+
+        colHeadersValues = []
+
+        for q in range(0, len(csvdata.axes[1])):
+            colHeadersValues.append(csvdata.axes[1][q])
+
+        completeArray = []
+        completeArray.append(colHeadersValues)
+
+        rowIndex = 0
+
+        for x in range(0, len(csvdata.values)):
+            rowArray = []
+            rowIndex = rowIndex + 1
+            for y in range(0, len(csvdata.values[x])):
+                if pandas.isnull(csvdata.values[x][y]):
+                    rowArray.append("")
+                else:
+                    rowArray.append(csvdata.values[x][y])
+            completeArray.append(rowArray)
+
+        return completeArray
 
     def _tsv_encode(self):
         """
-        Encodes a CSV file
+        Encodes a TSV file
         :return: array of data rows
         """
-        return self._csv_encode(delimiter='\t')
+        tsvdata = pandas.read_csv(self.jsonData['result']['url'], sep='\t')
+
+        colHeadersValues = []
+
+        for q in range(0, len(tsvdata.axes[1])):
+            colHeadersValues.append(tsvdata.axes[1][q])
+
+        completeArray = []
+        completeArray.append(colHeadersValues)
+
+        rowIndex = 0
+        for x in range(0, len(tsvdata.values)):
+            rowArray = []
+            rowIndex = rowIndex + 1
+            for y in range(0, len(tsvdata.values[x])):
+                if pandas.isnull(tsvdata.values[x][y]):
+                    rowArray.append("")
+                else:
+                    rowArray.append(tsvdata.values[x][y])
+            completeArray.append(rowArray)
+
+        return completeArray
+
 
     def _xlsx_encode(self):
         """
