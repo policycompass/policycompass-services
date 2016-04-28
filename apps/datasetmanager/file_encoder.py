@@ -54,10 +54,10 @@ class FileEncoder(object):
         """
         Encodes a CSV file.
         """
-        csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting=3)
+        csvdata = pandas.read_csv(self.jsonData['result']['url'])
 
         if ';' in csvdata.values[len(csvdata.values) / 2][0]:
-            csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';', quoting=3)
+            csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';')
 
         colHeadersValues = []
 
