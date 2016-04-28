@@ -12,7 +12,6 @@ from .serializers import *
 from collections import OrderedDict
 import json
 from pandasdmx import Request
-import pandas
 
 __author__ = 'fki'
 

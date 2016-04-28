@@ -1,14 +1,10 @@
 """
 Converts uploaded files into a tabular data structure
 """
-import codecs
-import csv
 import datetime
 import logging
 import os
-import json
 import pandas
-from rest_framework.response import Response
 from xlrd import open_workbook, XL_CELL_DATE, xldate_as_tuple
 
 log = logging.getLogger(__name__)
@@ -58,10 +54,10 @@ class FileEncoder(object):
         """
         Encodes a CSV file.
         """
-        csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting = 3)
+        csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting=3)
 
         if ';' in csvdata.values[len(csvdata.values) / 2][0]:
-            csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';', quoting = 3)
+            csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';', quoting=3)
 
         colHeadersValues = []
 
@@ -112,7 +108,6 @@ class FileEncoder(object):
             completeArray.append(rowArray)
 
         return completeArray
-
 
     def _xlsx_encode(self):
         """
