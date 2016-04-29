@@ -106,9 +106,10 @@ class Converter(APIView):
         Processes a POST request
         """
         files = request.FILES
+        jsonData = []
 
         if 'file' in files:
-            return Converter.process_file(files['file'])
+            return Converter.process_file(files['file'], jsonData)
 
         return Response({'error': "No Form field 'file'"},
                         status=status.HTTP_400_BAD_REQUEST)
