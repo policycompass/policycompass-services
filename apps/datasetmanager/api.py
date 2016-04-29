@@ -70,28 +70,36 @@ class Converter(APIView):
     Serves the converter resource.
     """
 
-    def process_file(file):
+    def process_file(file, jsonData):
         # File has to be named file
-        encoder = FileEncoder(file)
-
-        # Check if the file extension is supported
-        if not encoder.is_supported():
-            return Response({'error': 'File Extension is not supported'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        # Encode the file
         try:
-            encoding = encoder.encode()
-        except:
-            return Response({'error': "Invalid File"},
-                            status=status.HTTP_400_BAD_REQUEST)
-        # Build the result
-        result = {
-            'filename': file.name,
-            'filesize': file.size,
-            'result': encoding
-        }
+            encoder = FileEncoder(file, jsonData)
 
-        return Response(result)
+            # Check if the file extension is supported
+            if not encoder.is_supported():
+                return Response({'error': 'File Extension is not supported'},
+                                status=status.HTTP_400_BAD_REQUEST)
+            # Encode the file
+            try:
+                encoding = encoder.encode()
+            except:
+                errorDict = {"result": 500}
+                errorString = str(errorDict).replace("'", '"')
+                errorJson = json.loads(errorString)
+                return Response(errorJson)
+            # Build the result
+            result = {
+                'filename': file.name,
+                'filesize': file.size,
+                'result': encoding
+            }
+            return Response(result)
+
+        except:
+            errorDict = {"result": 500}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
 
     def post(self, request, *args, **kwargs):
         """
@@ -303,38 +311,50 @@ class CKANSearchProxy(APIView):
 
 class CKANDownloadProxy(APIView):
     def get(self, request, *args, **kwargs):
-        apiBase = request.GET.get('api')
-        resourceId = request.GET.get('id')
-        doConvert = request.GET.get('convert')
+        try:
+            apiBase = request.GET.get('api')
+            resourceId = request.GET.get('id')
+            doConvert = request.GET.get('convert')
 
-        if apiBase is None or resourceId is None:
-            return Response({'error': 'Invalid parameters.'},
-                            status=status.HTTP_400_BAD_REQUEST)
+            if apiBase is None or resourceId is None:
+                return Response({'error': 'Invalid parameters.'},
+                                status=status.HTTP_400_BAD_REQUEST)
 
-        # FIXME remove Auth
-        r = requests.get(
-            "%s/action/resource_show?id=%s" % (apiBase, resourceId),
-            auth=('odportal', 'odp0rt4l$12'))
+            # FIXME remove Auth
+            r = requests.get(
+                "%s/action/resource_show?id=%s" % (apiBase, resourceId),
+                auth=('odportal', 'odp0rt4l$12'))
 
-        if r.status_code is not 200:
-            return Response({'error': 'Server error. Check the logs.'},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        json = r.json()
+            if r.status_code is not 200:
+                errorDict = {"result": 500}
+                errorString = str(errorDict).replace("'", '"')
+                errorJson = json.loads(errorString)
+                return Response(errorJson)
 
-        data = requests.get(json['result']['url'])
+            jsonData = r.json()
 
-        if data.status_code is not 200:
-            return Response({'error': 'Server error. Check the logs.'},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            data = requests.get(jsonData['result']['url'])
 
-        if doConvert is None:
-            return HttpResponse(data.content,
-                                content_type='application/octet-stream',
-                                status=status.HTTP_200_OK)
+            if data.status_code is not 200:
+                errorDict = {"result": 500}
+                errorString = str(errorDict).replace("'", '"')
+                errorJson = json.loads(errorString)
+                return Response(errorJson)
 
-        file = SimpleUploadedFile(
-            name='file.%s' % (json['result']['format'].lower()),
-            content=data.content,
-            content_type='application/octet+stream')
+            if doConvert is None:
+                return HttpResponse(data.content,
+                                    content_type='application/octet-stream',
+                                    status=status.HTTP_200_OK)
 
-        return Converter.process_file(file)
+            file = SimpleUploadedFile(
+                name='file.%s' % (jsonData['result']['format'].lower()),
+                content=data.content,
+                content_type='application/octet+stream')
+
+            return Converter.process_file(file, jsonData)
+
+        except:
+            errorDict = {"result": 500}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
