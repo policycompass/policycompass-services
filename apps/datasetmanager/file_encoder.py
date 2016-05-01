@@ -1,10 +1,12 @@
 """
 Converts uploaded files into a tabular data structure
 """
+import pandas
+import codecs
+import csv
 import datetime
 import logging
 import os
-import pandas
 from xlrd import open_workbook, XL_CELL_DATE, xldate_as_tuple
 
 log = logging.getLogger(__name__)
@@ -31,7 +33,8 @@ class FileEncoder(object):
         """
         self.file = file
         self.file_name, self.file_ext = os.path.splitext(file.name)
-        self.jsonData = jsonData
+        if len(jsonData) != 0:
+            self.jsonData = jsonData
 
     def is_supported(self):
         """
@@ -50,68 +53,80 @@ class FileEncoder(object):
         result = getattr(self, self.supported_extensions[self.file_ext])()
         return result
 
-    def _csv_encode(self):
+    def _csv_encode(self, delimiter=','):
         """
         Encodes a CSV file.
         """
         try:
-            csvdata = pandas.read_csv(self.jsonData['result']['url'])
+            try:
+                csvdata = pandas.read_csv(self.jsonData['result']['url'])
 
-            if ';' in csvdata.values[len(csvdata.values) / 2][0]:
-                csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';')
+                if ';' in csvdata.values[len(csvdata.values) / 2][0]:
+                    csvdata = pandas.read_csv(self.jsonData['result']['url'], sep=';')
 
+            except:
+                csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting=3)
+
+            colHeadersValues = []
+
+            for q in range(0, len(csvdata.axes[1])):
+                colHeadersValues.append(csvdata.axes[1][q])
+
+            completeArray = []
+            completeArray.append(colHeadersValues)
+
+            rowIndex = 0
+
+            for x in range(0, len(csvdata.values)):
+                rowArray = []
+                rowIndex = rowIndex + 1
+                for y in range(0, len(csvdata.values[x])):
+                    if pandas.isnull(csvdata.values[x][y]):
+                        rowArray.append("")
+                    else:
+                        rowArray.append(csvdata.values[x][y])
+                completeArray.append(rowArray)
+
+            return completeArray
         except:
-            csvdata = pandas.read_csv(self.jsonData['result']['url'], quoting=3)
-
-        colHeadersValues = []
-
-        for q in range(0, len(csvdata.axes[1])):
-            colHeadersValues.append(csvdata.axes[1][q])
-
-        completeArray = []
-        completeArray.append(colHeadersValues)
-
-        rowIndex = 0
-
-        for x in range(0, len(csvdata.values)):
-            rowArray = []
-            rowIndex = rowIndex + 1
-            for y in range(0, len(csvdata.values[x])):
-                if pandas.isnull(csvdata.values[x][y]):
-                    rowArray.append("")
-                else:
-                    rowArray.append(csvdata.values[x][y])
-            completeArray.append(rowArray)
-
-        return completeArray
+            r = []
+            reader = csv.reader(codecs.iterdecode(self.file, "utf-8"),
+                                delimiter=delimiter)
+            for row in reader:
+                log.debug(str(row))
+                r.append(row)
+            return r
 
     def _tsv_encode(self):
         """
         Encodes a TSV file
         :return: array of data rows
         """
-        tsvdata = pandas.read_csv(self.jsonData['result']['url'], sep='\t')
+        try:
+            tsvdata = pandas.read_csv(self.jsonData['result']['url'], sep='\t')
 
-        colHeadersValues = []
+            colHeadersValues = []
 
-        for q in range(0, len(tsvdata.axes[1])):
-            colHeadersValues.append(tsvdata.axes[1][q])
+            for q in range(0, len(tsvdata.axes[1])):
+                colHeadersValues.append(tsvdata.axes[1][q])
 
-        completeArray = []
-        completeArray.append(colHeadersValues)
+            completeArray = []
+            completeArray.append(colHeadersValues)
 
-        rowIndex = 0
-        for x in range(0, len(tsvdata.values)):
-            rowArray = []
-            rowIndex = rowIndex + 1
-            for y in range(0, len(tsvdata.values[x])):
-                if pandas.isnull(tsvdata.values[x][y]):
-                    rowArray.append("")
-                else:
-                    rowArray.append(tsvdata.values[x][y])
-            completeArray.append(rowArray)
+            rowIndex = 0
+            for x in range(0, len(tsvdata.values)):
+                rowArray = []
+                rowIndex = rowIndex + 1
+                for y in range(0, len(tsvdata.values[x])):
+                    if pandas.isnull(tsvdata.values[x][y]):
+                        rowArray.append("")
+                    else:
+                        rowArray.append(tsvdata.values[x][y])
+                completeArray.append(rowArray)
 
-        return completeArray
+            return completeArray
+        except:
+            return self._csv_encode(delimiter='\t')
 
     def _xlsx_encode(self):
         """
