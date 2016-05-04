@@ -16,8 +16,9 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [
-    '193.175.133.246',
-    'localhost',
+    "services-stage.policycompass.eu",
+    "services-prod.policycompass.eu",
+    "localhost"
 ]
 
 with open('/etc/policycompass/secret_key') as f:
