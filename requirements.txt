@@ -17,3 +17,4 @@ drf-compound-fields==0.2.2
 pep8==1.7.0
 flake8==2.5.0
 pandasdmx==0.3.1
+gunicorn==19.4.4
