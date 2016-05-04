@@ -21,5 +21,5 @@ ALLOWED_HOSTS = [
     "localhost"
 ]
 
-with open('/etc/policycompass/secret_key') as f:
+with open('etc/policycompass/secret_key') as f:
     SECRET_KEY = f.read().strip()
