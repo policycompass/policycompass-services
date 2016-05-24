@@ -142,12 +142,7 @@ class DatasetsInVisualizations(models.Model):
     visualization = models.ForeignKey(Visualization, related_name='datasets')
     visualization_query = models.CharField(max_length=800)
     unit = models.CharField(max_length=200, null=True, blank=True, default=None)
-    #scale = models.CharField(max_length=200, null=True, blank=True, default=None)
-    #scale = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True, default=None)
-    #scale = models.CharField(max_length=200, null=True, blank=True, default=None)
-    scale = models.FloatField(null=True, blank=True, default=None)
-    #scale = models.IntegerField(blank=True, null=True)
-    #scale = models.DecimalField(max_digits=10, decimal_places=5, default=None)   
+    scale = models.FloatField(null=True, blank=True, default=None)  
 
     class Meta:
         verbose_name = "Dataset in Visualization"
