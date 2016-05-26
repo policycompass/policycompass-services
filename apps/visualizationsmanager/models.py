@@ -98,11 +98,13 @@ class Visualization(models.Model):
             if self._datasets_in_visualization:
                 for d_datasets in self._datasets_in_visualization:
                     if (d_datasets['dataset']):
+
                         self.datasets.create(
                             visualization=self.id,
                             dataset_id=d_datasets['dataset'],
-                            visualization_query=d_datasets[
-                                'visualization_query']
+                            visualization_query=d_datasets['visualization_query'],
+                            scale=d_datasets['scale'],
+                            unit=d_datasets['unit']
                         )
         else:
 
@@ -122,11 +124,13 @@ class Visualization(models.Model):
 
             if self._datasets_in_visualization:
                 for d_datasets in self._datasets_in_visualization:
+
                     vi_me = DatasetsInVisualizations()
                     vi_me.visualization_id = self.id
                     vi_me.dataset_id = d_datasets['dataset']
-                    vi_me.visualization_query = d_datasets[
-                        'visualization_query']
+                    vi_me.visualization_query = d_datasets['visualization_query']
+                    vi_me.scale = d_datasets['scale']
+                    vi_me.unit = d_datasets['unit']
                     vi_me.save()
 
     def __str__(self):
@@ -137,6 +141,8 @@ class DatasetsInVisualizations(models.Model):
     dataset_id = models.IntegerField()
     visualization = models.ForeignKey(Visualization, related_name='datasets')
     visualization_query = models.CharField(max_length=800)
+    unit = models.CharField(max_length=200, null=True, blank=True, default=None)
+    scale = models.FloatField(null=True, blank=True, default=None)
 
     class Meta:
         verbose_name = "Dataset in Visualization"
