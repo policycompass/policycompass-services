@@ -1,5 +1,4 @@
 import requests
-import xmltodict
 from html.parser import HTMLParser
 import json
 from datetime import date
@@ -22,9 +21,7 @@ def run(start, end, keyword):
             start_date = start_date + "-"
             end_date = end_date + "-"
 
-    title = keyword.replace(" " , "%20")
-
-    url = "https://en.wikipedia.org/w/api.php?action=query&titles="+keyword+"&prop=extracts&format=json"
+    url = "https://en.wikipedia.org/w/api.php?action=query&titles=" + keyword + "&prop=extracts&format=json"
     data = requests.get(url)
     array = data.json()
 
@@ -56,10 +53,11 @@ def run(start, end, keyword):
             valid_date = validDate(startDateList, endDateList, _start, _end)
 
             if valid_date is True:
-                newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/"+keyword, "date":date[0], "endDate":date[1]}
+                newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
                 resultArray.append(newEvent)
 
     return resultArray
+
 
 def createDateLists(event):
     start_year = event['start_year']
@@ -74,6 +72,7 @@ def createDateLists(event):
     _end = [end_year, end_month, end_day]
 
     return [_start, _end]
+
 
 def validDate(start, end, _start, _end):
     if _start[0] == "":
@@ -90,7 +89,6 @@ def validDate(start, end, _start, _end):
     if _end[2] == "":
         _end[2] = '31'
 
-
     date_start = date(int(start[0]), int(start[1]), int(start[2]))
     date_end = date(int(end[0]), int(end[1]), int(end[2]))
     _date_start = date(int(_start[0]), int(_start[1]), int(_start[2]))
@@ -100,6 +98,7 @@ def validDate(start, end, _start, _end):
         return True
     else:
         return False
+
 
 def calculateDate(result):
     startDate = ""
@@ -131,16 +130,20 @@ def calculateDate(result):
 
     return [startDate, endDate]
 
+
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
         self.strict = False
-        self.convert_charrefs= True
+        self.convert_charrefs = True
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
+
 
 def strip_tags(html):
     s = MLStripper()
