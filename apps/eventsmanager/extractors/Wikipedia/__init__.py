@@ -28,27 +28,29 @@ def run(start, end, keyword):
         resultJson = result.json()
         resultJson = resultJson['extraction_result']
 
+        if result:
+            resultArray = []
+            for event in resultJson:
+                date = calculateDate(event)
+
+                dates = createDateLists(event)
+
+                _start = dates[0]
+                _end = dates[1]
+
+                valid_date = validDate(startDateList, endDateList, _start, _end)
+
+                if valid_date is True:
+                    newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
+                    resultArray.append(newEvent)
+
+        return resultArray
+
     except:
         result = False
         return []
 
-    if result:
-        resultArray = []
-        for event in resultJson:
-            date = calculateDate(event)
 
-            dates = createDateLists(event)
-
-            _start = dates[0]
-            _end = dates[1]
-
-            valid_date = validDate(startDateList, endDateList, _start, _end)
-
-            if valid_date is True:
-                newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
-                resultArray.append(newEvent)
-
-    return resultArray
 
 
 def createDateLists(event):
