@@ -2,24 +2,17 @@ import requests
 from html.parser import HTMLParser
 import json
 from datetime import date
+from django.conf import settings
 
 
 def run(start, end, keyword):
     print("Wikipedia Extractor: " + start + " , " + end + " , " + keyword)
 
+    if end is None:
+        end = '2099-01-01'
+
     startDateList = start.split("-")
     endDateList = end.split("-")
-
-    start_date = ""
-    end_date = ""
-
-    for index in reversed(range(3)):
-        start_date = start_date + startDateList[index]
-        end_date = end_date + endDateList[index]
-
-        if index != 0:
-            start_date = start_date + "-"
-            end_date = end_date + "-"
 
     url = "https://en.wikipedia.org/w/api.php?action=query&titles=" + keyword + "&prop=extracts&format=json"
     data = requests.get(url)
@@ -31,12 +24,11 @@ def run(start, end, keyword):
         wiki_text = strip_tags(wiki_text)
         headers = {'content-type': 'application/json'}
 
-        result = requests.post("http://localhost:5000/extraction", data=json.dumps({"text": wiki_text}), headers=headers)
+        result = requests.post(settings.PC_SERVICES['references']['eventminer_url'], data=json.dumps({"text": wiki_text}), headers=headers)
         resultJson = result.json()
         resultJson = resultJson['extraction_result']
 
     except:
-        print("error")
         result = False
         return []
 
@@ -83,11 +75,11 @@ def validDate(start, end, _start, _end):
         _start[2] = '01'
 
     if _end[0] == "":
-        _end[0] = '2099'
+        _end[0] = end[0]
     if _end[1] == "":
-        _end[1] = '12'
+        _end[1] = end[1]
     if _end[2] == "":
-        _end[2] = '31'
+        _end[2] = end[2]
 
     date_start = date(int(start[0]), int(start[1]), int(start[2]))
     date_end = date(int(end[0]), int(end[1]), int(end[2]))
