@@ -43,7 +43,6 @@ def run(start, end, keyword):
                 if valid_date is True:
                     newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
                     resultArray.append(newEvent)
-
         return resultArray
 
     except:
@@ -83,6 +82,7 @@ def validDate(start, end, _start, _end):
     if _end[2] == "":
         _end[2] = end[2]
 
+
     date_start = date(int(start[0]), int(start[1]), int(start[2]))
     date_end = date(int(end[0]), int(end[1]), int(end[2]))
     _date_start = date(int(_start[0]), int(_start[1]), int(_start[2]))
@@ -107,11 +107,14 @@ def calculateDate(result):
     else:
         startDate = startDate + "01-"
 
-    startDate = startDate + result['start_year']
+    if result['start_year']:
+        startDate = startDate + result['start_year']
+    else:
+        startDate = startDate + "0001"
 
     if result['end_year']:
         if result['end_day']:
-            endDate = endDate + result['day'] + "-"
+            endDate = endDate + result['end_day'] + "-"
         else:
             endDate = endDate + "01-"
 
