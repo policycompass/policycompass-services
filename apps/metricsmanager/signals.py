@@ -9,6 +9,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from .models import Metric
 from apps.searchmanager.signalhandlers import search_index_update, search_index_delete
+from apps.datasetmanager import internal_api
 
 
 @receiver(post_save, sender=Metric)
@@ -22,3 +23,9 @@ def update_document_on_search_service(sender, **kwargs):
 def delete_document_on_search_service(sender, **kwargs):
     instance = kwargs['instance']
     search_index_delete('metric', instance.id)
+
+
+@receiver(post_delete, sender=Metric)
+def remove_metric_link_from_datasets(sender, **kwargs):
+    instance = kwargs['instance']
+    internal_api.remove_metric_link(instance.id)

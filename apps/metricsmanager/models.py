@@ -2,9 +2,6 @@ from jsonfield import JSONField
 
 from django.db import models
 from django.core.validators import RegexValidator
-from django.db.models.signals import post_delete
-
-from apps.datasetmanager.models import Dataset
 
 
 class Metric(models.Model):
@@ -26,14 +23,3 @@ class Metric(models.Model):
 
     def __str__(self):
         return self.title
-
-
-def clean_datasets(sender, instance, **kwargs):
-    id = instance.id
-    datasets = Dataset.objects.filter(metric_id=id)
-    for dataset in datasets:
-        dataset.metric_id = None
-        dataset.description = ''
-        dataset.save()
-
-post_delete.connect(clean_datasets, sender=Metric)
