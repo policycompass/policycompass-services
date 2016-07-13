@@ -41,3 +41,14 @@ def store(dataset):
     dataset.data = dataset.data.get_json()
     dataset.save()
     return dataset.id
+
+
+def remove_metric_link(metric_id):
+    """Removes Link to Metric from all Datasets that are linked to a given metric.
+    Is called by post_delete signal in metric.
+    """
+    datasets = Dataset.objects.filter(metric_id=metric_id)
+    for dataset in datasets:
+        dataset.metric_id = None
+        dataset.description = ''
+        dataset.save()

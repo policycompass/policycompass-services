@@ -1,6 +1,7 @@
+from jsonfield import JSONField
+
 from django.db import models
 from django.core.validators import RegexValidator
-from jsonfield import JSONField
 
 
 class Metric(models.Model):
@@ -19,3 +20,6 @@ class Metric(models.Model):
     indicator_id = models.IntegerField()
     formula = models.TextField()
     variables = JSONField()
+
+    def __str__(self):
+        return self.title
