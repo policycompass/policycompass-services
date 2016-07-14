@@ -9,6 +9,7 @@ def run(start, end, keyword):
     print("Wikipedia Extractor: " + start + " , " + end + " , " + keyword)
 
     if end is None:
+        print("hallo")
         end = '2099-01-01'
 
     startDateList = start.split("-")
@@ -50,8 +51,6 @@ def run(start, end, keyword):
         return []
 
 
-
-
 def createDateLists(event):
     start_year = event['start_year']
     start_month = event['start_month']
@@ -76,17 +75,23 @@ def validDate(start, end, _start, _end):
         _start[2] = '01'
 
     if _end[0] == "":
-        _end[0] = end[0]
+        if end[0] != "2099":
+            print("false")
+            return False
+        else:
+            _end[0] = end[0]
     if _end[1] == "":
         _end[1] = end[1]
     if _end[2] == "":
         _end[2] = end[2]
 
-
     date_start = date(int(start[0]), int(start[1]), int(start[2]))
     date_end = date(int(end[0]), int(end[1]), int(end[2]))
     _date_start = date(int(_start[0]), int(_start[1]), int(_start[2]))
     _date_end = date(int(_end[0]), int(_end[1]), int(_end[2]))
+
+    print("end date " , date_end)
+    print("_end date " , _date_end)
 
     if date_start.isoformat() <= _date_start.isoformat() and date_end.isoformat() >= _date_end.isoformat():
         return True
