@@ -41,7 +41,10 @@ def run(start, end, keyword):
                 valid_date = validDate(startDateList, endDateList, _start, _end)
 
                 if valid_date is True:
-                    newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
+                    if date[1] != "":
+                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
+                    else:
+                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0]}
                     resultArray.append(newEvent)
         return resultArray
 
