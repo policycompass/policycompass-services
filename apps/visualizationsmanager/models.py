@@ -30,6 +30,7 @@ class Visualization(models.Model):
     visualization_type_id = models.IntegerField()
     status_flag_id = models.IntegerField()
     filter_configuration = models.CharField(max_length=800)
+    is_draft = models.BooleanField(blank=False, default=False)
 
     _historical_events_in_visualization = None
 
