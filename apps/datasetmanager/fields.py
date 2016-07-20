@@ -3,6 +3,7 @@ from collections import OrderedDict
 from django.core.exceptions import ValidationError
 from .dataset_data import DatasetData, DatasetDataTransformer
 import logging
+from django.http import Http404
 
 log = logging.getLogger(__name__)
 
@@ -12,6 +13,8 @@ __author__ = 'fki'
 class DataField(WritableField):
     def field_to_native(self, obj, field):
         params = self.context['request'].QUERY_PARAMS
+        if obj is None:
+            raise Http404("Dataset does not exist")
         dataset_data = DatasetData.from_json(obj.data)
 
         if 'time_resolution' in params and params['time_resolution']:
