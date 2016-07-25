@@ -38,13 +38,15 @@ def run(start, end, keyword):
                 _start = dates[0]
                 _end = dates[1]
 
-                valid_date = validDate(startDateList, endDateList, _start, _end)
+                valid_dates = validDate(startDateList, endDateList, _start, _end)
 
-                if valid_date is True:
+                print("start " , valid_dates)
+
+                if len(valid_dates) > 0:
                     if date[1] != "":
-                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0], "endDate": date[1]}
+                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": valid_dates[0], "endDate": valid_dates[1]}
                     else:
-                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": date[0]}
+                        newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": valid_dates[0]}
                     resultArray.append(newEvent)
         return resultArray
 
@@ -92,9 +94,9 @@ def validDate(start, end, _start, _end):
     _date_end = date(int(_end[0]), int(_end[1]), int(_end[2]))
 
     if date_start.isoformat() <= _date_start.isoformat() and date_end.isoformat() >= _date_end.isoformat():
-        return True
+        return [_date_start, _date_end]
     else:
-        return False
+        return []
 
 
 def calculateDate(result):
