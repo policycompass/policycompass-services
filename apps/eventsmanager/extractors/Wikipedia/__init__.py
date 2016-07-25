@@ -40,7 +40,7 @@ def run(start, end, keyword):
 
                 valid_dates = validDate(startDateList, endDateList, _start, _end)
 
-                print("start " , valid_dates)
+                print("start ", valid_dates)
 
                 if len(valid_dates) > 0:
                     if date[1] != "":
