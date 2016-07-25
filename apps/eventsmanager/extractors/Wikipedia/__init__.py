@@ -40,8 +40,6 @@ def run(start, end, keyword):
 
                 valid_dates = validDate(startDateList, endDateList, _start, _end)
 
-                print("start ", valid_dates)
-
                 if len(valid_dates) > 0:
                     if date[1] != "":
                         newEvent = {"title": event['event'], "description": event['event'], "url": "https://en.wikipedia.org/wiki/" + keyword, "date": valid_dates[0], "endDate": valid_dates[1]}
@@ -80,7 +78,7 @@ def validDate(start, end, _start, _end):
 
     if _end[0] == "":
         if end[0] != "2099":
-            return False
+            return []
         else:
             _end[0] = end[0]
     if _end[1] == "":
