@@ -12,7 +12,7 @@ class VisualizationType(models.Model):
 class Visualization(models.Model):
     # Meta Data by User Input
     title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    description = models.TextField()
     keywords = models.CharField(max_length=200, blank=True)
     # issued = models.DateTimeField()
     # publisher = models.CharField(max_length=200, blank=True)
