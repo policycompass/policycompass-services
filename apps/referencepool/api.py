@@ -60,12 +60,31 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
 
         queryset = Individual.objects.all()
         data_class = self.request.QUERY_PARAMS.get('class', None)
+        search_query = self.request.QUERY_PARAMS.get('q', None)
         if data_class is not None:
             try:
                 data_class = int(data_class)
                 queryset = queryset.filter(data_class__id=data_class)
             except ValueError:
                 queryset = queryset.filter(data_class__title=data_class)
+        if search_query is not None:
+            try:
+                found_individuals = False
+                _queryset = []
+                while found_individuals is False and len(search_query) > 3:
+                    _queryset = queryset
+                    _queryset = _queryset.filter(title__icontains=search_query)
+                    if len(_queryset) > 0:
+                        found_individuals = True
+                    else:
+                        search_query = search_query[:-1]
+                if found_individuals is True:
+                    queryset = _queryset
+                else:
+                    queryset = []
+            except:
+                queryset = queryset
+
         return queryset
 
 
