@@ -57,10 +57,10 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = IndividualSerializer
 
     def get_queryset(self):
-
         queryset = Individual.objects.all()
         data_class = self.request.QUERY_PARAMS.get('class', None)
         search_query = self.request.QUERY_PARAMS.get('q', None)
+        search_query_backup = search_query
         if data_class is not None:
             try:
                 data_class = int(data_class)
@@ -72,16 +72,30 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
                 found_individuals = False
                 _queryset = []
                 while found_individuals is False and len(search_query) > 3:
-                    _queryset = queryset
-                    _queryset = _queryset.filter(title__icontains=search_query)
-                    if len(_queryset) > 0:
-                        found_individuals = True
+                    q = queryset
+                    q = q.filter(title__icontains=search_query)
+                    if len(q) > 0:
+                        for i in range(0, len(q)):
+                            if q[i] not in _queryset:
+                                _queryset.append(q[i])
+                                found_individuals = True
                     else:
                         search_query = search_query[:-1]
-                if found_individuals is True:
-                    queryset = _queryset
-                else:
-                    queryset = []
+
+                search_query = search_query_backup
+                found_individuals = False
+                while found_individuals is False and len(search_query) > 3:
+                    q = queryset
+                    q = q.filter(title__icontains=search_query)
+                    if len(q) > 0:
+                        for i in range(0, len(q)):
+                            if q[i] not in _queryset:
+                                _queryset.append(q[i])
+                            found_individuals = True
+                    else:
+                        search_query = search_query[1:]
+
+                queryset = _queryset
             except:
                 queryset = queryset
 
