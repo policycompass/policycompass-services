@@ -5187,6 +5187,979 @@
     },
     "pk": 279,
     "model": "referencepool.individual"
+  },
+  {
+    "fields": {
+      "title": "Common Public Attribution License 1.0",
+      "identifier": "CPAL-1.0",
+      "url": "http://www.opensource.org/licenses/CPAL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "title": "Historical Permission Notice and Disclaimer",
+      "identifier": "HPND",
+      "url": "http://www.opensource.org/licenses/HPND"
+    },
+    "model": "referencepool.license",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "title": "Attribution Assurance Licenses",
+      "identifier": "AAL",
+      "url": "http://www.opensource.org/licenses/AAL"
+    },
+    "model": "referencepool.license",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "title": "Sun Industry Standards Source License 1.1",
+      "identifier": "SISSL",
+      "url": "http://opensource.org/licenses/SISSL"
+    },
+    "model": "referencepool.license",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "title": "Other (Not Open)",
+      "identifier": "other-closed",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "title": "Open Software License 3.0",
+      "identifier": "OSL-3.0",
+      "url": "http://www.opensource.org/licenses/OSL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "title": "OCLC Research Public License 2.0",
+      "identifier": "OCLC-2.0",
+      "url": "http://www.opensource.org/licenses/OCLC-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "title": "Other (Attribution)",
+      "identifier": "other-at",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "title": "Creative Commons Attribution-NonCommercial 4.0",
+      "identifier": "CC-BY-NC-4.0",
+      "url": "https://creativecommons.org/licenses/by-nc/4.0/"
+    },
+    "model": "referencepool.license",
+    "pk": 9
+  },
+  {"fields": {
+    "title": "Q Public License 1.0",
+    "identifier": "QPL-1.0",
+    "url": "http://www.opensource.org/licenses/QPL-1.0"
+  },
+    "model": "referencepool.license",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "title": "Entessa Public License",
+      "identifier": "Entessa",
+      "url": "http://www.opensource.org/licenses/Entessa"
+    },
+    "model": "referencepool.license",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "title": "BSD 2-Clause \"Simplified\" or \"FreeBSD\" License (BSD-2-Clause)",
+      "identifier": "BSD-2-Clause",
+      "url": "http://www.opensource.org/licenses/BSD-2-Clause"
+    },
+    "model": "referencepool.license",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "title": "Microsoft Reciprocal License",
+      "identifier": "MS-RL",
+      "url": "http://www.opensource.org/licenses/MS-RL"
+    },
+    "model": "referencepool.license",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "title": "IPA Font License",
+      "identifier": "IPA",
+      "url": "http://www.opensource.org/licenses/IPA"
+    },
+    "model": "referencepool.license",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "title": "Unlicense",
+      "identifier": "Unlicense",
+      "url": "http://unlicense.org/"
+    },
+    "model": "referencepool.license",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "title": "Open Government Licence 1.0 (United Kingdom)",
+      "identifier": "OGL-UK-1.0",
+      "url": "http://reference.data.gov.uk/id/open-government-licence"
+    },
+    "model": "referencepool.license",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "title": "Mozilla Public License 1.0",
+      "identifier": "MPL-1.0",
+      "url": "http://www.opensource.org/licenses/MPL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "title": "IBM Public License 1.0",
+      "identifier": "IPL-1.0",
+      "url": "http://www.opensource.org/licenses/IPL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "title": "Creative Commons Attribution 4.0",
+      "identifier": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "model": "referencepool.license",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "title": "Geogratis",
+      "identifier": "geogratis",
+      "url": "http://geogratis.gc.ca/geogratis/licenceGG"
+    },
+    "model": "referencepool.license",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "title": "Open Data Commons Open Database License 1.0",
+      "identifier": "ODbL-1.0",
+      "url": "http://www.opendefinition.org/licenses/odc-odbl"
+    },
+    "model": "referencepool.license",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "title": "CC0 1.0",
+      "identifier": "CC0-1.0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "model": "referencepool.license",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "title": "UK Click Use PSI",
+      "identifier": "ukclickusepsi",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "title": "Apache Software License 2.0",
+      "identifier": "Apache-2.0",
+      "url": "http://www.opensource.org/licenses/Apache-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "title": "Lucent Public License (\"Plan9\") 1.0",
+      "identifier": "LPL-1.0",
+      "url": "http://www.opensource.org/licenses/LPL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "title": "Open Data Commons Public Domain Dedication and Licence 1.0",
+      "identifier": "ODC-PDDL-1.0",
+      "url": "http://www.opendefinition.org/licenses/odc-pddl"
+    },
+    "model": "referencepool.license",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "title": "Sybase Open Watcom Public License 1.0",
+      "identifier": "Watcom-1.0",
+      "url": "http://www.opensource.org/licenses/Watcom-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "title": "Common Development and Distribution License 1.0",
+      "identifier": "CDDL-1.0",
+      "url": "http://www.opensource.org/licenses/CDDL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "title": "Other (Non-Commercial)",
+      "identifier": "other-nc",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "title": "zlib/libpng license",
+      "identifier": "Zlib",
+      "url": "http://www.opensource.org/licenses/Zlib"
+    },
+    "model": "referencepool.license",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "title": "Vovida Software License 1.0",
+      "identifier": "VSL-1.0",
+      "url": "http://www.opensource.org/licenses/VSL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "title": "Design Science License",
+      "identifier": "DSL", "url": "http://www.opendefinition.org/licenses/dsl"
+    },
+    "model": "referencepool.license",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "title": "University of Illinois/NCSA Open Source License",
+      "identifier": "NCSA",
+      "url": "http://www.opensource.org/licenses/NCSA"
+    },
+    "model": "referencepool.license",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "title": "Frameworx License 1.0",
+      "identifier": "Frameworx-1.0",
+      "url": "http://www.opensource.org/licenses/Frameworx-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "title": "Lucent Public License 1.02",
+      "identifier": "LPL-1.02",
+      "url": "http://www.opensource.org/licenses/LPL-1.02"
+    },
+    "model": "referencepool.license",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "title": "Ricoh Source Code Public License",
+      "identifier": "RSCPL",
+      "url": "http://www.opensource.org/licenses/RSCPL"
+    },
+    "model": "referencepool.license",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "title": "LaTeX Project Public License 1.3c",
+      "identifier": "LPPL-1.3c",
+      "url": "http://www.opensource.org/licenses/LPPL-1.3c"
+    },
+    "model": "referencepool.license",
+    "pk": 37
+  },
+  {"fields": {
+    "title": "UK Crown Copyright with data.gov.uk rights",
+    "identifier": "ukcrown-withrights",
+    "url": ""
+  },
+    "model": "referencepool.license",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "title": "Apple Public Source License 2.0",
+      "identifier": "APSL-2.0",
+      "url": "http://www.opensource.org/licenses/APSL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "title": "Boost Software License 1.0",
+      "identifier": "BSL-1.0",
+      "url": "http://www.opensource.org/licenses/BSL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "title": "Against DRM",
+      "identifier": "Against-DRM",
+      "url": "http://www.opendefinition.org/licenses/against-drm"
+    },
+    "model": "referencepool.license",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "title": "GNU General Public License 3.0",
+      "identifier": "GPL-3.0",
+      "url": "http://www.opensource.org/licenses/GPL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "title": "Open Government License 2.0 (Canada)",
+      "identifier": "OGL-Canada-2.0",
+      "url": "http://data.gc.ca/eng/open-government-licence-canada"
+    },
+    "model": "referencepool.license",
+    "pk": 43
+  },
+  {
+    "fields": {
+      "title": "Open Data Commons Attribution License 1.0",
+      "identifier": "ODC-BY-1.0",
+      "url": "http://www.opendefinition.org/licenses/odc-by"
+    },
+    "model": "referencepool.license",
+    "pk": 44
+  },
+  {
+    "fields": {
+      "title": "Nokia Open Source License",
+      "identifier": "Nokia",
+      "url": "http://www.opensource.org/licenses/Nokia"
+    },
+    "model": "referencepool.license",
+    "pk": 45
+  },
+  {
+    "fields": {
+      "title": "Reciprocal Public License 1.5",
+      "identifier": "RPL-1.5",
+      "url": "http://www.opensource.org/licenses/RPL-1.5"
+    },
+    "model": "referencepool.license",
+    "pk": 46
+  },
+  {
+    "fields": {
+      "title": "Python License 2.0",
+      "identifier": "Python-2.0",
+      "url": "http://www.opensource.org/licenses/Python-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 47
+  },
+  {
+    "fields": {
+      "title": "Higher Education Statistics Agency Copyright with data.gov.uk rights",
+      "identifier": "hesa-withrights",
+      "url": "http://www.hesa.ac.uk/index.php?option=com_content&task=view&id=2619&Itemid=209"
+    },
+    "model": "referencepool.license",
+    "pk": 48
+  },
+  {
+    "fields": {
+      "title": "Mozilla Public License 2.0",
+      "identifier": "MPL-2.0",
+      "url": "http://www.opensource.org/licenses/MPL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 49
+  },
+  {
+    "fields": {
+      "title": "Simple Public License 2.0",
+      "identifier": "SimPL-2.0",
+      "url": "http://www.opensource.org/licenses/SimPL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 50
+  },
+  {
+    "fields": {
+      "title": "Other (Open)",
+      "identifier": "other-open",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 51
+  },
+  {
+    "fields": {
+      "title": "Met Office UK Climate Projections Licence Agreement",
+      "identifier": "met-office-cp",
+      "url": "http://www.metoffice.gov.uk/climatechange/science/monitoring/ukcp09/UKCIP08_license_agreement_130709.pdf"
+    },
+    "model": "referencepool.license",
+    "pk": 52
+  },
+  {
+    "fields": {
+      "title": "MITRE Collaborative Virtual Workspace License (CVW License)",
+      "identifier": "mitre",
+      "url": "http://opensource.org/licenses/CVW"
+    },
+    "model": "referencepool.license",
+    "pk": 53
+  },
+  {
+    "fields": {
+      "title": "Non-Profit Open Software License 3.0",
+      "identifier": "NPOSL-3.0",
+      "url": "http://www.opensource.org/licenses/NPOSL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 54
+  },
+  {
+    "fields": {
+      "title": "Academic Free License 3.0",
+      "identifier": "AFL-3.0",
+      "url": "http://www.opensource.org/licenses/AFL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 55
+  },
+  {
+    "fields": {
+      "title": "Other (Public Domain)",
+      "identifier": "other-pd",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 56
+  },
+  {
+    "fields": {
+      "title": "MirOS Licence",
+      "identifier": "MirOS",
+      "url": "http://www.opensource.org/licenses/MirOS"
+    },
+    "model": "referencepool.license",
+    "pk": 57
+  },
+  {
+    "fields": {
+      "title": "BitTorrent Open Source License 1.1",
+      "identifier": "BitTorrent-1.1",
+      "url": "https://spdx.org/licenses/BitTorrent-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 58
+  },
+  {
+    "fields": {
+      "title": "Adaptive Public License 1.0",
+      "identifier": "APL-1.0",
+      "url": "http://www.opensource.org/licenses/APL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 59
+  },
+  {
+    "fields": {
+      "title": "Zope Public License 2.0",
+      "identifier": "ZPL-2.0",
+      "url": "http://www.opensource.org/licenses/ZPL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 60
+  },
+  {
+    "fields": {
+      "title": "PostgreSQL License",
+      "identifier": "PostgreSQL",
+      "url": "http://www.opensource.org/licenses/PostgreSQL"
+    },
+    "model": "referencepool.license",
+    "pk": 61
+  },
+  {
+    "fields": {
+      "title": "GNU Free Documentation License 1.3 with no cover texts and no invariant sections",
+      "identifier": "GFDL-1.3-no-cover-texts-no-invariant-sections",
+      "url": "http://www.opendefinition.org/licenses/gfdl"
+    },
+    "model": "referencepool.license",
+    "pk": 62
+  },
+  {
+    "fields": {
+      "title": "Open Government Licence 2.0 (United Kingdom)",
+      "identifier": "OGL-UK-2.0",
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"
+    },
+    "model": "referencepool.license",
+    "pk": 63
+  },
+  {
+    "fields": {
+      "title": "MIT License",
+      "identifier": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    },
+    "model": "referencepool.license",
+    "pk": 64
+  },
+  {
+    "fields": {
+      "title": "Open Group Test Suite License",
+      "identifier": "OGTSL",
+      "url": "http://www.opensource.org/licenses/OGTSL"
+    },
+    "model": "referencepool.license",
+    "pk": 65
+  },
+  {
+    "fields": {
+      "title": "Apache Software License 1.1",
+      "identifier": "Apache-1.1",
+      "url": "http://www.opensource.org/licenses/Apache-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 66
+  },
+  {
+    "fields": {
+      "title": "Free Art License 1.3",
+      "identifier": "FAL-1.3",
+      "url": "http://www.opendefinition.org/licenses/fal"
+    },
+    "model": "referencepool.license",
+    "pk": 67
+  },
+  {
+    "fields": {
+      "title": "ISC License",
+      "identifier": "ISC",
+      "url": "http://www.opensource.org/licenses/ISC"
+    },
+    "model": "referencepool.license",
+    "pk": 68
+  },
+  {
+    "fields": {
+      "title": "X.Net License",
+      "identifier": "Xnet",
+      "url": "http://www.opensource.org/licenses/Xnet"
+    },
+    "model": "referencepool.license",
+    "pk": 69
+  },
+  {
+    "fields": {
+      "title": "BSD 3-Clause \"New\" or \"Revised\" License (BSD-3-Clause)",
+      "identifier": "BSD-3-Clause",
+      "url": "http://www.opensource.org/licenses/BSD-3-Clause"
+    },
+    "model": "referencepool.license",
+    "pk": 70
+  },
+  {
+    "fields": {
+      "title": "Sun Public License 1.0",
+      "identifier": "SPL-1.0",
+      "url": "http://www.opensource.org/licenses/SPL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 71
+  },
+  {
+    "fields": {
+      "title": "UK Crown Copyright",
+      "identifier": "ukcrown",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 72
+  },
+  {
+    "fields": {
+      "title": "Mozilla Public License 1.1",
+      "identifier": "MPL-1.1",
+      "url": "http://www.opensource.org/licenses/MPL-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 73
+  },
+  {
+    "fields": {
+      "title": "CUA Office Public License 1.0",
+      "identifier": "CUA-OPL-1.0",
+      "url": "http://www.opensource.org/licenses/CUA-OPL-1.0"
+    },
+    "model": "referencepool.license", "pk": 74
+  },
+  {
+    "fields": {
+      "title": "Statistics Canada: Data Liberation Initiative (DLI) - Model Data Use Licence",
+      "identifier": "dli-model-use",
+      "url": "http://data.library.ubc.ca/datalib/geographic/DMTI/license.html"
+    },
+    "model": "referencepool.license",
+    "pk": 75
+  },
+  {
+    "fields": {
+      "title": "GNU Lesser General Public License 3.0",
+      "identifier": "LGPL-3.0",
+      "url": "http://www.opensource.org/licenses/LGPL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 76
+  },
+  {
+    "fields": {
+      "title": "Nethack General Public License",
+      "identifier": "NGPL",
+      "url": "http://www.opensource.org/licenses/NGPL"
+    },
+    "model": "referencepool.license",
+    "pk": 77
+  },
+  {
+    "fields": {
+      "title": "Eclipse Public License 1.0",
+      "identifier": "EPL-1.0",
+      "url": "http://www.opensource.org/licenses/EPL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 78
+  },
+  {
+    "fields": {
+      "title": "GNU General Public License 2.0",
+      "identifier": "GPL-2.0",
+      "url": "http://www.opensource.org/licenses/GPL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 79
+  },
+  {
+    "fields": {
+      "title": "W3C License",
+      "identifier": "W3C",
+      "url": "http://www.opensource.org/licenses/W3C"
+    },
+    "model": "referencepool.license",
+    "pk": 80
+  },
+  {
+    "fields": {
+      "title": "Creative Commons Attribution Share-Alike 4.0",
+      "identifier": "CC-BY-SA-4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "model": "referencepool.license",
+    "pk": 81
+  },
+  {
+    "fields": {
+      "title": "EU DataGrid Software License",
+      "identifier": "EUDatagrid",
+      "url": "http://www.opensource.org/licenses/EUDatagrid"
+    },
+    "model": "referencepool.license",
+    "pk": 82
+  },
+  {
+    "fields": {
+      "title": "RealNetworks Public Source License 1.0",
+      "identifier": "RPSL-1.0",
+      "url": "http://www.opensource.org/licenses/RPSL-1.0"
+    },
+    "model": "referencepool.license",
+    "pk": 83
+  },
+  {
+    "fields": {
+      "title": "Open Font License 1.1",
+      "identifier": "OFL-1.1",
+      "url": "http://www.opensource.org/licenses/OFL-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 84
+  },
+  {
+    "fields": {
+      "title": "Motosoto License",
+      "identifier": "Motosoto",
+      "url": "http://www.opensource.org/licenses/Motosoto"
+    },
+    "model": "referencepool.license",
+    "pk": 85
+  },
+  {
+    "fields": {
+      "title": "Sleepycat License",
+      "identifier": "Sleepycat",
+      "url": "http://www.opensource.org/licenses/Sleepycat"
+    },
+    "model": "referencepool.license",
+    "pk": 86
+  },
+  {
+    "fields": {
+      "title": "wxWindows Library License",
+      "identifier": "WXwindows",
+      "url": "http://www.opensource.org/licenses/WXwindows"
+    },
+    "model": "referencepool.license",
+    "pk": 87
+  },
+  {
+    "fields": {
+      "title": "PHP License 3.0",
+      "identifier": "PHP-3.0",
+      "url": "http://www.opensource.org/licenses/PHP-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 88},
+  {
+    "fields": {
+      "title": "Eiffel Forum License 2.0",
+      "identifier": "EFL-2.0",
+      "url": "http://www.opensource.org/licenses/EFL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 89
+  },
+  {
+    "fields": {
+      "title": "GNU Lesser General Public License 2.1",
+      "identifier": "LGPL-2.1",
+      "url": "http://www.opensource.org/licenses/LGPL-2.1"
+    },
+    "model": "referencepool.license",
+    "pk": 90
+  },
+  {
+    "fields": {
+      "title": "CeCILL License 2.1",
+      "identifier": "CECILL-2.1",
+      "url": "http://www.opensource.org/licenses/CECILL-2.1"
+    },
+    "model": "referencepool.license",
+    "pk": 91
+  },
+  {
+    "fields": {
+      "title": "CNRI Python License",
+      "identifier": "CNRI-Python",
+      "url": "http://www.opensource.org/licenses/CNRI-Python"
+    },
+    "model": "referencepool.license",
+    "pk": 92
+  },
+  {
+    "fields": {
+      "title": "Talis Community License",
+      "identifier": "Talis",
+      "url": "http://www.opendefinition.org/licenses/tcl"
+    },
+    "model": "referencepool.license",
+    "pk": 93
+  },
+  {
+    "fields": {
+      "title": "Computer Associates Trusted Open Source License 1.1 (CATOSL-1.1)",
+      "identifier": "CATOSL-1.1",
+      "url": "http://www.opensource.org/licenses/CATOSL-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 94
+  },
+  {
+    "fields": {
+      "title": "Microsoft Public License",
+      "identifier": "MS-PL",
+      "url": "http://www.opensource.org/licenses/MS-PL"
+    },
+    "model": "referencepool.license",
+    "pk": 95
+  },
+  {
+    "fields": {
+      "title": "License Not Specified",
+      "identifier": "notspecified",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 96
+  },
+  {
+    "fields": {
+      "title": "Artistic License 2.0",
+      "identifier": "Artistic-2.0",
+      "url": "http://www.opensource.org/licenses/Artistic-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 97
+  },
+  {
+    "fields": {
+      "title": "Educational Community License 2.0",
+      "identifier": "ECL-2.0",
+      "url": "http://www.opensource.org/licenses/ECL-2.0"
+    },
+    "model": "referencepool.license",
+    "pk": 98
+  },
+  {
+    "fields": {
+      "title": "Fair License",
+      "identifier": "Fair",
+      "url": "http://www.opensource.org/licenses/Fair"
+    },
+    "model": "referencepool.license",
+    "pk": 99
+  },
+  {
+    "fields": {
+      "title": "UK PSI Public Sector Information",
+      "identifier": "ukpsi",
+      "url": "http://www.opendefinition.org/licenses/ukpsi"
+    },
+    "model": "referencepool.license",
+    "pk": 100
+  },
+  {
+    "fields": {
+      "title": "Intel Open Source License",
+      "identifier": "Intel",
+      "url": "http://www.opensource.org/licenses/Intel"
+    },
+    "model": "referencepool.license",
+    "pk": 101
+  },
+  {
+    "fields": {
+      "title": "Local Authority Copyright with data.gov.uk rights",
+      "identifier": "localauth-withrights",
+      "url": ""
+    },
+    "model": "referencepool.license",
+    "pk": 102
+  },
+  {
+    "fields": {
+      "title": "Open Government Licence 3.0 (United Kingdom)",
+      "identifier": "OGL-UK-3.0",
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"},
+    "model": "referencepool.license",
+    "pk": 103},
+  {
+    "fields": {
+      "title": "NTP License",
+      "identifier": "NTP",
+      "url": "http://www.opensource.org/licenses/NTP"
+    },
+    "model": "referencepool.license",
+    "pk": 104
+  },
+  {
+    "fields": {
+      "title": "NASA Open Source Agreement 1.3",
+      "identifier": "NASA-1.3",
+      "url": "http://www.opensource.org/licenses/NASA-1.3"
+    },
+    "model": "referencepool.license",
+    "pk": 105
+  },
+  {
+    "fields": {
+      "title": "GNU Affero General Public License v3",
+      "identifier": "AGPL-3.0",
+      "url": "http://www.opensource.org/licenses/AGPL-3.0"
+    },
+    "model": "referencepool.license",
+    "pk": 106
+  },
+  {
+    "fields": {
+      "title": "European Union Public License 1.1",
+      "identifier": "EUPL-1.1",
+      "url": "http://www.opensource.org/licenses/EUPL-1.1"
+    },
+    "model": "referencepool.license",
+    "pk": 107
+  },
+  {
+    "fields": {
+      "title": "Multics License",
+      "identifier": "Multics",
+      "url": "http://www.opensource.org/licenses/Multics"
+    },
+    "model": "referencepool.license",
+    "pk": 108
+  },
+  {
+    "fields": {
+      "title": "Naumen Public License",
+      "identifier": "Naumen",
+      "url": "http://www.opensource.org/licenses/Naumen"},
+    "model": "referencepool.license",
+    "pk": 109
   }
 ]
 
