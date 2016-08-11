@@ -105,6 +105,18 @@ class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
         self.serializer_class = CreateEventSerializer
         return super(EventInstanceView, self).update(request, args, kwargs)
 
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get('pk')
+        user = request.user.resource_path
+        event = Event.objects.get(id=id)
+
+        if event.creator_path == user:
+            event.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response({'error': "User does not have the necessary permissions"},
+                        status=status.HTTP_403_FORBIDDEN)
+
 
 class HarvestEvents(APIView):
     """
