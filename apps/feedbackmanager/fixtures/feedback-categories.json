@@ -1,0 +1,23 @@
+[
+  {
+    "fields": {
+      "title": "Bug Report"
+    },
+    "pk": 1,
+    "model": "feedbackmanager.feedbackcategory"
+  },
+  {
+    "fields": {
+      "title": "General Question"
+    },
+    "pk": 2,
+    "model": "feedbackmanager.feedbackcategory"
+  },
+  {
+    "fields": {
+      "title": "Abuse Report"
+    },
+    "pk": 3,
+    "model": "feedbackmanager.feedbackcategory"
+  }
+]
