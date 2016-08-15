@@ -73,8 +73,7 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
             dataset.delete()
             return Response(status=status.HTTP_200_OK)
         else:
-            return Response({'error': "User does not have the necessary permissions"},
-                        status=status.HTTP_403_FORBIDDEN)
+            return Response({'error': "User does not have the necessary permissions"}, status=status.HTTP_403_FORBIDDEN)
 
 
 class Converter(APIView):
