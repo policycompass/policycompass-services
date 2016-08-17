@@ -116,3 +116,17 @@ class Individual(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class License(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    identifier = models.CharField(max_length=100, unique=True)
+    url = models.URLField()
+
+    class Meta:
+        verbose_name = "License"
+        verbose_name_plural = "Licenses"
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title

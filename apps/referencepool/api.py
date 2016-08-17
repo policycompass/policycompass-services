@@ -69,6 +69,11 @@ class IndividualViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
 
+class LicenseViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = License.objects.all()
+    serializer_class = LicenseSerializer
+
+
 class ReferencePool(APIView):
     def get(self, request, format=None):
         result = {
@@ -80,6 +85,7 @@ class ReferencePool(APIView):
                                           request=request),
             "Date Formats": reverse('dateformat-list', request=request),
             "Classes": reverse('class-list', request=request),
-            "Individuals": reverse('individual-list', request=request)
+            "Individuals": reverse('individual-list', request=request),
+            "Licenses": reverse('license-list', request=request)
         }
         return Response(result)

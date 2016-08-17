@@ -11,6 +11,7 @@ router.register(r'externalresources', ExternalResourceViewSet)
 router.register(r'dateformats', DateFormatViewSet)
 router.register(r'classes', DataClassViewSet, base_name='class')
 router.register(r'individuals', IndividualViewSet, base_name='individual')
+router.register(r'licenses', LicenseViewSet, base_name='license')
 
 urlpatterns = patterns(
     '',
