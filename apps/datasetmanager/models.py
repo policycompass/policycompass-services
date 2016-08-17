@@ -34,6 +34,8 @@ class Dataset(models.Model):
 
     license = models.CharField(max_length=100, blank=True)
 
+    license_id = models.IntegerField(blank=True, null=True)
+
     version = models.IntegerField(editable=False)
 
     time_resolution = models.CharField(max_length=10, choices=RESOLUTIONS)
