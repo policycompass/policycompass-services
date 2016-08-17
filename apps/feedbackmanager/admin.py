@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
-from .models import Feedback
+from .models import Feedback, FeedbackCategory
 
 
 class FeedbackAdminSite(AdminSite):
@@ -16,5 +16,5 @@ class FeedbackAdmin(admin.ModelAdmin):
 
 
 feedback_admin = FeedbackAdminSite(name='feedbackadmin')
-feedback_admin.register(Feedback, FeedbackAdmin)
-print(feedback_admin.get_urls())
+feedback_admin.register(Feedback)
+feedback_admin.register(FeedbackCategory)
