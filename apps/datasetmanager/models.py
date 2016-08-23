@@ -54,6 +54,8 @@ class Dataset(models.Model):
 
     data = models.TextField()
 
+    is_draft = models.BooleanField(blank=False, default=False)
+
     # ToDo Fields
     # applied_details
     # dimensions
