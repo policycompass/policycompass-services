@@ -49,3 +49,8 @@ class IndividualSerializer(ModelSerializer):
 
     class Meta:
         model = Individual
+
+
+class LicenseSerializer(ModelSerializer):
+    class Meta:
+        model = License

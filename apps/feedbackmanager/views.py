@@ -14,9 +14,15 @@ class FeedbackListView(generics.ListCreateAPIView):
     serializer_class = FeedbackSerializer
 
 
+class FeedbackCategoryListView(generics.ListCreateAPIView):
+    queryset = FeedbackCategory.objects.all()
+    serializer_class = FeedbackCategorySerializer
+
+
 class Base(APIView):
     def get(self, request):
         result = {
-            "Feedbacks": reverse('feedback-list', request=request)
+            "Feedbacks": reverse('feedback-list', request=request),
+            "Feedback Categories": reverse('feedbackcategory-list', request=request)
         }
         return Response(result)

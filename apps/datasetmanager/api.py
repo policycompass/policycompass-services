@@ -64,6 +64,17 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
         self.serializer_class = UpdateDatasetSerializer
         return super(DatasetDetail, self).put(request, args, kwargs)
 
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get('pk')
+        user = request.user.resource_path
+        dataset = Dataset.objects.get(id=id)
+
+        if dataset.creator_path == user or request.user.is_god is True:
+            dataset.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response({'error': "User does not have the necessary permissions"}, status=status.HTTP_403_FORBIDDEN)
+
 
 class Converter(APIView):
     """
