@@ -21,5 +21,7 @@ class Metric(models.Model):
     formula = models.TextField()
     variables = JSONField()
 
+    is_draft = models.BooleanField(blank=False, default=False)
+
     def __str__(self):
         return self.title

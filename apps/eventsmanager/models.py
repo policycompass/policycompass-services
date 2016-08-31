@@ -21,6 +21,8 @@ class Event(models.Model):
 
     creator_path = models.CharField(max_length=1024, default='https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/')
 
+    is_draft = models.BooleanField(blank=False, default=False)
+
     # Private property to handle the policy domains
     _policy_domains = None
 
