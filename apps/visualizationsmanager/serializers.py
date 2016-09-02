@@ -79,7 +79,6 @@ class BaseVisualizationSerializer(ModelSerializer):
     historical_events_in_visualization = HistoricalEventsField(
         source='historical_events_in_visualization', required=False)
 
-
     visualization_type_id = serializers.IntegerField(
         source='visualization_type_id')
 
