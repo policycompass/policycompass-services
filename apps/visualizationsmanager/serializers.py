@@ -79,13 +79,14 @@ class BaseVisualizationSerializer(ModelSerializer):
     historical_events_in_visualization = HistoricalEventsField(
         source='historical_events_in_visualization', required=False)
 
-    datasets_in_visualization = DatasetsField(
-        source='datasets_in_visualization')
+
     visualization_type_id = serializers.IntegerField(
         source='visualization_type_id')
 
     policy_domains = SlugRelatedField(many=True, slug_field='domain',
                                       source='domains')
+
+    datasets_in_visualization = DatasetSerializer(many=True)
 
     def to_native(self, obj):
         result = SortedDictWithMetadata()
