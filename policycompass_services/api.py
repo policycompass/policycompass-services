@@ -21,6 +21,7 @@ class Base(APIView):
             "Search Services": reverse('searchmanager-base', request=request),
             "Indicator Services": reverse('indicator-base', request=request),
             "Feedback Manager": reverse('feedbackmanager-base', request=request),
+            "Story Manager": reverse('storymanager-base', request=request),
         }
 
         return Response(result)
