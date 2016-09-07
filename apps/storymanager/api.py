@@ -48,24 +48,30 @@ class StoryView(generics.ListCreateAPIView):
 
         self.serializer_class = StorySerializer
         id = request._request.GET['id']
-        story = Story.objects.get(pk=id)
-        storyChapters = story.chapters
-        chapters = []
-        for c in range(0, len(storyChapters)):
-            chapterId = int(str(storyChapters[c]))
-            chapter = Chapter.objects.get(pk=chapterId)
-            chapterContents = chapter.contents
-            contents = []
-            for con in range(0, len(chapterContents)):
-                contentId = int(str(chapterContents[con]))
-                content = Content.objects.get(pk=contentId)
-                contents.append({"type": content.type, "index": content.index, "contentId": content.id})
-            chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
+        try:
+            story = Story.objects.get(pk=id)
+            storyChapters = story.chapters
+            chapters = []
+            for c in range(0, len(storyChapters)):
+                chapterId = int(str(storyChapters[c]))
+                chapter = Chapter.objects.get(pk=chapterId)
+                chapterContents = chapter.contents
+                contents = []
+                for con in range(0, len(chapterContents)):
+                    contentId = int(str(chapterContents[con]))
+                    content = Content.objects.get(pk=contentId)
+                    contents.append({"type": content.type, "index": content.index, "contentId": content.id})
+                chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
-        storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path}
-        result = {"result": storyResult}
+            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path}
+            result = {"result": storyResult}
 
-        return Response(result)
+            return Response(result)
+        except:
+            errorDict = {"result": 500}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = UpdateStorySerializer
