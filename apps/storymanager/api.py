@@ -62,7 +62,7 @@ class StoryView(generics.ListCreateAPIView):
                 contents.append({"type": content.type, "index": content.index, "contentId": content.id})
             chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
-        storyResult = {"title": story.title, "chapters": chapters, "id": story.id}
+        storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path}
         result = {"result": storyResult}
 
         return Response(result)
@@ -87,6 +87,7 @@ class StoryView(generics.ListCreateAPIView):
                 newContent = Content(type=contents[j]['type'], index=contents[j]['index'])
                 newContent.save()
                 contentIndices.append(newContent.id)
+            print("contentIndices " , contentIndices)
             newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
             newChapter.save()
             chapterIndices.append(newChapter.id)
