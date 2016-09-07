@@ -87,7 +87,6 @@ class StoryView(generics.ListCreateAPIView):
                 newContent = Content(type=contents[j]['type'], index=contents[j]['index'])
                 newContent.save()
                 contentIndices.append(newContent.id)
-            print("contentIndices " , contentIndices)
             newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
             newChapter.save()
             chapterIndices.append(newChapter.id)
