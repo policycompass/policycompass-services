@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Content(models.Model):
-    #type = models.IntegerField() # 0=causal, 1=metrics, 2=visualisations
     type = models.CharField(max_length=100)
     index = models.IntegerField()
 
@@ -15,7 +14,6 @@ class Content(models.Model):
         """
         Saving the data to the database
         """
-        update = False
         # Increasing the version on every update
         if self.pk is None:
             self.version = 1
@@ -24,7 +22,6 @@ class Content(models.Model):
                 self.version += 1
             else:
                 self.version = 2
-            update = True
 
         super(Content, self).save(*args, **kwargs)
 

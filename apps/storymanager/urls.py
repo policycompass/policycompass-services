@@ -2,7 +2,7 @@
 Defines all routes of the Story Manager
 """
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 from .api import *
 
 urlpatterns = patterns(

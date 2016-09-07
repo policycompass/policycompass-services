@@ -1,5 +1,3 @@
-import requests
-from django.http.response import HttpResponse
 from policycompass_services import permissions
 from rest_framework import generics
 from rest_framework import status
@@ -10,8 +8,6 @@ from .serializers import *
 from rest_framework.reverse import reverse
 import json
 from .models import Story, Chapter, Content
-from apps.visualizationsmanager.models import Visualization
-from apps.metricsmanager.models import Metric
 
 
 class Base(APIView):
@@ -45,10 +41,10 @@ class StoryView(generics.ListCreateAPIView):
                 for ch in range(0, len(storyChapters)):
                     chapterList.append(storyChapters[ch].chapter)
 
-                story = {"title":storyTitle, "chapters":chapterList, "issued": stories[s].issued, "modified":stories[s].modified,
-                         "creator_path":stories[s].creator_path, "id":stories[s].id,}
+                story = {"title": storyTitle, "chapters": chapterList, "issued": stories[s].issued, "modified": stories[s].modified,
+                         "creator_path": stories[s].creator_path, "id": stories[s].id}
                 storyList.append(story)
-            return Response({"count":len(storyList),"results": storyList})
+            return Response({"count": len(storyList), "results": storyList})
 
         self.serializer_class = StorySerializer
         id = request._request.GET['id']
@@ -63,14 +59,13 @@ class StoryView(generics.ListCreateAPIView):
             for con in range(0, len(chapterContents)):
                 contentId = int(str(chapterContents[con]))
                 content = Content.objects.get(pk=contentId)
-                contents.append({"type":content.type, "index":content.index, "contentId":content.id})
-            chapters.append({"title":chapter.title, "text":chapter.text, "number":chapter.number, "contents":contents})
+                contents.append({"type": content.type, "index": content.index, "contentId": content.id})
+            chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
-        storyResult = {"title":story.title, "chapters":chapters, "id":story.id}
+        storyResult = {"title": story.title, "chapters": chapters, "id": story.id}
         result = {"result": storyResult}
 
         return Response(result)
-
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = UpdateStorySerializer
@@ -99,12 +94,11 @@ class StoryView(generics.ListCreateAPIView):
         newStory.creator_path = self.request.user.resource_path
         newStory.save()
 
-        newStoryJson = {"title":title, "chapters":chapterIndices, "id":newStory.id}
+        newStoryJson = {"title": title, "chapters": chapterIndices, "id": newStory.id}
 
         result = {"result": newStoryJson}
 
         return Response(result)
-
 
     def get_queryset(self):
         queryset = Story.objects.all()
@@ -135,7 +129,6 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
                 contentIndices.append(newContent.id)
             newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
             newChapter.save()
-            print("newChapter " , newChapter.id)
             chapterIndices.append(newChapter.id)
 
         if len(oldContents) > 0:
@@ -155,7 +148,7 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         oldStory.title = title
         oldStory.chapters = chapterIndices
         oldStory.save()
-        oldStoryJson = {"title":title, "chapters":chapterIndices, "id":oldStory.id}
+        oldStoryJson = {"title": title, "chapters": chapterIndices, "id": oldStory.id}
 
         result = {"result": oldStoryJson}
 
@@ -172,12 +165,14 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
                 chapter = Chapter.objects.get(pk=chapterId)
                 for j in range(0, len(chapter.contents)):
                     contentId = int(str(chapter.contents[j]))
-                    content = Content.objects.get(pk=contentId).delete()
+                    content = Content.objects.get(pk=contentId)
+                    content.delete()
                 chapter.delete()
             story.delete()
             return Response(status=status.HTTP_200_OK)
         else:
             return Response({'error': "User does not have the necessary permissions"}, status=status.HTTP_403_FORBIDDEN)
+
 
 class ChapterView(generics.ListCreateAPIView):
     model = Chapter

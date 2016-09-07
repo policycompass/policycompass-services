@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Story, Chapter, Content
 
+
 class StorySerializer(serializers.ModelSerializer):
     creator_path = serializers.Field(source='creator_path')
 
@@ -65,6 +66,7 @@ class ContentSerializer(serializers.ModelSerializer):
 class UpdateContentSerializer(ContentSerializer):
     type = serializers.IntegerField()
     index = serializers.IntegerField()
+
     class Meta:
         model = Content
 
