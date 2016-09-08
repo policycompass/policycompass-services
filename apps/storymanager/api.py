@@ -42,7 +42,7 @@ class StoryView(generics.ListCreateAPIView):
                     chapterList.append(storyChapters[ch].chapter)
 
                 story = {"title": storyTitle, "chapters": chapterList, "issued": stories[s].issued, "modified": stories[s].modified,
-                         "creator_path": stories[s].creator_path, "id": stories[s].id}
+                         "creator_path": stories[s].creator_path, "id": stories[s].id, "is_draft": stories[s].is_draft}
                 storyList.append(story)
             return Response({"count": len(storyList), "results": storyList})
 
@@ -63,7 +63,7 @@ class StoryView(generics.ListCreateAPIView):
                     contents.append({"type": content.type, "index": content.index, "contentId": content.id})
                 chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
-            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path}
+            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft}
             result = {"result": storyResult}
 
             return Response(result)
@@ -83,7 +83,7 @@ class StoryView(generics.ListCreateAPIView):
             if(title == storyList[s].title):
                 result = {"result": 500}
                 return Response(result)
-
+        is_draft = json_request['is_draft']
         chapters = json_request['chapters']
         chapterIndices = []
         for i in range(0, len(chapters)):
@@ -96,11 +96,11 @@ class StoryView(generics.ListCreateAPIView):
             newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
             newChapter.save()
             chapterIndices.append(newChapter.id)
-        newStory = Story(title=title, chapters=chapterIndices)
+        newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
         newStory.creator_path = self.request.user.resource_path
         newStory.save()
 
-        newStoryJson = {"title": title, "chapters": chapterIndices, "id": newStory.id}
+        newStoryJson = {"title": title, "chapters": chapterIndices, "id": newStory.id, "is_draft": is_draft}
 
         result = {"result": newStoryJson}
 
@@ -124,6 +124,7 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         title = json_request['title']
         chapters = json_request['chapters']
         oldContents = json_request['oldContents']
+        is_draft = json_request['is_draft']
 
         chapterIndices = []
         for i in range(0, len(chapters)):
@@ -149,12 +150,13 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
             ch = Chapter.objects.get(pk=chapterId)
             ch.delete()
 
-        newStory = Story(title=title, chapters=chapterIndices)
+        newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
         newStory.creator_path = self.request.user.resource_path
         oldStory.title = title
         oldStory.chapters = chapterIndices
+        oldStory.is_draft = is_draft
         oldStory.save()
-        oldStoryJson = {"title": title, "chapters": chapterIndices, "id": oldStory.id}
+        oldStoryJson = {"title": title, "chapters": chapterIndices, "id": oldStory.id, "is_draft": is_draft}
 
         result = {"result": oldStoryJson}
 

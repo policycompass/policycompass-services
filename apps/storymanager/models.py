@@ -104,6 +104,8 @@ class Story(models.Model):
 
     creator_path = models.CharField(max_length=1024)
 
+    is_draft = models.BooleanField(blank=False, default=False)
+
     _chapters = None
 
     # Get all Chapter IDs
