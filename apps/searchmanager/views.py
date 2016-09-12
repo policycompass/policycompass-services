@@ -74,6 +74,16 @@ def rebuildindex_fuzzymap_service(request):
 
 
 @api_view(['POST'])
+def rebuildindex_story_service(request):
+    """
+    Rebuilds the elastic search index only for stories.
+    """
+    if request.method == 'POST':
+        res = index_utils.rebuild_index_itemtype('story')
+        return Response(res)
+
+
+@api_view(['POST'])
 def update_index_item_service(request, **kwargs):
     """
     Creates or updates a document index based on the id of the physical object.(Example to update 'metric' with id 26)
