@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 def rebuild_index():
     """
     Rebuilds the index of the Elastic search for the following entities:
-    Metrics, Events, Visualizations, FCM Models, Datasets
+    Metrics, Events, Visualizations, FCM Models, Datasets, Stories
     """
     indexing_log = rebuild_index_itemtype('metric')
     indexing_log = indexing_log + rebuild_index_itemtype('visualization')
@@ -22,6 +22,7 @@ def rebuild_index():
     indexing_log = indexing_log + rebuild_index_itemtype('dataset')
     indexing_log = indexing_log + rebuild_index_itemtype('indicator')
     indexing_log = indexing_log + rebuild_index_itemtype('ag')
+    indexing_log = indexing_log + rebuild_index_itemtype('story')
     indexing_log = indexing_log + rebuild_index_fcm('fuzzymap')
     return indexing_log
 
@@ -36,6 +37,8 @@ def normalize_api_url(item_type):
         return settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + item_type + 'manager/' + item_type + 's'
     elif item_type == 'indicator':
         return settings.PC_SERVICES['references']['base_url'] + '/api/v1/indicatorservice/' + item_type + 's'
+    elif item_type == 'story':
+        return settings.PC_SERVICES['references']['base_url'] + '/api/v1/storymanager/stories'
     else:
         return settings.PC_SERVICES['references']['base_url'] + '/api/v1/' + item_type + 'smanager/' + item_type + 's'
 
@@ -133,7 +136,11 @@ def update_index_item(itemtype, item_id):
     api_url = normalize_api_url(itemtype)
 
     # Get full dataset from api
-    r = requests.get(api_url + '/' + str(item_id))
+    if itemtype != "story":
+        r = requests.get(api_url + '/' + str(item_id))
+    else:
+        r = requests.get(api_url + '?id=' + str(item_id))
+
     data = r.json()
 
     # Remove the data container specifically of the metrics object that contains a lot of table information
@@ -147,8 +154,9 @@ def update_index_item(itemtype, item_id):
 
     # Call the Elastic API Index service (PUT command) to index current document
     response = requests.put(
-        settings.ELASTICSEARCH_URL + itemtype + '/' + str(data["id"]),
+        settings.ELASTICSEARCH_URL + itemtype + '/' + str(item_id),
         data=json.dumps(data))
+
     return response.text
 
 
