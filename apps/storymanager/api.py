@@ -31,20 +31,29 @@ class StoryView(generics.ListCreateAPIView):
         obj.creator_path = self.request.user.resource_path
 
     def get(self, request, *args, **kwargs):
-        if len(request._request.GET) is 0:
+        if len(request._request.GET) is 0 or ('page' in request._request.GET) is True:
             stories = Story.objects.all()
             storyList = []
             for s in range(0, len(stories)):
                 storyTitle = stories[s].title
                 storyChapters = stories[s].chapters
-                chapterList = []
-                for ch in range(0, len(storyChapters)):
-                    chapterList.append(storyChapters[ch].chapter)
-
-                story = {"title": storyTitle, "chapters": chapterList, "issued": stories[s].issued, "modified": stories[s].modified,
+                chapters = []
+                for c in range(0, len(storyChapters)):
+                    chapterId = int(str(storyChapters[c]))
+                    chapter = Chapter.objects.get(pk=chapterId)
+                    chapterContents = chapter.contents
+                    contents = []
+                    for con in range(0, len(chapterContents)):
+                        contentId = int(str(chapterContents[con]))
+                        content = Content.objects.get(pk=contentId)
+                        contents.append({"type": content.type, "index": content.index, "contentId": content.id})
+                    chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
+                story = {"title": storyTitle, "chapters": chapters, "issued": stories[s].issued, "modified": stories[s].modified,
                          "creator_path": stories[s].creator_path, "id": stories[s].id, "is_draft": stories[s].is_draft}
                 storyList.append(story)
-            return Response({"count": len(storyList), "results": storyList})
+            response = {"count": len(storyList), "results": storyList, "next": None}
+
+            return Response(response)
 
         self.serializer_class = StorySerializer
         id = request._request.GET['id']

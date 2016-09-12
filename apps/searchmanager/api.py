@@ -20,10 +20,12 @@ class Base(APIView):
                 'rebuildindex_indicator', request=request),
             "Rebuild Index Service only for fuzzy maps": reverse(
                 'rebuildindex_fuzzymap', request=request),
-            "Create or Update Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator')": reverse(
+            "Rebuild Index Service only for stories": reverse(
+                'rebuildindex_story', request=request),
+            "Create or Update Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story')": reverse(
                 'update_index_item', request=request,
                 kwargs={'itemtype': 'metric', 'itemid': 26}),
-            "Delete Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator')": reverse(
+            "Delete Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story')": reverse(
                 'delete_index_item', request=request,
                 kwargs={'itemtype': 'metric', 'itemid': 26})
         }

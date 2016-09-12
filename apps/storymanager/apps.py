@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class datasetmanagerConfig(AppConfig):
+class storymanagerConfig(AppConfig):
     name = 'apps.storymanager'
     verbose_name = "Storymanager Manager"
 
