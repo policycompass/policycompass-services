@@ -7,7 +7,6 @@ __author__ = 'fki'
 
 
 class IndicatorSerializer(ModelSerializer):
-    policy_domains = serializers.SlugRelatedField(many=True, slug_field='domain', source='domains')
     creator_path = serializers.Field(source='creator_path')
 
     class Meta:
@@ -15,7 +14,6 @@ class IndicatorSerializer(ModelSerializer):
 
 
 class CreateIndicatorSerializer(IndicatorSerializer):
-    policy_domains = WritableField(source='policy_domains', required=True)
 
     class Meta:
         model = Indicator
