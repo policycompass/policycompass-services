@@ -80,6 +80,16 @@ def rebuildindex_story_service(request):
     """
     if request.method == 'POST':
         res = index_utils.rebuild_index_itemtype('story')
+        return Response(res)\
+
+
+@api_view(['POST'])
+def rebuildindex_ag_service(request):
+    """
+    Rebuilds the elastic search index only for argumentation graphs.
+    """
+    if request.method == 'POST':
+        res = index_utils.rebuild_index_itemtype('ag')
         return Response(res)
 
 
