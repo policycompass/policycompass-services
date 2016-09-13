@@ -2,9 +2,7 @@
   {
     "fields": {
       "name": "Deaths from Drug Dependence and Toxicomania",
-      "unit_category": 12,
       "description": "Deaths from Drug Dependence and Toxicomania",
-      "language": 38,
       "issued": "2015-07-02T11:21:16.615Z",
       "modified": "2015-07-02T11:21:16.615Z"
     },
@@ -14,29 +12,11 @@
   {
     "fields": {
       "name": "Drug Law Offences Related to Drug Use or Possession for Use",
-      "unit_category": 12,
       "description": "Drug Law Offences Related to Drug Use or Possession for Use",
-      "language": 38,
       "issued": "2015-07-02T11:21:16.615Z",
       "modified": "2015-07-02T11:21:16.615Z"
     },
     "pk": 2,
     "model": "indicatorservice.indicator"
-  },
-  {
-    "fields": {
-      "domain": 9,
-      "indicator": 1
-    },
-    "pk": 1,
-    "model": "indicatorservice.indicatorindomain"
-  },
-  {
-    "fields": {
-      "domain": 12,
-      "indicator": 2
-    },
-    "pk": 2,
-    "model": "indicatorservice.indicatorindomain"
   }
 ]
