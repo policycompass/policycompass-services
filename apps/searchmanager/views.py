@@ -80,7 +80,7 @@ def rebuildindex_story_service(request):
     """
     if request.method == 'POST':
         res = index_utils.rebuild_index_itemtype('story')
-        return Response(res)\
+        return Response(res)
 
 
 @api_view(['POST'])
