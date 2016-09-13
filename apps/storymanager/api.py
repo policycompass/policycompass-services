@@ -73,9 +73,8 @@ class StoryView(generics.ListCreateAPIView):
                 chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
             storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft}
-            result = {"result": storyResult}
 
-            return Response(result)
+            return Response(storyResult)
         except:
             errorDict = {"result": 500}
             errorString = str(errorDict).replace("'", '"')
