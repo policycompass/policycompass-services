@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, WritableField
+from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from rest_framework import pagination
 from .models import *
