@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'apps.ratingsmanager',
     'apps.indicatorservice',
     'apps.feedbackmanager',
+    'apps.storymanager',
     'rest_framework',
     'rest_framework_swagger',
 )
