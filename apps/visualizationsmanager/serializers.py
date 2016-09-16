@@ -69,9 +69,11 @@ class PaginatedListVisualizationLinkedByEventSerializer(pagination.PaginationSer
 
 class BaseVisualizationSerializer(ModelSerializer):
     creator_path = serializers.Field(source='creator_path')
-    created_at = serializers.DateField(source='created_at', read_only=True)
-    updated_at = serializers.DateField(source='updated_at', read_only=True)
-    views_count = serializers.IntegerField(source='views_count')
+    #created_at = serializers.DateField(source='created_at', read_only=True)
+    date_created = serializers.DateField(source='date_created', read_only=True)
+    #updated_at = serializers.DateField(source='updated_at', read_only=True)
+    date_modified = serializers.DateField(source='date_modified', read_only=True)
+    #views_count = serializers.IntegerField(source='views_count')
     visualization_type_id = serializers.IntegerField(
         source='visualization_type_id')
     status_flag_id = serializers.IntegerField(source='status_flag_id')
