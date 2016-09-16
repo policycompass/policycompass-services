@@ -22,10 +22,12 @@ class Base(APIView):
                 'rebuildindex_fuzzymap', request=request),
             "Rebuild Index Service only for stories": reverse(
                 'rebuildindex_story', request=request),
-            "Create or Update Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story')": reverse(
+            "Rebuild Index Service only for argumentation graphs": reverse(
+                'rebuildindex_ag', request=request),
+            "Create or Update Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story', 'ag')": reverse(
                 'update_index_item', request=request,
                 kwargs={'itemtype': 'metric', 'itemid': 26}),
-            "Delete Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story')": reverse(
+            "Delete Index for an itemtype ('metric','visualization','event','dataset','fuzzymap', 'indicator', 'story', 'ag')": reverse(
                 'delete_index_item', request=request,
                 kwargs={'itemtype': 'metric', 'itemid': 26})
         }

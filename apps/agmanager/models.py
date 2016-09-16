@@ -16,6 +16,8 @@ class ArgumentationGraph(models.Model):
 
     creator_path = models.CharField(max_length=1024)
 
+    is_draft = models.BooleanField(blank=False, default=False)
+
     def save(self, *args, **kwargs):
         """
         Saving the data to the database
