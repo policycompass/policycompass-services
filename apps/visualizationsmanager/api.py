@@ -205,7 +205,7 @@ class VisualizationList(APIView):
     # Sets the fields, which can be searched
     search_fields = ('title', 'keywords')
     # Sets the fields, which are available for sorting
-    #ordering_fields = ('created_at', 'updated_at', 'title')
+    # ordering_fields = ('created_at', 'updated_at', 'title')
     ordering_fields = ('date_created', 'date_modified', 'title')
 
     def get(self, request):
