@@ -311,8 +311,7 @@ class CKANSearchProxy(APIView):
         # FIXME remove Auth
         r = requests.get(
             "%s/action/package_search?start=%s&q=%s&fq=%%28res_format:CSV%%20OR%%20res_format:TSV%%20OR%%20res_format:XLS%%20OR%%20res_format:XLSX%%29" %
-            (apiBase, start, term),
-            auth=('odportal', 'odp0rt4l$12'))
+            (apiBase, start, term))
 
         if r.status_code == 200:
             return Response(r.json(), status=status.HTTP_200_OK)
