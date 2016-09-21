@@ -21,12 +21,14 @@ class Visualization(models.Model):
     location = models.IntegerField(blank=True, null=True)
 
     # Auto-Generated Meta Data
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    # updated_at = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now=True)
     creator_path = models.CharField(max_length=1024, validators=[
         RegexValidator("^(/[^/]*)+/?$")])
 
-    views_count = models.IntegerField()
+    # views_count = models.IntegerField()
     visualization_type_id = models.IntegerField()
     status_flag_id = models.IntegerField()
     filter_configuration = models.CharField(max_length=800)
