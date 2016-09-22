@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 class Metric(models.Model):
     # automatically set data
     date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     creator_path = models.CharField(max_length=1024, validators=[
         RegexValidator("^(/[^/]*)+/?$")])
 

@@ -9,8 +9,8 @@ class Indicator(models.Model):
     description = models.TextField()
 
     # Auto-Generated Metadata
-    issued = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     creator_path = models.CharField(max_length=1024)
 
     def __str__(self):
