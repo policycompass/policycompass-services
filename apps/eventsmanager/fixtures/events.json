@@ -14,9 +14,9 @@
             "languageID": 1,
             "userID": 1,
             "externalResourceID": 0,
-            "dateAddedToPC": "2014-07-30T19:06:23.779Z",
+            "date_created": "2014-07-30T19:06:23.779Z",
             "dateIssuedByExternalResource": "2014-07-30T19:06:23.779Z",
-            "dateModified": "2014-07-30T19:06:23.779Z",
+            "date_modified": "2014-07-30T19:06:23.779Z",
             "viewsCount": 1
         }
     },
@@ -35,9 +35,9 @@
             "languageID": 2,
             "userID": 1,
             "externalResourceID": 0,
-            "dateAddedToPC": "2014-07-30T19:07:42.062Z",
+            "date_created": "2014-07-30T19:07:42.062Z",
             "dateIssuedByExternalResource": "2014-07-30T19:07:42.062Z",
-            "dateModified": "2014-07-30T19:07:42.062Z",
+            "date_modified": "2014-07-30T19:07:42.062Z",
             "viewsCount": 1
         }
     },

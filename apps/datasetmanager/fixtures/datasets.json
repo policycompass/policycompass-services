@@ -9,7 +9,7 @@
       "class_id": 1,
       "resource_publisher": "Eurostat",
       "creator_path": "https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/",
-      "modified": "2015-07-02T11:21:16.615Z",
+      "date_modified": "2015-07-02T11:21:16.615Z",
       "language_id": 38,
       "version": 1,
       "description": "Causes of death in Spain and Germany from drug dependance in 2001 -2010",
@@ -24,7 +24,7 @@
       "license": "",
       "unit_id": 22,
       "resource_issued": "2015-06-05",
-      "issued": "2015-07-02T11:21:16.615Z",
+      "date_created": "2015-07-02T11:21:16.615Z",
       "indicator_id": 1
     }
   },
@@ -38,7 +38,7 @@
       "class_id": 1,
       "resource_publisher": "European Monitoring Centre for Drugs and Drug Addiction (EMCDDA)",
       "creator_path": "https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/",
-      "modified": "2015-07-02T11:39:54.347Z",
+      "date_modified": "2015-07-02T11:39:54.347Z",
       "language_id": 38,
       "version": 1,
       "description": "Drug law offences In Germany and Spain, 1996\u20132009 Number of reports of offences 1996\u20132009",
@@ -53,7 +53,7 @@
       "license": "",
       "unit_id": 25,
       "resource_issued": "2015-06-05",
-      "issued": "2015-07-02T11:39:54.346Z",
+      "date_created": "2015-07-02T11:39:54.346Z",
       "indicator_id": 1
     }
   },
