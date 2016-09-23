@@ -48,7 +48,7 @@ class StoryView(generics.ListCreateAPIView):
                         content = Content.objects.get(pk=contentId)
                         contents.append({"type": content.type, "index": content.index, "contentId": content.id})
                     chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
-                story = {"title": storyTitle, "chapters": chapters, "issued": stories[s].issued, "modified": stories[s].modified,
+                story = {"title": storyTitle, "chapters": chapters, "issued": stories[s].date_created, "modified": stories[s].date_modified,
                          "creator_path": stories[s].creator_path, "id": stories[s].id, "is_draft": stories[s].is_draft}
                 storyList.append(story)
             response = {"count": len(storyList), "results": storyList, "next": None}
