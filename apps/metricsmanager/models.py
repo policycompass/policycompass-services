@@ -18,6 +18,9 @@ class Metric(models.Model):
                                 validators=[RegexValidator(
                                     "^([_\-a-zA-Z0-9]+ ?($|,))+")])
 
+    derived_from_id = models.ForeignKey(
+        "self", blank=True, null=True, on_delete=models.SET_NULL,
+    )
     indicator_id = models.IntegerField()
     formula = models.TextField()
     variables = JSONField()
