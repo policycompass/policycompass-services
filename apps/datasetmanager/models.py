@@ -49,8 +49,8 @@ class Dataset(models.Model):
     class_id = models.IntegerField()  # RP class
 
     # Auto-Generated Metadata
-    issued = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
-    modified = models.DateTimeField(auto_now=True)  # dateModified
+    date_created = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
+    date_modified = models.DateTimeField(auto_now=True)  # dateModified
 
     data = models.TextField()
 
@@ -126,7 +126,7 @@ class Dataset(models.Model):
 
     class Meta:
         # Standard sorting by date
-        ordering = ['-issued']
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.title

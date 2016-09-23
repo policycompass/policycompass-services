@@ -15,9 +15,8 @@ class Event(models.Model):
     userID = models.IntegerField()
     externalResourceID = models.IntegerField(blank=True, default=0)
     dateAddedToPC = models.DateTimeField(auto_now_add=True)
-    dateIssuedByExternalResource = models.DateTimeField(auto_now_add=True)
-    dateModified = models.DateTimeField(auto_now_add=True)
-    viewsCount = models.IntegerField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
 
     creator_path = models.CharField(max_length=1024, default='https://adhocracy-prod.policycompass.eu/api/principals/users/0000000/')
 

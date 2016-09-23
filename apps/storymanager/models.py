@@ -5,8 +5,8 @@ class Content(models.Model):
     type = models.CharField(max_length=100)
     index = models.IntegerField()
 
-    issued = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
-    modified = models.DateTimeField(auto_now=True)  # dateModified
+    date_created = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
+    date_modified = models.DateTimeField(auto_now=True)  # dateModified
 
     creator_path = models.CharField(max_length=1024)
 
@@ -27,7 +27,7 @@ class Content(models.Model):
 
     class Meta:
         # Standard sorting by date
-        ordering = ['-issued']
+        ordering = ['-date_created']
 
     def __str__(self):
         return str(self.type)
@@ -39,8 +39,8 @@ class Chapter(models.Model):
     number = models.IntegerField()
 
     # Auto-Generated Metadata
-    issued = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
-    modified = models.DateTimeField(auto_now=True)  # dateModified
+    date_created = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
+    date_modified = models.DateTimeField(auto_now=True)  # dateModified
 
     creator_path = models.CharField(max_length=1024)
 
@@ -89,7 +89,7 @@ class Chapter(models.Model):
 
     class Meta:
         # Standard sorting by date
-        ordering = ['-issued']
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.title
@@ -99,8 +99,8 @@ class Story(models.Model):
     title = models.CharField(max_length=100, unique=True)
 
     # Auto-Generated Metadata
-    issued = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
-    modified = models.DateTimeField(auto_now=True)  # dateModified
+    date_created = models.DateTimeField(auto_now_add=True)  # dateAddedtoPC
+    date_modified = models.DateTimeField(auto_now=True)  # dateModified
 
     creator_path = models.CharField(max_length=1024)
 
@@ -150,7 +150,7 @@ class Story(models.Model):
 
     class Meta:
         # Standard sorting by date
-        ordering = ['-issued']
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.title
