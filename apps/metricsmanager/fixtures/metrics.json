@@ -4,6 +4,7 @@
     "pk": 1,
     "fields": {
       "date_created": "2015-07-02T11:39:54.347Z",
+      "date_modified": "2015-07-02T11:39:54.347Z",
       "creator_path": "/principals/users/000001",
       "title": "Fixture metric",
       "description": "A example metric shipped with policycompass",
