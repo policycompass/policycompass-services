@@ -14,10 +14,9 @@
             "languageID": 1,
             "userID": 1,
             "externalResourceID": 0,
-            "date_created": "2014-07-30T19:06:23.779Z",
-            "dateIssuedByExternalResource": "2014-07-30T19:06:23.779Z",
-            "date_modified": "2014-07-30T19:06:23.779Z",
-            "viewsCount": 1
+            "dateAddedToPC": "2014-07-30T19:06:23.779Z",
+            "date_modified": "2014-07-30T19:07:42.062Z",
+            "date_created": "2014-07-30T19:07:42.062Z"
         }
     },
     {
@@ -35,10 +34,9 @@
             "languageID": 2,
             "userID": 1,
             "externalResourceID": 0,
-            "date_created": "2014-07-30T19:07:42.062Z",
-            "dateIssuedByExternalResource": "2014-07-30T19:07:42.062Z",
+            "dateAddedToPC": "2014-07-30T19:07:42.062Z",
             "date_modified": "2014-07-30T19:07:42.062Z",
-            "viewsCount": 1
+            "date_created": "2014-07-30T19:07:42.062Z"
         }
     },
     {
