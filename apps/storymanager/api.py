@@ -134,41 +134,46 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         oldContents = json_request['oldContents']
         is_draft = json_request['is_draft']
 
-        chapterIndices = []
-        for i in range(0, len(chapters)):
-            contents = chapters[i]['contents']
-            contentIndices = []
-            for j in range(0, len(contents)):
-                newContent = Content(type=contents[j]['type'], index=contents[j]['index'])
-                newContent.save()
-                contentIndices.append(newContent.id)
-            newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
-            newChapter.save()
-            chapterIndices.append(newChapter.id)
+        user = request.user.resource_path
 
-        if len(oldContents) > 0:
-            contentList = oldContents
-            for l in range(0, len(oldContents)):
-                contentId = contentList[l]['contentId']
-                co = Content.objects.get(pk=contentId)
-                co.delete()
+        if oldStory.creator_path == user or request.user.is_god is True:
+            chapterIndices = []
+            for i in range(0, len(chapters)):
+                contents = chapters[i]['contents']
+                contentIndices = []
+                for j in range(0, len(contents)):
+                    newContent = Content(type=contents[j]['type'], index=contents[j]['index'])
+                    newContent.save()
+                    contentIndices.append(newContent.id)
+                newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
+                newChapter.save()
+                chapterIndices.append(newChapter.id)
 
-        for k in range(0, len(oldStory.chapters)):
-            chapterId = int(str(oldStory.chapters[k]))
-            ch = Chapter.objects.get(pk=chapterId)
-            ch.delete()
+            if len(oldContents) > 0:
+                contentList = oldContents
+                for l in range(0, len(oldContents)):
+                    contentId = contentList[l]['contentId']
+                    co = Content.objects.get(pk=contentId)
+                    co.delete()
 
-        newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
-        newStory.creator_path = self.request.user.resource_path
-        oldStory.title = title
-        oldStory.chapters = chapterIndices
-        oldStory.is_draft = is_draft
-        oldStory.save()
-        oldStoryJson = {"title": title, "chapters": chapterIndices, "id": oldStory.id, "is_draft": is_draft}
+            for k in range(0, len(oldStory.chapters)):
+                chapterId = int(str(oldStory.chapters[k]))
+                ch = Chapter.objects.get(pk=chapterId)
+                ch.delete()
 
-        result = {"result": oldStoryJson}
+            newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
+            newStory.creator_path = self.request.user.resource_path
+            oldStory.title = title
+            oldStory.chapters = chapterIndices
+            oldStory.is_draft = is_draft
+            oldStory.save()
+            oldStoryJson = {"title": title, "chapters": chapterIndices, "id": oldStory.id, "is_draft": is_draft}
 
-        return Response(result)
+            result = {"result": oldStoryJson}
+
+            return Response(result)
+        else:
+            return Response({'error': "User does not have the necessary permissions"}, status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request, *args, **kwargs):
         id = kwargs.get('pk')
