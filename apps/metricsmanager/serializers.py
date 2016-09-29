@@ -50,6 +50,11 @@ class OperationalizeSerializer(serializers.Serializer):
         return validated_data
 
 
+class CalculateSerializer(OperationalizeSerializer):
+    indicator_id = serializers.IntegerField()
+    formula = serializers.CharField()
+
+
 class NormalizerSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     acronym = serializers.CharField(max_length=20)

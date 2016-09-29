@@ -76,6 +76,61 @@ class MetricsDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = permissions.IsCreatorOrReadOnly,
 
 
+class DatasetCalculateView(APIView):
+    permission_classes = IsAuthenticatedOrReadOnly,
+
+    def post(self, request):
+        """
+        Compute a new dataset from a given formula and mappings.
+
+        Example data:
+
+        {
+          "title": "Some test",
+          "formula": "0.5 * norm(__1__, 0, 100) + 0.5 * norm(__2__, 0, 200)",
+          "datasets": [
+            {
+              "variable": "__1__",
+              "dataset": 1,
+            },
+            {
+              "variable": "__1__",
+              "dataset": 1,
+            }
+          ],
+          "indicator_id": 0,
+          "unit_id": 0,
+        }
+        """
+
+        # check resquest data
+        serializer = CalculateSerializer(data=request.DATA,
+                                         files=request.FILES)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        data = serializer.object
+
+        try:
+            formula.validate_formula(data["formula"], data["datasets"])
+            data = services.validate_operationalize(data)
+        except ValidationError as e:
+            return Response(e.error_dict, status=status.HTTP_400_BAD_REQUEST)
+
+        creator_path = self.request.user.resource_path
+        dataset_id = services.compute_dataset(
+            creator_path=creator_path,
+            formula=formula,
+            **data)
+
+        return Response({
+            "dataset": {
+                "id": dataset_id
+            }
+        })
+
+
 class MetriscOperationalize(APIView):
     permission_classes = IsAuthenticatedOrReadOnly,
 
