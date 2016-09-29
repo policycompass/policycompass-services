@@ -35,21 +35,26 @@ class FormulasValidate(APIView):
         if "formula" not in request.QUERY_PARAMS:
             return Response({"formula": "Can not be empty"},
                             status=status.HTTP_400_BAD_REQUEST)
+
         if "variables" not in request.QUERY_PARAMS:
             return Response({"variables": "Can not be empty"},
                             status=status.HTTP_400_BAD_REQUEST)
 
+        formula_str = request.QUERY_PARAMS["formula"]
         try:
-            variables = validate_variables(
-                json.loads(request.QUERY_PARAMS["variables"]))
-            validate_formula(request.QUERY_PARAMS["formula"], variables)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            variables = json.loads(request.QUERY_PARAMS["variables"])
         except ValueError as e:
             return Response(
                 {"variables": "Unable to parse json: {}".format(e)},
                 status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            variables = formula.validate_variables(variables)
+            formula.validate_formula(formula_str, variables)
         except ValidationError as e:
             return Response(e.error_dict, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class NormalizersList(APIView):
