@@ -1,11 +1,13 @@
-from django.core.exceptions import ValidationError
-from grako.exceptions import FailedParse, SemanticError
 from functools import reduce
-import operator
 import inspect
 import grako
+import operator
 import pkg_resources
 import re
+
+from django.core.exceptions import ValidationError
+from grako.exceptions import FailedParse, SemanticError
+
 from .normalization import get_normalizers
 
 grammar_ebnf = pkg_resources.resource_string(__name__, "formula.ebnf")

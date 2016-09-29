@@ -1,19 +1,18 @@
+import json
+
+from django.core.exceptions import ValidationError
+from django import shortcuts
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import generics, status
-from django.core.exceptions import ValidationError
+
 from policycompass_services import permissions
-from apps.datasetmanager import internal_api as datasets
-from apps.datasetmanager.models import Dataset
-from apps.datasetmanager.dataset_data import DatasetData
+
 from .serializers import *
 from .normalization import get_normalizers
-from .formula import validate_variables, validate_formula, compute_formula
-import itertools
-import json
-from datetime import datetime
+from . import formula, services
 
 
 class MetricsBase(APIView):
