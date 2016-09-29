@@ -81,7 +81,7 @@ class MetriscOperationalize(APIView):
 
     def post(self, request, metrics_id: int):
         """
-        Compute a new dataset from a given formula and mappings for variables.
+        Compute a new dataset from a given metric and mappings for variables.
 
         Example data:
 
@@ -90,18 +90,15 @@ class MetriscOperationalize(APIView):
           "datasets": [
             {
               "variable": "__1__",
-              "dataset": 1
+              "dataset": 1,
             }
           ],
-          "unit_id": 0
+          "unit_id": 0,
         }
         """
 
         # check if metric exists
-        metric = Metric.objects.get(pk=metrics_id)
-        if Metric.objects.get(pk=metrics_id) is None:
-            return Response("Unable to find metric %s." % pk,
-                            status=status.HTTP_404_NOT_FOUND)
+        metric = shortcuts.get_object_or_404(Metric, pk=metrics_id)
 
         # check resquest data
         serializer = OperationalizeSerializer(data=request.DATA,
@@ -109,80 +106,20 @@ class MetriscOperationalize(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
+        data = serializer.object
 
-        # check if dateset with that title already existed
-        title = serializer.object.get("title")
-        if len(datasets.filter(title=title)) != 0:
-            return Response({
-                "title": "Dataset name is not unique."},
-                status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data = services.validate_operationalize(data)
+        except ValidationError as e:
+            return Response(e.error_dict, status=status.HTTP_400_BAD_REQUEST)
 
-        result_unit = serializer.object.get("unit_id")
-
-        # load required data sets
-        id_mapping = serializer.object.get("datasets")
-        mapping = {variable: datasets.get(dataset_id) for
-                   (variable, dataset_id) in id_mapping.items()}
-
-        # ensure all datasets have the same class
-        first_dataset = next(iter(mapping.values()))
-        if not all([dataset.class_id == first_dataset.class_id
-                    for dataset in mapping.values()]):
-            return Response(
-                {"datasets": "All datasets need to have the same class"})
-        result_class = first_dataset.class_id
-
-        # ensure all datasets have the same time_resolution
-        if not all([dataset.data.resolution == first_dataset.data.resolution
-                    for dataset in mapping.values()]):
-            return Response({"datasets": "All datasets need to have the same time resolution"})
-        result_time_resolution = first_dataset.data.resolution
-
-        # compute result
-        result = compute_formula(metric.formula, mapping)
-
-        # collect remaining time slots
-        result = result.dropna('index', 'all')
-        # result_time_slots = result.index.values
-
-        # dataset
-        data = DatasetData(
-            data_frame=result,
-            unit=result_unit,
-            resolution=result_time_resolution)
-
-        result_time_start = data.get_time_start()
-        result_time_end = data.get_time_end()
-
-        dataset = Dataset(
-            title=title,
-            description="Computed formula '%s' with %s" % (
-                metric.formula,
-                ", ".join(["'%s' as %s" % (dataset.title, variable) for
-                           variable, dataset in mapping.items()])),
-            keywords=", ".join(set(itertools.chain(
-                [dataset.keywords for dataset in mapping.values()]))),
-            version=0,
-            # ressource related info
-            resource_url=reverse("metrics-detail", kwargs={'pk': metrics_id}),
-            resource_issued=datetime.now(),
-            # metrics identifier
-            is_applied=True,
-            metric_id=metrics_id,
-            # contained data
-            time_resolution=result_time_resolution,
-            time_start=result_time_start,
-            time_end=result_time_end,
-            data=data,
-            # references to other services
-            # TODO add useful values here
-            language_id=0,
-            creator_path=self.request.user.resource_path,
-            unit_id=result_unit,
+        creator_path = self.request.user.resource_path
+        dataset_id = services.compute_dataset(
+            creator_path=creator_path,
+            formula=metric.formula,
             indicator_id=metric.indicator_id,
-            class_id=result_class)
-
-        dataset_id = datasets.store(dataset)
+            metric_id=metric.pk,
+            **data)
 
         return Response({
             "dataset": {

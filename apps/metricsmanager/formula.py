@@ -73,8 +73,11 @@ def compute_formula(expr, mapping):
     Those will be used to compute a new Panda data frame, which is the result
     of this formula.
     """
-    return get_parser().parse(expr, semantics=ComputeSemantics(mapping,
-                                                               get_normalizers()))
+    parser = get_parser()
+    result = parser.parse(expr, semantics=ComputeSemantics(mapping,
+                                                           get_normalizers()))
+    result = result.dropna('index', 'all')
+    return result
 
 
 class Sum:
