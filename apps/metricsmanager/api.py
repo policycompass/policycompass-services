@@ -25,6 +25,7 @@ class MetricsBase(APIView):
         result = {
             "Metrics": reverse('metrics-create-list', request=request),
             "Normalizer": reverse('normalizers-list', request=request),
+            "Calculator": reverse('calculate-dataset', request=request)
         }
 
         return Response(result)
