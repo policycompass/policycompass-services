@@ -31,7 +31,7 @@ def validate_variables(variables):
                 'variables': 'Invalid variable name {}'.format(key)})
 
         valid_defintion = 'type' in values \
-                          and values['type'] == 'indicator' \
+                          and (values['type'] == 'dataset' or values['type'] == 'indicator') \
                           and 'id' in values \
                           and isinstance(values['id'], int)
 
@@ -81,6 +81,7 @@ def compute_formula(expr, mapping):
 
 
 class Sum:
+
     def __init__(self, positive, negative):
         self.positive = positive
         self.negative = negative
@@ -94,6 +95,7 @@ class Sum:
 
 
 class Product:
+
     def __init__(self, numerator, denominator):
         self.numerator = numerator
         self.denominator = denominator
@@ -107,6 +109,7 @@ class Product:
 
 
 class Application:
+
     def __init__(self, function_name, arguments):
         self.function_name = function_name
         self.arguments = arguments
@@ -116,6 +119,7 @@ class Application:
 
 
 class AstSemantics():
+
     """ Semantic definiton to construct an ast of objects. """
 
     def __init__(self, variables, functions):
@@ -155,6 +159,7 @@ class AstSemantics():
 
 
 class ComputeSemantics():
+
     """
     Compute the value of a formula using the functions and mapping from
     variables to datasets given.
