@@ -127,7 +127,6 @@ class DatasetCalculateView(APIView):
         creator_path = self.request.user.resource_path
         dataset_id = services.compute_dataset(
             creator_path=creator_path,
-            formula=formula,
             **data)
 
         return Response({
