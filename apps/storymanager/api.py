@@ -81,12 +81,12 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
             storyChapters = story.chapters
             chapters = []
             for c in range(0, len(storyChapters)):
-                chapterId = int(str(storyChapters[c]))
+                chapterId = str(storyChapters[c])
                 chapter = Chapter.objects.get(pk=chapterId)
                 chapterContents = chapter.contents
                 contents = []
                 for con in range(0, len(chapterContents)):
-                    contentId = int(str(chapterContents[con]))
+                    contentId = str(chapterContents[con])
                     content = Content.objects.get(pk=contentId)
                     contents.append({"type": content.type, "index": content.index, "contentId": content.id})
                 chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})

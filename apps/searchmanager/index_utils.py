@@ -136,10 +136,7 @@ def update_index_item(itemtype, item_id):
     api_url = normalize_api_url(itemtype)
 
     # Get full dataset from api
-    if itemtype != "story":
-        r = requests.get(api_url + '/' + str(item_id))
-    else:
-        r = requests.get(api_url + '?id=' + str(item_id))
+    r = requests.get(api_url + '/' + str(item_id))
 
     data = r.json()
 
@@ -153,6 +150,7 @@ def update_index_item(itemtype, item_id):
     data['commentsCount'] = get_adhocracy_comment_count(itemtype, item_id)
 
     # Call the Elastic API Index service (PUT command) to index current document
+
     response = requests.put(
         settings.ELASTICSEARCH_URL + itemtype + '/' + str(item_id),
         data=json.dumps(data))
