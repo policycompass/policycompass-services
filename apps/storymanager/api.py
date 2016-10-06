@@ -30,57 +30,6 @@ class StoryView(generics.ListCreateAPIView):
     def pre_save(self, obj):
         obj.creator_path = self.request.user.resource_path
 
-    def get(self, request, *args, **kwargs):
-        if len(request._request.GET) is 0 or ('page' in request._request.GET) is True:
-            stories = Story.objects.all()
-            storyList = []
-            for s in range(0, len(stories)):
-                storyTitle = stories[s].title
-                storyChapters = stories[s].chapters
-                chapters = []
-                for c in range(0, len(storyChapters)):
-                    chapterId = int(str(storyChapters[c]))
-                    chapter = Chapter.objects.get(pk=chapterId)
-                    chapterContents = chapter.contents
-                    contents = []
-                    for con in range(0, len(chapterContents)):
-                        contentId = int(str(chapterContents[con]))
-                        content = Content.objects.get(pk=contentId)
-                        contents.append({"type": content.type, "index": content.index, "contentId": content.id})
-                    chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
-                story = {"title": storyTitle, "chapters": chapters, "issued": stories[s].date_created, "modified": stories[s].date_modified,
-                         "creator_path": stories[s].creator_path, "id": stories[s].id, "is_draft": stories[s].is_draft}
-                storyList.append(story)
-            response = {"count": len(storyList), "results": storyList, "next": None}
-
-            return Response(response)
-
-        self.serializer_class = StorySerializer
-        id = request._request.GET['id']
-        try:
-            story = Story.objects.get(pk=id)
-            storyChapters = story.chapters
-            chapters = []
-            for c in range(0, len(storyChapters)):
-                chapterId = int(str(storyChapters[c]))
-                chapter = Chapter.objects.get(pk=chapterId)
-                chapterContents = chapter.contents
-                contents = []
-                for con in range(0, len(chapterContents)):
-                    contentId = int(str(chapterContents[con]))
-                    content = Content.objects.get(pk=contentId)
-                    contents.append({"type": content.type, "index": content.index, "contentId": content.id})
-                chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
-
-            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft, "issued": story.date_created, "modified": story.date_modified}
-
-            return Response(storyResult)
-        except:
-            errorDict = {"result": 500}
-            errorString = str(errorDict).replace("'", '"')
-            errorJson = json.loads(errorString)
-            return Response(errorJson)
-
     def post(self, request, *args, **kwargs):
         self.serializer_class = UpdateStorySerializer
         json_request = json.loads(request.body.decode('utf-8'))
@@ -123,6 +72,33 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Story
     serializer_class = ExternalStorySerializer
     permission_classes = permissions.IsCreatorOrReadOnly,
+
+    def get(self, request, *args, **kwargs):
+        self.serializer_class = StorySerializer
+        id = kwargs.get('pk')
+        try:
+            story = Story.objects.get(pk=id)
+            storyChapters = story.chapters
+            chapters = []
+            for c in range(0, len(storyChapters)):
+                chapterId = int(str(storyChapters[c]))
+                chapter = Chapter.objects.get(pk=chapterId)
+                chapterContents = chapter.contents
+                contents = []
+                for con in range(0, len(chapterContents)):
+                    contentId = int(str(chapterContents[con]))
+                    content = Content.objects.get(pk=contentId)
+                    contents.append({"type": content.type, "index": content.index, "contentId": content.id})
+                chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
+
+            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft, "issued": story.date_created, "modified": story.date_modified}
+
+            return Response(storyResult)
+        except:
+            errorDict = {"result": 500}
+            errorString = str(errorDict).replace("'", '"')
+            errorJson = json.loads(errorString)
+            return Response(errorJson)
 
     def put(self, request, *args, **kwargs):
         self.serializer_class = UpdateStorySerializer
