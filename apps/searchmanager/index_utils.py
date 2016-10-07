@@ -122,9 +122,14 @@ def index_item(itemtype, document):
     item_id = str(document["id"])
     document['commentsCount'] = get_adhocracy_comment_count(itemtype, item_id)
     # Call the Elastic API Index service (PUT command) to index current document
+
+    if itemtype == 'story':
+        document.pop("chapters", None)
+
+    data = json.dumps(document)
     response = requests.put(
         settings.ELASTICSEARCH_URL + itemtype + '/' + item_id,
-        data=json.dumps(document))
+        data=data)
     return response.text
 
 
@@ -142,6 +147,8 @@ def update_index_item(itemtype, item_id):
 
     # Remove the data container specifically of the metrics object that contains a lot of table information
     data.pop("data", None)
+    if itemtype == 'story':
+        data.pop("chapters", None)
 
     # Normalize response format
     if itemtype == 'fuzzymap':
