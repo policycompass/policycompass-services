@@ -69,7 +69,7 @@ class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
         user = request.user.resource_path
         dataset = Dataset.objects.get(id=id)
 
-        if dataset.creator_path == user or request.user.is_god is True:
+        if dataset.creator_path == user or request.user.is_admin is True:
             dataset.delete()
             return Response(status=status.HTTP_200_OK)
         else:

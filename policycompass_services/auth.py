@@ -49,11 +49,11 @@ class PolicyCompassAuthentication(authentication.BaseAuthentication):
 
 
 class AdhocracyUser:
-    def __init__(self, user_ressource_path, is_god=False):
+    def __init__(self, user_ressource_path, is_admin=False):
         self.resource_path = user_ressource_path
-        self.is_god = is_god
+        self.is_admin = is_admin
         self.is_staff = False
-        self.is_superuser = is_god
+        self.is_superuser = is_admin
         self.user_permissions = []
         self.groups = []
 
@@ -79,7 +79,7 @@ class AdhocracyUser:
         raise NotImplementedError
 
     def __repr__(self):
-        return "AdhocracyUser('%s', is_god=%r)" % (self.resource_path, self.is_god)
+        return "AdhocracyUser('%s', is_admin=%r)" % (self.resource_path, self.is_admin)
 
 
 class AdhocracyAuthentication(authentication.BaseAuthentication):
@@ -96,8 +96,8 @@ class AdhocracyAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed(
                 'No `X-User-Path` and `X-User-Token` header provided.')
 
-        request = Request('%s/principals/groups/gods' % adhocracy_base_url)
-        request.add_header('X-User-Path', user_path)
+        request = Request(user_url)
+        request.add_header('X-User-Path', user_url)
         request.add_header('X-User-Token', user_token)
 
         try:
@@ -110,16 +110,12 @@ class AdhocracyAuthentication(authentication.BaseAuthentication):
                 exceptions.AuthenticationFailed(
                     'Adhocracy authentication failed due to wrong response.')
             resource_as_string = response.read().decode(encoding)
-            gods_group_resource = json.loads(resource_as_string)
-            gods = gods_group_resource['data'][
-                'adhocracy_core.sheets.principal.IGroup']['users']
+            user_resource = json.loads(resource_as_string)
+            roles = user_resource['data'][
+                'adhocracy_core.sheets.principal.IPermissions']['roles']
 
-            if user_url in gods:
-                is_god = True
-            else:
-                is_god = False
-
-            return AdhocracyUser(user_path, is_god), None
+            is_admin = 'admin' in roles
+            return (AdhocracyUser(user_path, is_admin), None)
 
         except HTTPError as e:
             if (e.code == 400):

@@ -44,7 +44,7 @@ class ArgumentationGraphViewSet(viewsets.ModelViewSet):
         user = request.user.resource_path
         ag = ArgumentationGraph.objects.get(id=id)
 
-        if ag.creator_path == user or request.user.is_god is True:
+        if ag.creator_path == user or request.user.is_admin is True:
             ag.delete()
             return Response(status=status.HTTP_200_OK)
         else:

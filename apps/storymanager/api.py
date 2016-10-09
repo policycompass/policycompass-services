@@ -112,7 +112,7 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
         user = request.user.resource_path
 
-        if oldStory.creator_path == user or request.user.is_god is True:
+        if oldStory.creator_path == user or request.user.is_admin is True:
             chapterIndices = []
             for i in range(0, len(chapters)):
                 contents = chapters[i]['contents']
@@ -156,7 +156,7 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         user = request.user.resource_path
         story = Story.objects.get(id=id)
 
-        if story.creator_path == user or request.user.is_god is True:
+        if story.creator_path == user or request.user.is_admin is True:
             for i in range(0, len(story.chapters)):
                 chapterId = int(str(story.chapters[i]))
                 chapter = Chapter.objects.get(pk=chapterId)

@@ -10,7 +10,7 @@ class IsAdhocracyGod(BasePermission):
 
     def has_permission(self, request, view):
         return request.user and type(
-            request.user) is AdhocracyUser and request.user.is_god
+            request.user) is AdhocracyUser and request.user.is_admin
 
 
 class IsCreatorOrReadOnly(BasePermission):
@@ -23,7 +23,7 @@ class IsCreatorOrReadOnly(BasePermission):
             return True
 
         if request.user and request.user.is_authenticated():
-            if request.user.is_god:
+            if request.user.is_admin:
                 return True
             elif hasattr(obj,
                          'creator_path') and obj.creator_path == request.user.resource_path:

@@ -110,7 +110,7 @@ class EventInstanceView(generics.RetrieveUpdateDestroyAPIView):
         user = request.user.resource_path
         event = Event.objects.get(id=id)
 
-        if event.creator_path == user or request.user.is_god is True:
+        if event.creator_path == user or request.user.is_admin is True:
             event.delete()
             return Response(status=status.HTTP_200_OK)
         else:
