@@ -8,8 +8,6 @@ from django.conf import settings
 def run(start, end, keyword):
     print("Wikipedia Extractor: " + start + " , " + end + " , " + keyword)
 
-    print("halloo")
-
     if end is None:
         end = '2099-01-01'
 
