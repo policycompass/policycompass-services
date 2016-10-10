@@ -56,6 +56,8 @@ class Dataset(models.Model):
 
     is_draft = models.BooleanField(blank=False, default=False)
 
+    derived_from_id = models.IntegerField(blank=True, null=True)
+
     # ToDo Fields
     # applied_details
     # dimensions

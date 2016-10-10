@@ -42,6 +42,7 @@ class StoryView(generics.ListCreateAPIView):
                 return Response(result)
         is_draft = json_request['is_draft']
         chapters = json_request['chapters']
+
         chapterIndices = []
         for i in range(0, len(chapters)):
             contents = chapters[i]['contents']
@@ -55,9 +56,17 @@ class StoryView(generics.ListCreateAPIView):
             chapterIndices.append(newChapter.id)
         newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
         newStory.creator_path = self.request.user.resource_path
+
+        if 'derived_from_id' in json_request:
+            derived_from_id = json_request['derived_from_id']
+            newStory.derived_from_id = derived_from_id
+
         newStory.save()
 
         newStoryJson = {"title": title, "chapters": chapterIndices, "id": newStory.id, "is_draft": is_draft}
+
+        if newStory.derived_from_id is not None:
+            newStoryJson['derived_from_id'] = newStory.derived_from_id
 
         result = {"result": newStoryJson}
 
@@ -91,7 +100,8 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
                     contents.append({"type": content.type, "index": content.index, "contentId": content.id})
                 chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
 
-            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft, "issued": story.date_created, "modified": story.date_modified}
+            storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft,
+                           "issued": story.date_created, "modified": story.date_modified, "derived_from_id": story.derived_from_id}
 
             return Response(storyResult)
         except:

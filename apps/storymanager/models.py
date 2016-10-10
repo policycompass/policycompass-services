@@ -106,6 +106,8 @@ class Story(models.Model):
 
     is_draft = models.BooleanField(blank=False, default=False)
 
+    derived_from_id = models.IntegerField(blank=True, null=True)
+
     _chapters = None
 
     # Get all Chapter IDs

@@ -8,6 +8,8 @@ from django.conf import settings
 def run(start, end, keyword):
     print("Wikipedia Extractor: " + start + " , " + end + " , " + keyword)
 
+    print("halloo")
+
     if end is None:
         end = '2099-01-01'
 
@@ -24,9 +26,14 @@ def run(start, end, keyword):
         wiki_text = strip_tags(wiki_text)
         headers = {'content-type': 'application/json'}
 
+        print("vor")
         result = requests.post(settings.PC_SERVICES['references']['eventminer_url'], data=json.dumps({"text": wiki_text}), headers=headers)
+        print("result " , result.text)
+
         resultJson = result.json()
         resultJson = resultJson['extraction_result']
+
+        print("json " , resultJson)
 
         if result:
             resultArray = []
