@@ -130,6 +130,19 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
                     chapter.title = chapters[i]['title']
                     chapter.text = chapters[i]['text']
 
+                    for j in range(0, len(chapter.contents)):
+                        found = False
+                        for k in range(0, len(chapters[i]['contents'])):
+                            if 'contentId' in chapters[i]['contents'][k]:
+                                if int(str(chapter.contents[j])) == chapters[i]['contents'][k]['contentId']:
+                                    found = True
+                        if found is False:
+                            try:
+                                content = Content.objects.get(id=int(str(chapter.contents[j])))
+                                content.delete()
+                            except:
+                                continue
+
                     contentIndices = []
 
                     for j in range(0, len(chapters[i]['contents'])):
