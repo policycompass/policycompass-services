@@ -52,8 +52,6 @@ class StoryView(generics.ListCreateAPIView):
                 newContent.save()
                 contentIndices.append(newContent.id)
             newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
-            print("content " , newChapter.contents)
-            print("type content " , type(newChapter.contents))
             newChapter.save()
             chapterIndices.append(newChapter.id)
         newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
@@ -119,7 +117,6 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         oldStory = Story.objects.get(id=storyId)
         title = json_request['title']
         chapters = json_request['chapters']
-        oldContents = json_request['oldContents']
         is_draft = json_request['is_draft']
 
         user = request.user.resource_path
