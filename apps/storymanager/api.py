@@ -124,6 +124,19 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         if oldStory.creator_path == user or request.user.is_admin is True:
             chapterIndices = []
 
+            for i in range(0, len(oldStory.chapters)):
+                found = False
+                for j in range(0, len(chapters)):
+                    if 'id' in chapters[j]:
+                        if chapters[j]['id'] == int(str(oldStory.chapters[i])):
+                            found = True
+                if found is False:
+                    try:
+                        chapter = Chapter.objects.get(id=int(str(oldStory.chapters[i])))
+                        chapter.delete()
+                    except:
+                        continue
+
             for i in range(0, len(chapters)):
                 if 'id' in chapters[i]:
                     chapter = Chapter.objects.get(id=chapters[i]['id'])
