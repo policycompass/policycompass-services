@@ -98,7 +98,7 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
                     contentId = str(chapterContents[con])
                     content = Content.objects.get(pk=contentId)
                     contents.append({"type": content.type, "index": content.index, "contentId": content.id})
-                chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents})
+                chapters.append({"title": chapter.title, "text": chapter.text, "number": chapter.number, "contents": contents, "id": chapter.id})
 
             storyResult = {"title": story.title, "chapters": chapters, "id": story.id, "creator_path": story.creator_path, "is_draft": story.is_draft,
                            "issued": story.date_created, "modified": story.date_modified, "derived_from_id": story.derived_from_id}
@@ -117,38 +117,78 @@ class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
         oldStory = Story.objects.get(id=storyId)
         title = json_request['title']
         chapters = json_request['chapters']
-        oldContents = json_request['oldContents']
         is_draft = json_request['is_draft']
 
         user = request.user.resource_path
 
         if oldStory.creator_path == user or request.user.is_admin is True:
             chapterIndices = []
+
+            for i in range(0, len(oldStory.chapters)):
+                found = False
+                for j in range(0, len(chapters)):
+                    if 'id' in chapters[j]:
+                        if chapters[j]['id'] == int(str(oldStory.chapters[i])):
+                            found = True
+                if found is False:
+                    try:
+                        chapter = Chapter.objects.get(id=int(str(oldStory.chapters[i])))
+                        chapter.delete()
+                    except:
+                        continue
+
             for i in range(0, len(chapters)):
-                contents = chapters[i]['contents']
-                contentIndices = []
-                for j in range(0, len(contents)):
-                    newContent = Content(type=contents[j]['type'], index=contents[j]['index'])
-                    newContent.save()
-                    contentIndices.append(newContent.id)
-                newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
-                newChapter.save()
-                chapterIndices.append(newChapter.id)
+                if 'id' in chapters[i]:
+                    chapter = Chapter.objects.get(id=chapters[i]['id'])
+                    chapter.title = chapters[i]['title']
+                    chapter.text = chapters[i]['text']
 
-            if len(oldContents) > 0:
-                contentList = oldContents
-                for l in range(0, len(oldContents)):
-                    contentId = contentList[l]['contentId']
-                    co = Content.objects.get(pk=contentId)
-                    co.delete()
+                    for j in range(0, len(chapter.contents)):
+                        found = False
+                        for k in range(0, len(chapters[i]['contents'])):
+                            if 'contentId' in chapters[i]['contents'][k]:
+                                if int(str(chapter.contents[j])) == chapters[i]['contents'][k]['contentId']:
+                                    found = True
+                        if found is False:
+                            try:
+                                content = Content.objects.get(id=int(str(chapter.contents[j])))
+                                content.delete()
+                            except:
+                                continue
 
-            for k in range(0, len(oldStory.chapters)):
-                chapterId = int(str(oldStory.chapters[k]))
-                ch = Chapter.objects.get(pk=chapterId)
-                ch.delete()
+                    contentIndices = []
 
-            newStory = Story(title=title, chapters=chapterIndices, is_draft=is_draft)
-            newStory.creator_path = self.request.user.resource_path
+                    for j in range(0, len(chapters[i]['contents'])):
+                        if 'contentId' in chapters[i]['contents'][j]:
+                            content = Content.objects.get(id=chapters[i]['contents'][j]['contentId'])
+                            content.type = chapters[i]['contents'][j]['type']
+                            content.index = chapters[i]['contents'][j]['index']
+                            content.save()
+                            contentIndices.append(content.id)
+                        else:
+                            new_content = Content(type=chapters[i]['contents'][j]['type'], index=chapters[i]['contents'][j]['index'])
+                            new_content.save()
+                            contentIndices.append(new_content.id)
+
+                    if len(contentIndices) == 0:
+                        chapter.contents.delete()
+                        chapter.contents = []
+                    else:
+                        chapter.contents = contentIndices
+
+                    chapter.save()
+                    chapterIndices.append(chapter.id)
+                else:
+                    contents = chapters[i]['contents']
+                    contentIndices = []
+                    for k in range(0, len(contents)):
+                        newContent = Content(type=contents[k]['type'], index=contents[k]['index'])
+                        newContent.save()
+                        contentIndices.append(newContent.id)
+                    newChapter = Chapter(title=chapters[i]['title'], text=chapters[i]['text'], number=chapters[i]['number'], contents=contentIndices)
+                    newChapter.save()
+                    chapterIndices.append(newChapter.id)
+
             oldStory.title = title
             oldStory.chapters = chapterIndices
             oldStory.is_draft = is_draft
