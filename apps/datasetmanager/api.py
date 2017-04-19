@@ -186,7 +186,10 @@ class EurostatSearchStep2Proxy(APIView):
                 dimensionsValuesList = list(dsd.dimensions[dimensionsList[f]].local_repr.enum.values())
                 valuesList = []
                 for value in range(0, len(dimensionsValuesList)):
-                    valuesList.append([dimensionsValuesList[value].id, dimensionsValuesList[value].name.en])
+                    if dimensionsValuesList[value].name.en.startswith("Germany"):
+                        valuesList.append([dimensionsValuesList[value].id, "Germany"])
+                    else:
+                        valuesList.append([dimensionsValuesList[value].id, dimensionsValuesList[value].name.en])
                 dimensionsWithValues.update({dimensionsList[f]: valuesList})
             elif(dimensionsList[f] == "TIME_PERIOD"):
                 print("TIME ", dsd.dimensions[dimensionsList[f]].concept.name)
@@ -242,6 +245,10 @@ class EurostatDownloadProxy(APIView):
         rowHeaders = array['dimension']['geo']['category']['label']
 
         rowHeadersValues = list(rowHeaders.values())
+
+        for i in range(0, len(rowHeadersValues)):
+            if rowHeadersValues[i].startswith("Germany"):
+                rowHeadersValues[i] = "Germany"
 
         rowLen = len(rowHeadersValues)
 
